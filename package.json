@@ -59,7 +59,7 @@
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "git-command-helper": "^1.0.9",
+    "git-command-helper": "^1.0.12",
     "gulp": "^4.0.2",
     "minimatch": "^5.1.1",
     "prettier": "^2.8.0",
