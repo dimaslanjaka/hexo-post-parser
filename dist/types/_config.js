@@ -99,7 +99,9 @@ let defaultSiteOptions = {
         type: 'hexo',
         verbose: false,
         amp: false
-    }
+    },
+    // static-blog-generator source post
+    post_dir: 'src-posts'
 };
 let fetched = false;
 /**

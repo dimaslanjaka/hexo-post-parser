@@ -128,7 +128,7 @@ function parsePost(target, options = {}) {
                 originalFile = options.sourceFile;
         }
         const mapper = (m) => __awaiter(this, void 0, void 0, function* () {
-            var _a, _b;
+            var _a;
             if (!m) {
                 throw new Error(originalFile + ' cannot be mapped');
             }
@@ -403,7 +403,12 @@ function parsePost(target, options = {}) {
                             });
                         }
                         else {
-                            result = (0, utils_2.replaceArr)(result, [(0, upath_1.toUnix)(process.cwd()), 'source/', '_posts', 'src-posts'], '/');
+                            result = (0, utils_2.replaceArr)(result, [
+                                (0, upath_1.toUnix)(process.cwd()),
+                                'source/',
+                                '_posts',
+                                `${siteConfig.post_dir || 'src-posts'}`
+                            ], '/');
                             result = encodeURI((((_a = options.config) === null || _a === void 0 ? void 0 : _a.root) || '') + result);
                             result = (0, string_1.removeDoubleSlashes)(result);
                             if (options.config && options.config['verbose'])
@@ -457,7 +462,7 @@ function parsePost(target, options = {}) {
                                 });
                             }
                         }
-                        catch (_c) {
+                        catch (_b) {
                             console.log('cannot find image html from', meta.title);
                         }
                     }
@@ -479,8 +484,8 @@ function parsePost(target, options = {}) {
                 if (!meta.url) {
                     const url = (0, utils_2.replaceArr)((0, filemanager_1.normalize)(publicFile), [
                         (0, filemanager_1.normalize)(process.cwd()),
-                        ((_a = options.config) === null || _a === void 0 ? void 0 : _a.source_dir) + '/_posts/',
-                        'src-posts/',
+                        siteConfig.source_dir + '/_posts/',
+                        `${siteConfig.post_dir || 'src-posts'}/`,
                         '_posts/'
                     ], '/')
                         // @todo remove multiple slashes
@@ -582,14 +587,14 @@ function parsePost(target, options = {}) {
             if ('permalink' in result.metadata === false) {
                 result.metadata.permalink = (0, parsePermalink_1.parsePermalink)(result);
             }
-            if (((_b = siteConfig.generator) === null || _b === void 0 ? void 0 : _b.type) === 'jekyll') {
+            if (((_a = siteConfig.generator) === null || _a === void 0 ? void 0 : _a.type) === 'jekyll') {
                 result.metadata.slug = result.metadata.permalink;
             }
             // put fileTree
             if (isFile) {
                 result.fileTree = {
                     source: (0, utils_2.replaceArr)((0, upath_1.toUnix)(originalFile), ['source/_posts/', '_posts/'], 'src-posts/'),
-                    public: (0, upath_1.toUnix)(originalFile).replace('/src-posts/', '/source/_posts/')
+                    public: (0, upath_1.toUnix)(originalFile).replace(`/${siteConfig.post_dir || 'src-posts'}/`, '/source/_posts/')
                 };
             }
             if (meta && body)

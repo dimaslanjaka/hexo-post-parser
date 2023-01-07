@@ -77,6 +77,7 @@ export declare function getConfig(): {
         verbose: boolean;
         amp: boolean;
     };
+    post_dir: string;
 };
 /**
  * assign new option
@@ -155,6 +156,7 @@ export declare function setConfig(obj: Record<string, any>): {
         verbose: boolean;
         amp: boolean;
     };
+    post_dir: string;
 };
 export { verbose, nocache };
 export interface ProjectConfig extends HexoConfig {
