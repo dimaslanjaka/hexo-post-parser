@@ -471,7 +471,12 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
           } else {
             result = replaceArr(
               result,
-              [toUnix(process.cwd()), 'source/', '_posts', 'src-posts'],
+              [
+                toUnix(process.cwd()),
+                'source/',
+                '_posts',
+                `${siteConfig.post_dir || 'src-posts'}`
+              ],
               '/'
             );
             result = encodeURI((options.config?.root || '') + result);
@@ -556,8 +561,8 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
           normalize(publicFile),
           [
             normalize(process.cwd()),
-            options.config?.source_dir + '/_posts/',
-            'src-posts/',
+            siteConfig.source_dir + '/_posts/',
+            `${siteConfig.post_dir || 'src-posts'}/`,
             '_posts/'
           ],
           '/'
@@ -687,7 +692,10 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
           ['source/_posts/', '_posts/'],
           'src-posts/'
         ),
-        public: toUnix(originalFile).replace('/src-posts/', '/source/_posts/')
+        public: toUnix(originalFile).replace(
+          `/${siteConfig.post_dir || 'src-posts'}/`,
+          '/source/_posts/'
+        )
       };
     }
 
