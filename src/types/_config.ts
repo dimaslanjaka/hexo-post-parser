@@ -102,30 +102,26 @@ let defaultSiteOptions = {
   post_dir: 'src-posts'
 };
 
-let fetched = false;
 /**
  * get site _config.yml
  * @returns
  */
 export function getConfig() {
-  if (!fetched) {
-    fetched = true;
-    // find _config.yml
-    const file = join(process.cwd(), '_config.yml');
-    // console.log('finding', file);
-    if (existsSync(file)) {
-      const readConfig = readFileSync(file, 'utf-8');
-      const parse = yaml.parse(readConfig);
-      defaultSiteOptions = Object.assign(defaultSiteOptions, parse, {
-        verbose,
-        generator: {
-          cache: !nocache
-        }
-      }) as unknown as typeof defaultSiteOptions;
-      //console.log(defaultSiteOptions.url);
-    } else {
-      console.log(file, 'not found');
-    }
+  // find _config.yml
+  const file = join(process.cwd(), '_config.yml');
+  // console.log('finding', file);
+  if (existsSync(file)) {
+    const readConfig = readFileSync(file, 'utf-8');
+    const parse = yaml.parse(readConfig);
+    defaultSiteOptions = Object.assign(defaultSiteOptions, parse, {
+      verbose,
+      generator: {
+        cache: !nocache
+      }
+    }) as unknown as typeof defaultSiteOptions;
+    //console.log(defaultSiteOptions.url);
+  } else {
+    console.log(file, 'not found');
   }
   return defaultSiteOptions;
 }
