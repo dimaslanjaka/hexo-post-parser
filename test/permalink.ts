@@ -1,4 +1,5 @@
 process.cwd = () => __dirname;
+process.env.DEBUG = 'hexo-post-parser:permalink';
 
 import fs from 'fs-extra';
 import path from 'path';
