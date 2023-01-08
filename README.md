@@ -21,6 +21,9 @@ Parse Hexo Posts To Object
 - file `_config.yml`
 
 ```yaml
+url: "https://domain.com/"
+root: "/"
+permalink: ":year/:month/:title.html"
 generator:
   type: 'hexo' # or jekyll
   cache: true # enable caching
