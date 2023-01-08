@@ -9,23 +9,25 @@ fs.emptyDirSync(__dirname + '/tmp');
 
 console.log('first config', getConfig().permalink);
 
-[':title.html', ':year/:title'].forEach((pattern) => {
-  setConfig({ permalink: pattern });
-  console.log('permalink modified', getConfig().permalink);
+[':title.html', ':year/:title', ':year/:month/:day/:title'].forEach(
+  (pattern) => {
+    setConfig({ permalink: pattern });
+    console.log('permalink modified', getConfig().permalink);
 
-  startParse(
-    path.join(__dirname, 'src-posts/with-permalink.md'),
-    getConfig(),
-    pattern
-  );
-  startParse(
-    path.join(__dirname, 'src-posts/without-permalink.md'),
-    getConfig(),
-    pattern
-  );
-  startParse(
-    path.join(__dirname, 'source/_posts/auto-generated-post.md'),
-    getConfig(),
-    pattern
-  );
-});
+    startParse(
+      path.join(__dirname, 'src-posts/with-permalink.md'),
+      getConfig(),
+      pattern
+    );
+    startParse(
+      path.join(__dirname, 'src-posts/without-permalink.md'),
+      getConfig(),
+      pattern
+    );
+    startParse(
+      path.join(__dirname, 'source/_posts/auto-generated-post.md'),
+      getConfig(),
+      pattern
+    );
+  }
+);
