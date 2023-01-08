@@ -1,5 +1,5 @@
 import { dateMapper } from '../dateMapper';
-import { postAuthor } from '../parsePost';
+import { postAuthor } from '../types';
 
 /**
  * post metadata information (title, etc)
