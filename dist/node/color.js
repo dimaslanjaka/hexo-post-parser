@@ -142,14 +142,14 @@ const colors = {
     'Yellow Green': chalk_1.default.hex('#C5E384'),
     'Yellow Orange': chalk_1.default.hex('#FFAE42'),
     pink: chalk_1.default.hex('#FFC0CB'),
-    lightpink: chalk_1.default.hex('#FFB6C1'),
+    lightpink: chalk_1.default.hex('#FFB6C1')
 };
 const chalkcolor = {
     magenta: chalk_1.default.magenta,
     magentaBright: chalk_1.default.magentaBright,
     redBright: chalk_1.default.redBright,
     green: chalk_1.default.green,
-    greenBright: chalk_1.default.greenBright,
+    greenBright: chalk_1.default.greenBright
 };
 const color = Object.assign(colors, chalkcolor);
 exports.default = color;

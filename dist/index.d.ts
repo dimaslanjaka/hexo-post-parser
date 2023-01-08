@@ -16,7 +16,5 @@ export { generatePostId } from './generatePostId';
 export { DeepPartial, Nullable } from './globals';
 export { renderMarkdownIt as renderMarkdown } from './markdown/toHtml';
 export { parsePermalink } from './parsePermalink';
-export { ParseOptions } from './parsePost';
-export { postMap } from './types/postMap';
-export { postMeta } from './types/postMeta';
+export { ParseOptions, postAuthor, postMap, postMeta } from './types';
 export { parsePost, buildPost };

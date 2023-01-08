@@ -14,7 +14,7 @@ const nocache = argv['nocache'];
 exports.nocache = nocache;
 const verbose = argv['verbose'];
 exports.verbose = verbose;
-let defaultSiteOptions = {
+const defaultSiteOptions = {
     // Site
     title: 'Hexo',
     subtitle: '',
@@ -103,29 +103,29 @@ let defaultSiteOptions = {
     // static-blog-generator source post
     post_dir: 'src-posts'
 };
+let settledOptions = defaultSiteOptions;
+// find _config.yml
+const file = (0, upath_1.join)(process.cwd(), '_config.yml');
+// console.log('finding', file);
+if ((0, fs_1.existsSync)(file)) {
+    const readConfig = (0, fs_1.readFileSync)(file, 'utf-8');
+    const parse = yaml_1.default.parse(readConfig);
+    settledOptions = Object.assign(settledOptions, parse, {
+        verbose,
+        generator: {
+            cache: !nocache
+        }
+    });
+}
+else {
+    console.log(file, 'not found');
+}
 /**
  * get site _config.yml
  * @returns
  */
 function getConfig() {
-    // find _config.yml
-    const file = (0, upath_1.join)(process.cwd(), '_config.yml');
-    // console.log('finding', file);
-    if ((0, fs_1.existsSync)(file)) {
-        const readConfig = (0, fs_1.readFileSync)(file, 'utf-8');
-        const parse = yaml_1.default.parse(readConfig);
-        defaultSiteOptions = Object.assign(defaultSiteOptions, parse, {
-            verbose,
-            generator: {
-                cache: !nocache
-            }
-        });
-        //console.log(defaultSiteOptions.url);
-    }
-    else {
-        console.log(file, 'not found');
-    }
-    return defaultSiteOptions;
+    return settledOptions;
 }
 exports.getConfig = getConfig;
 /**
@@ -134,8 +134,8 @@ exports.getConfig = getConfig;
  * @returns
  */
 function setConfig(obj) {
-    defaultSiteOptions = Object.assign(defaultSiteOptions, obj);
-    return defaultSiteOptions;
+    settledOptions = Object.assign(settledOptions, obj);
+    return settledOptions;
 }
 exports.setConfig = setConfig;
 /**

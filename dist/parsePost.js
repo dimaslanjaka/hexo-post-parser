@@ -583,8 +583,8 @@ function parsePost(target, options = {}) {
                 content: body,
                 config: siteConfig
             };
-            //console.log('hpp permalink in metadata', 'permalink' in result.metadata);
-            if ('permalink' in result.metadata === false) {
+            // console.log('hpp permalink in metadata', 'permalink' in result.metadata);
+            if (!result.metadata.permalink) {
                 result.metadata.permalink = (0, parsePermalink_1.parsePermalink)(result);
             }
             if (((_a = siteConfig.generator) === null || _a === void 0 ? void 0 : _a.type) === 'jekyll') {
