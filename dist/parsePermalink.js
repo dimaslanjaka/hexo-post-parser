@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePermalink = void 0;
 const upath_1 = __importDefault(require("upath"));
 const dateMapper_1 = require("./dateMapper");
+const debug_1 = __importDefault(require("./node/debug"));
 const _config_1 = require("./types/_config");
 /**
  * transform permalink format in `_config.yml`
@@ -37,7 +38,7 @@ function parsePermalink(post) {
     if (pattern.startsWith(':title')) {
         const bname = pattern.replace(':title', replacer[':title']);
         const perm = upath_1.default.join(upath_1.default.dirname(url), bname);
-        // console.log({ perm });
+        (0, debug_1.default)('permalink')(perm);
         return perm;
     }
     for (const date_pattern in replacer) {
@@ -55,7 +56,7 @@ function parsePermalink(post) {
     if (/^https?:\/\//.test(newPattern))
         return newPattern;
     const result = newPattern.replace(/\/{2,10}/g, '/');
-    console.log({ result });
+    (0, debug_1.default)('permalink')(result);
     return result;
 }
 exports.parsePermalink = parsePermalink;
