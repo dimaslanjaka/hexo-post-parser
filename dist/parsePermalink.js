@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePermalink = void 0;
+const upath_1 = __importDefault(require("upath"));
 const dateMapper_1 = require("./dateMapper");
 const _config_1 = require("./types/_config");
 /**
@@ -8,10 +12,15 @@ const _config_1 = require("./types/_config");
  * @param post
  */
 function parsePermalink(post) {
+    var _a;
+    if (typeof post.metadata !== 'object')
+        return;
+    if (typeof post.metadata.permalink === 'string')
+        return post.metadata.permalink;
     const config = (0, _config_1.getConfig)();
-    let pattern = config.permalink;
+    let pattern = config.permalink || ':title.html';
     const date = (0, dateMapper_1.moment)(post.metadata.date);
-    const url = post.metadata.url.replace(config.url, '');
+    const url = (_a = post.metadata.url) === null || _a === void 0 ? void 0 : _a.replace(config.url, '');
     const replacer = {
         ':month': 'MM',
         ':year': 'YYYY',
@@ -25,12 +34,12 @@ function parsePermalink(post) {
     };
     //console.log({ url, curl: config.url });
     // @todo [permalink] follow directory path
-    /* if (pattern.startsWith(':title')) {
-      const bname = pattern.replace(':title', replacer[':title']);
-      const perm = join(dirname(url), bname);
-      //console.log(perm);
-      return perm;
-    }*/
+    if (pattern.startsWith(':title')) {
+        const bname = pattern.replace(':title', replacer[':title']);
+        const perm = upath_1.default.join(upath_1.default.dirname(url), bname);
+        // console.log({ perm });
+        return perm;
+    }
     for (const date_pattern in replacer) {
         if (Object.prototype.hasOwnProperty.call(replacer, date_pattern)) {
             if ([':title', ':post_title', ':id', ':category', ':hash'].includes(date_pattern)) {
@@ -46,7 +55,7 @@ function parsePermalink(post) {
     if (/^https?:\/\//.test(newPattern))
         return newPattern;
     const result = newPattern.replace(/\/{2,10}/g, '/');
-    //console.log({ result });
+    console.log({ result });
     return result;
 }
 exports.parsePermalink = parsePermalink;
