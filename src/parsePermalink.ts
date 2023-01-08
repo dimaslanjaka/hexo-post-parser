@@ -1,5 +1,6 @@
 import path from 'upath';
 import { moment } from './dateMapper';
+import debug from './node/debug';
 import { postMap } from './types/postMap';
 import { getConfig } from './types/_config';
 
@@ -33,7 +34,7 @@ export function parsePermalink(post: postMap) {
   if (pattern.startsWith(':title')) {
     const bname = pattern.replace(':title', replacer[':title']);
     const perm = path.join(path.dirname(url), bname);
-    // console.log({ perm });
+    debug('permalink')(perm);
     return perm;
   }
 
@@ -58,6 +59,6 @@ export function parsePermalink(post: postMap) {
   const newPattern = pattern.replace(/%20/g, ' ');
   if (/^https?:\/\//.test(newPattern)) return newPattern;
   const result = newPattern.replace(/\/{2,10}/g, '/');
-  console.log({ result });
+  debug('permalink')(result);
   return result;
 }
