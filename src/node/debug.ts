@@ -6,5 +6,5 @@ import debugLib from 'debug';
  * @returns
  */
 export default function debug(name: string) {
-  return debugLib(name);
+  return debugLib('hexo-post-parser').extend(name);
 }
