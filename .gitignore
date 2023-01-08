@@ -123,3 +123,6 @@ typings/
 !release/*.tgz
 
 /docs
+
+# es2016
+/src-old
