@@ -6,8 +6,9 @@ import color from './node/color';
 import { write } from './node/filemanager';
 import { slugifySanitizeFilename } from './node/sanitize-filename';
 import parsePost from './parsePost';
-import config from './types/_config';
+import { getConfig } from './types/_config';
 
+const config = getConfig();
 const tmpDir = join(__dirname, '../tmp');
 if (existsSync(tmpDir)) rmSync(tmpDir, { recursive: true, force: true });
 
@@ -57,7 +58,7 @@ async function startParse(file: string, config: Record<string, any>) {
     cache: false,
     fix: true,
     sourceFile: file,
-    config
+    config: <any>config
   });
   if (parse && parse.metadata) {
     const filename = parse.metadata.title;

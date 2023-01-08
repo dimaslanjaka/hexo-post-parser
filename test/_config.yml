@@ -5,4 +5,7 @@ exclude:
   - '**/readme.md'
 skip_render:
   - '**/readme.md'
-post_dir: posts
+post_dir: src-posts
+root: /
+url: https://mysite.com/
+permalink: :year/:month/:title.html

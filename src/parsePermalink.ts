@@ -1,3 +1,4 @@
+import path from 'upath';
 import { moment } from './dateMapper';
 import { postMap } from './types/postMap';
 import { getConfig } from './types/_config';
@@ -7,11 +8,14 @@ import { getConfig } from './types/_config';
  * @param post
  */
 export function parsePermalink(post: postMap) {
+  if (typeof post.metadata !== 'object') return;
+  if (typeof post.metadata.permalink === 'string')
+    return post.metadata.permalink;
   const config = getConfig();
-  let pattern: string = config.permalink;
+  let pattern = config.permalink || ':title.html';
   const date = moment(post.metadata.date);
-  const url = post.metadata.url.replace(config.url, '');
-  const replacer = {
+  const url = post.metadata.url?.replace(config.url, '');
+  const replacer: Record<string, string> = {
     ':month': 'MM',
     ':year': 'YYYY',
     ':day': 'DD',
@@ -26,12 +30,12 @@ export function parsePermalink(post: postMap) {
   //console.log({ url, curl: config.url });
 
   // @todo [permalink] follow directory path
-  /* if (pattern.startsWith(':title')) {
+  if (pattern.startsWith(':title')) {
     const bname = pattern.replace(':title', replacer[':title']);
-    const perm = join(dirname(url), bname);
-    //console.log(perm);
+    const perm = path.join(path.dirname(url), bname);
+    console.log({ perm });
     return perm;
-  }*/
+  }
 
   for (const date_pattern in replacer) {
     if (Object.prototype.hasOwnProperty.call(replacer, date_pattern)) {
@@ -54,6 +58,6 @@ export function parsePermalink(post: postMap) {
   const newPattern = pattern.replace(/%20/g, ' ');
   if (/^https?:\/\//.test(newPattern)) return newPattern;
   const result = newPattern.replace(/\/{2,10}/g, '/');
-  //console.log({ result });
+  console.log({ result });
   return result;
 }

@@ -13,7 +13,11 @@ import slugify from '../src/node/slugify';
  * @param config  overriden config
  * @returns
  */
-export async function startParse(file: string, config: Record<string, any>) {
+export async function startParse(
+  file: string,
+  config: Record<string, any>,
+  outputPrefix?: string
+) {
   const parse = await parsePost(file, {
     formatDate: true,
     shortcodes: {
@@ -29,27 +33,18 @@ export async function startParse(file: string, config: Record<string, any>) {
     cache: false,
     fix: true,
     sourceFile: file,
-    config
+    config: <any>config
   });
   if (parse && parse.metadata) {
     const filename = parse.metadata.title;
+    const folder = join(__dirname, 'tmp/test/parsePost', config.root);
     const mdFile = await write(
-      join(
-        __dirname,
-        '../tmp/test/parsePost',
-        config.root,
-        slugify(filename) + '.md'
-      ),
+      join(folder, slugify(outputPrefix || '' + filename) + '.md'),
       buildPost(parse)
     );
 
     const jsonFile = await write(
-      join(
-        __dirname,
-        '../tmp/test/parsePost',
-        config.root,
-        slugify(filename) + '.json'
-      ),
+      join(folder, slugify(outputPrefix || '' + filename) + '.json'),
       simplifyDump(parse)
     );
 

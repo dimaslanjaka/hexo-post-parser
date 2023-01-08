@@ -9,7 +9,9 @@ import minimatch from 'minimatch';
 import { basename, join } from 'upath';
 import { parsePost } from '.';
 import buildPost from './buildPost';
-import config from './types/_config';
+import { getConfig, SiteConfig } from './types/_config';
+
+const config = getConfig();
 
 const files = walkSync(join(__dirname, '../src-posts')).filter((path) => {
   const haveExclusion = config.skip_render.some((pattern) =>
@@ -72,7 +74,7 @@ async function runParser(filePath: string) {
   // remove anoying properties for easy to read
   parse.body = 'body';
   parse.content = 'body';
-  parse.config = {};
+  parse.config = {} as SiteConfig;
 
   // write parsed object to json
   writeFileSync(resultPaths.jsonPath, JSON.stringify(parse, null, 2));
