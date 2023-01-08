@@ -33,7 +33,7 @@ export function parsePermalink(post: postMap) {
   if (pattern.startsWith(':title')) {
     const bname = pattern.replace(':title', replacer[':title']);
     const perm = path.join(path.dirname(url), bname);
-    console.log({ perm });
+    // console.log({ perm });
     return perm;
   }
 
