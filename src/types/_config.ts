@@ -1,23 +1,22 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import HexoConfig from 'hexo/HexoConfig';
 import { cwd } from 'process';
 import { join } from 'upath';
 import yaml from 'yaml';
 import yargs from 'yargs';
-import data from './_config_project.json';
 
 const argv = yargs(process.argv.slice(2)).argv;
 const nocache = argv['nocache'];
 const verbose = argv['verbose'];
 
-const defaultOptions = {
+let defaultSiteOptions = {
   // Site
   title: 'Hexo',
   subtitle: '',
   description: '',
-  author: 'John Doe',
+  author: 'L3n4r0x',
   language: 'en',
-  timezone: '',
+  timezone: 'UTC',
   // URL
   url: 'http://example.com',
   root: '/',
@@ -36,12 +35,6 @@ const defaultOptions = {
   code_dir: 'downloads/code',
   i18n_dir: ':lang',
   skip_render: [],
-  // Mapper
-  title_map: {},
-  tag_map: {},
-  category_map: {},
-  tag_group: {},
-  category_group: {},
   // Writing
   new_post_name: ':title.md',
   default_layout: 'post',
@@ -56,30 +49,30 @@ const defaultOptions = {
   post_asset_folder: false,
   relative_link: false,
   future: true,
+  syntax_highlighter: 'highlight.js',
   highlight: {
-    enable: true,
     auto_detect: false,
     line_number: true,
     tab_replace: '',
     wrap: true,
     exclude_languages: [],
+    language_attr: false,
     hljs: false
   },
   prismjs: {
-    enable: false,
     preprocess: true,
     line_number: true,
     tab_replace: ''
   },
   // Category & Tag
   default_category: 'uncategorized',
-  default_tag: null,
+  category_map: {},
+  tag_map: {},
   // Date / Time format
   date_format: 'YYYY-MM-DD',
   time_format: 'HH:mm:ss',
   updated_option: 'mtime',
   // * mtime: file modification date (default)
-  // * date: use_date_for_updated
   // * empty: no more update
   // Pagination
   per_page: 10,
@@ -96,28 +89,52 @@ const defaultOptions = {
   ignore: [],
 
   // Category & Tag
-  meta_generator: true
+  meta_generator: true,
+
+  // hexo-post-parser cache indicator
+  generator: {
+    cache: true,
+    type: 'hexo',
+    verbose: false,
+    amp: false
+  },
+  // static-blog-generator source post
+  post_dir: 'src-posts'
 };
 
-let config = defaultOptions;
-
-// find _config.yml
-const file = join(process.cwd(), '_config.yml');
-if (existsSync(file)) {
-  const readConfig = readFileSync(file, 'utf-8');
-  const parse = yaml.parse(readConfig) as typeof data;
-  config = Object.assign(defaultOptions, parse, {
-    verbose,
-    generator: {
-      cache: !nocache
-    }
-  });
+/**
+ * get site _config.yml
+ * @returns
+ */
+export function getConfig() {
+  // find _config.yml
+  const file = join(process.cwd(), '_config.yml');
+  // console.log('finding', file);
+  if (existsSync(file)) {
+    const readConfig = readFileSync(file, 'utf-8');
+    const parse = yaml.parse(readConfig);
+    defaultSiteOptions = Object.assign(defaultSiteOptions, parse, {
+      verbose,
+      generator: {
+        cache: !nocache
+      }
+    }) as unknown as typeof defaultSiteOptions;
+    //console.log(defaultSiteOptions.url);
+  } else {
+    console.log(file, 'not found');
+  }
+  return defaultSiteOptions;
 }
 
-writeFileSync(
-  join(__dirname, '_config_project.json'),
-  JSON.stringify(config, null, 2)
-);
+/**
+ * assign new option
+ * @param obj
+ * @returns
+ */
+export function setConfig(obj: Record<string, any>) {
+  defaultSiteOptions = Object.assign(defaultSiteOptions, obj);
+  return defaultSiteOptions;
+}
 
 export { verbose, nocache };
 
@@ -133,12 +150,10 @@ export interface ProjectConfig extends HexoConfig {
   cwd: string;
 }
 
-export default config as unknown as ProjectConfig;
-
 /**
  * Hexo Generated Dir
  */
-export const post_generated_dir = join(cwd(), config.public_dir);
+export const post_generated_dir = join(cwd(), getConfig().public_dir);
 /**
  * SBG Source Post Dir
  */

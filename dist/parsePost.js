@@ -1,22 +1,55 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePost = void 0;
-const tslib_1 = require("tslib");
-const deepmerge_ts_1 = require("deepmerge-ts");
 const fs_extra_1 = require("fs-extra");
 const jsdom_1 = require("jsdom");
-const persistent_cache_1 = tslib_1.__importDefault(require("persistent-cache"));
+const persistent_cache_1 = __importDefault(require("persistent-cache"));
 const upath_1 = require("upath");
-const yaml_1 = tslib_1.__importDefault(require("yaml"));
+const yaml_1 = __importDefault(require("yaml"));
 const dateMapper_1 = require("./dateMapper");
 const generatePostId_1 = require("./generatePostId");
 const utils_1 = require("./gulp/utils");
 const toHtml_1 = require("./markdown/toHtml");
-const array_unique_1 = tslib_1.__importStar(require("./node/array-unique"));
-const color_1 = tslib_1.__importDefault(require("./node/color"));
+const array_unique_1 = __importStar(require("./node/array-unique"));
+const color_1 = __importDefault(require("./node/color"));
 const filemanager_1 = require("./node/filemanager");
 const md5_file_1 = require("./node/md5-file");
-const sanitize_filename_1 = tslib_1.__importDefault(require("./node/sanitize-filename"));
+const sanitize_filename_1 = __importDefault(require("./node/sanitize-filename"));
 const utils_2 = require("./node/utils");
 const parsePermalink_1 = require("./parsePermalink");
 const codeblock_1 = require("./shortcodes/codeblock");
@@ -27,30 +60,13 @@ const include_1 = require("./shortcodes/include");
 const script_1 = require("./shortcodes/script");
 const time_1 = require("./shortcodes/time");
 const youtube_1 = require("./shortcodes/youtube");
-const _config_1 = tslib_1.__importStar(require("./types/_config"));
+const _config_1 = require("./types/_config");
 const string_1 = require("./utils/string");
 const _cache = (0, persistent_cache_1.default)({
     base: (0, upath_1.join)(process.cwd(), 'tmp'),
     name: 'parsePost',
     duration: 1000 * 3600 * 24 // 24 hours
 });
-const default_options = {
-    shortcodes: {
-        css: false,
-        script: false,
-        include: false,
-        youtube: false,
-        link: false,
-        text: false,
-        now: false,
-        codeblock: false
-    },
-    sourceFile: null,
-    formatDate: false,
-    config: _config_1.default,
-    cache: false,
-    fix: false
-};
 /**
  * Parse Hexo markdown post (structured with yaml and universal markdown blocks)
  * * return {@link postMap} metadata {string & object} and body
@@ -60,19 +76,34 @@ const default_options = {
  * * {@link ParseOptions.sourceFile} used for cache key when `target` is file contents
  */
 function parsePost(target, options = {}) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if (!target)
             return null;
-        options = (0, deepmerge_ts_1.deepmerge)(default_options, options);
-        // , { sourceFile: target }
+        const default_options = {
+            shortcodes: {
+                css: false,
+                script: false,
+                include: false,
+                youtube: false,
+                link: false,
+                text: false,
+                now: false,
+                codeblock: false
+            },
+            sourceFile: null,
+            formatDate: false,
+            config: (0, _config_1.getConfig)(),
+            cache: false,
+            fix: false
+        };
+        options = Object.assign(default_options, options);
+        const siteConfig = options.config ? (0, _config_1.setConfig)(options.config) : (0, _config_1.getConfig)();
         if (!options.sourceFile && (0, fs_extra_1.existsSync)(target))
             options.sourceFile = target;
-        if (!options.config)
-            options.config = _config_1.default;
-        const HexoConfig = options.config;
-        const homepage = HexoConfig.url.endsWith('/')
-            ? HexoConfig.url
-            : HexoConfig.url + '/';
+        const homepage = siteConfig.url.endsWith('/')
+            ? siteConfig.url
+            : siteConfig.url + '/';
+        //console.log([siteConfig.url, siteConfig.root]);
         const fileTarget = options.sourceFile || target;
         const cacheKey = (0, fs_extra_1.existsSync)(fileTarget)
             ? (0, md5_file_1.md5FileSync)(fileTarget)
@@ -96,7 +127,7 @@ function parsePost(target, options = {}) {
             if (options.sourceFile)
                 originalFile = options.sourceFile;
         }
-        const mapper = (m) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+        const mapper = (m) => __awaiter(this, void 0, void 0, function* () {
             var _a;
             if (!m) {
                 throw new Error(originalFile + ' cannot be mapped');
@@ -352,13 +383,7 @@ function parsePost(target, options = {}) {
                                 result = src;
                         });
                         if (result === null) {
-                            let tempFolder;
-                            if (/dev/i.test(process.env.NODE_ENV || '')) {
-                                tempFolder = (0, upath_1.join)(__dirname, '../tmp');
-                            }
-                            else {
-                                tempFolder = (0, upath_1.join)(process.cwd(), 'tmp/');
-                            }
+                            const tempFolder = (0, upath_1.join)(process.cwd(), 'tmp');
                             const logfile = (0, upath_1.join)(tempFolder, 'hexo-post-parser/errors/post-asset-folder/' +
                                 (0, sanitize_filename_1.default)((0, upath_1.basename)(sourcePath).trim(), '-') +
                                 '.log');
@@ -378,7 +403,12 @@ function parsePost(target, options = {}) {
                             });
                         }
                         else {
-                            result = (0, utils_2.replaceArr)(result, [(0, upath_1.toUnix)(process.cwd()), 'source/', '_posts', 'src-posts'], '/');
+                            result = (0, utils_2.replaceArr)(result, [
+                                (0, upath_1.toUnix)(process.cwd()),
+                                'source/',
+                                '_posts',
+                                `${siteConfig.post_dir || 'src-posts'}`
+                            ], '/');
                             result = encodeURI((((_a = options.config) === null || _a === void 0 ? void 0 : _a.root) || '') + result);
                             result = (0, string_1.removeDoubleSlashes)(result);
                             if (options.config && options.config['verbose'])
@@ -454,8 +484,8 @@ function parsePost(target, options = {}) {
                 if (!meta.url) {
                     const url = (0, utils_2.replaceArr)((0, filemanager_1.normalize)(publicFile), [
                         (0, filemanager_1.normalize)(process.cwd()),
-                        ((_a = options.config) === null || _a === void 0 ? void 0 : _a.source_dir) + '/_posts/',
-                        'src-posts/',
+                        siteConfig.source_dir + '/_posts/',
+                        `${siteConfig.post_dir || 'src-posts'}/`,
                         '_posts/'
                     ], '/')
                         // @todo remove multiple slashes
@@ -479,11 +509,12 @@ function parsePost(target, options = {}) {
                     }
                 }
             }
-            if (options.config && 'generator' in options.config) {
-                if (meta.type && !meta.layout && options.config.generator.type) {
-                    meta.layout = meta.type;
-                }
-            }
+            // set layout metadata
+            /*if (options.config && 'generator' in options.config) {
+              if (meta.type && !meta.layout && options.config.generator.type) {
+                meta.layout = meta.type;
+              }
+            }*/
             if (typeof options === 'object') {
                 // @todo format dates
                 if (options.formatDate) {
@@ -550,17 +581,20 @@ function parsePost(target, options = {}) {
                 metadata: meta,
                 body: body,
                 content: body,
-                config: HexoConfig
+                config: siteConfig
             };
+            //console.log('hpp permalink in metadata', 'permalink' in result.metadata);
             if ('permalink' in result.metadata === false) {
                 result.metadata.permalink = (0, parsePermalink_1.parsePermalink)(result);
             }
-            result.metadata.slug = result.metadata.permalink;
+            if (((_a = siteConfig.generator) === null || _a === void 0 ? void 0 : _a.type) === 'jekyll') {
+                result.metadata.slug = result.metadata.permalink;
+            }
             // put fileTree
             if (isFile) {
                 result.fileTree = {
                     source: (0, utils_2.replaceArr)((0, upath_1.toUnix)(originalFile), ['source/_posts/', '_posts/'], 'src-posts/'),
-                    public: (0, upath_1.toUnix)(originalFile).replace('/src-posts/', '/source/_posts/')
+                    public: (0, upath_1.toUnix)(originalFile).replace(`/${siteConfig.post_dir || 'src-posts'}/`, '/source/_posts/')
                 };
             }
             if (meta && body)

@@ -1,9 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shortcodeYoutube = void 0;
-const tslib_1 = require("tslib");
-const color_1 = tslib_1.__importDefault(require("../node/color"));
-const _config_1 = tslib_1.__importStar(require("../types/_config"));
+const color_1 = __importDefault(require("../node/color"));
+const _config_1 = require("../types/_config");
 /* eslint-disable no-useless-escape */
 const regex = /\{\%\s+youtube\s+(.*)\s+\%\}/gm;
 const logname = color_1.default['Vivid Tangerine']('[youtube]');
@@ -12,6 +14,8 @@ const logname = color_1.default['Vivid Tangerine']('[youtube]');
  * * `{% youtube video_id [type] [cookie] %}` will compiled to `<div class="video-container"><iframe src="youtube url"></iframe></div>`
  */
 function shortcodeYoutube(content) {
+    const config = (0, _config_1.getConfig)();
+    const { verbose, amp } = config.generator;
     let m;
     let count = 0;
     while ((m = regex.exec(content)) !== null) {
@@ -37,7 +41,7 @@ function shortcodeYoutube(content) {
             src = 'https://www.youtube.com/embed/videoseries?list=' + ytid;
         }
         let html;
-        if (typeof _config_1.default.amp === 'boolean' && _config_1.default.amp) {
+        if (amp === true) {
             html = `
 <amp-youtube
 id="video-container-${count}"
@@ -62,7 +66,7 @@ layout="responsive"
 </div>
     `.trim();
         }
-        if (_config_1.verbose)
+        if (verbose)
             console.log(`${logname} transformed id ${ytid} type ${type}`);
         content = content.replace(allmatch, () => html);
     }

@@ -1,6 +1,5 @@
-import { DeepPartial } from './globals';
 import { postMap } from './types/postMap';
-import { ProjectConfig } from './types/_config';
+import { getConfig } from './types/_config';
 /**
  * Post author object type
  */
@@ -67,7 +66,7 @@ export interface ParseOptions {
     /**
      * Site Config
      */
-    config?: ProjectConfig;
+    config?: ReturnType<typeof getConfig> & Record<string, any>;
     /**
      * run auto fixer such as thumbnail, excerpt, etc
      */
@@ -81,5 +80,5 @@ export interface ParseOptions {
  * @param options options parser
  * * {@link ParseOptions.sourceFile} used for cache key when `target` is file contents
  */
-export declare function parsePost(target: string, options?: DeepPartial<ParseOptions>): Promise<postMap>;
+export declare function parsePost(target: string, options?: ParseOptions): Promise<postMap>;
 export default parsePost;

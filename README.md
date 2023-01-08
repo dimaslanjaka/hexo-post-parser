@@ -17,12 +17,52 @@ Parse Hexo Posts To Object
 - Get all images from post body and push them to metadata.photos
 - Auto find meta description when not set
 
+## Configuration needed
+- file `_config.yml`
+
+```yaml
+generator:
+  type: 'hexo' # or jekyll
+  cache: true # enable caching
+  verbose: false # enable verbose
+  amp: false # transform shortcodes to amp html
+```
+
+parse post overriden options
+```typescript
+const { parsePost } = require('hexo-post-parser');
+parsePost('/path/to/file.md', {
+shortcodes: {
+  youtube: true,
+  css: true,
+  include: true,
+  link: true,
+  now: true,
+  script: true,
+  text: true,
+  codeblock: true
+},
+config: {
+  generator: {
+    cache: false,
+    verbose: false,
+    amp: false,
+    type: 'hexo'
+  }
+},
+formatDate: true,
+fix: true,
+sourceFile: file.path
+})
+```
+
 ## Shortcodes
 
 | Shortcode | Description |
 | :--- | :--- |
 | `<!-- include folder/path.txt -->` | Include partial files |
 | `<!-- script folder/script.js -->` | Include JS file as html script `<script>codes</script>` |
+| `{% youtube video_id %}` | transform youtube tag (AMP Supported) |
 
 ## Usage Sample
 

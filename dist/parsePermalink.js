@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePermalink = void 0;
-const tslib_1 = require("tslib");
 const dateMapper_1 = require("./dateMapper");
-const _config_1 = tslib_1.__importDefault(require("./types/_config"));
+const _config_1 = require("./types/_config");
 /**
  * transform permalink format in `_config.yml`
  * @param post
  */
 function parsePermalink(post) {
-    let pattern = _config_1.default.permalink;
+    const config = (0, _config_1.getConfig)();
+    let pattern = config.permalink;
     const date = (0, dateMapper_1.moment)(post.metadata.date);
-    const url = post.metadata.url.replace(_config_1.default.url, '');
+    const url = post.metadata.url.replace(config.url, '');
     const replacer = {
         ':month': 'MM',
         ':year': 'YYYY',
@@ -23,6 +23,7 @@ function parsePermalink(post) {
         ':title': url.replace(/.(md|html)$/, ''),
         ':post_title': post.metadata.title
     };
+    //console.log({ url, curl: config.url });
     // @todo [permalink] follow directory path
     /* if (pattern.startsWith(':title')) {
       const bname = pattern.replace(':title', replacer[':title']);
@@ -44,7 +45,9 @@ function parsePermalink(post) {
     const newPattern = pattern.replace(/%20/g, ' ');
     if (/^https?:\/\//.test(newPattern))
         return newPattern;
-    return newPattern.replace(/\/{2,10}/g, '/');
+    const result = newPattern.replace(/\/{2,10}/g, '/');
+    //console.log({ result });
+    return result;
 }
 exports.parsePermalink = parsePermalink;
 //# sourceMappingURL=parsePermalink.js.map

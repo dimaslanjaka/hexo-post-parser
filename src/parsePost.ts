@@ -1,4 +1,3 @@
-import { deepmerge } from 'deepmerge-ts';
 import {
   existsSync,
   mkdirpSync,
@@ -12,7 +11,6 @@ import { basename, dirname, join, toUnix } from 'upath';
 import yaml from 'yaml';
 import { dateMapper, moment } from './dateMapper';
 import { generatePostId } from './generatePostId';
-import { DeepPartial } from './globals';
 import { isValidHttpUrl } from './gulp/utils';
 import { renderMarkdownIt } from './markdown/toHtml';
 import uniqueArray, { uniqueStringArray } from './node/array-unique';
@@ -31,7 +29,7 @@ import { shortcodeScript } from './shortcodes/script';
 import { shortcodeNow } from './shortcodes/time';
 import { shortcodeYoutube } from './shortcodes/youtube';
 import { postMap } from './types/postMap';
-import config, { post_generated_dir, ProjectConfig } from './types/_config';
+import { getConfig, post_generated_dir, setConfig } from './types/_config';
 import { countWords, removeDoubleSlashes } from './utils/string';
 
 const _cache = cache({
@@ -109,30 +107,12 @@ export interface ParseOptions {
   /**
    * Site Config
    */
-  config?: ProjectConfig;
+  config?: ReturnType<typeof getConfig> & Record<string, any>;
   /**
    * run auto fixer such as thumbnail, excerpt, etc
    */
   fix?: boolean;
 }
-
-const default_options: ParseOptions = {
-  shortcodes: {
-    css: false,
-    script: false,
-    include: false,
-    youtube: false,
-    link: false,
-    text: false,
-    now: false,
-    codeblock: false
-  },
-  sourceFile: null,
-  formatDate: false,
-  config,
-  cache: false,
-  fix: false
-};
 
 /**
  * Parse Hexo markdown post (structured with yaml and universal markdown blocks)
@@ -142,19 +122,34 @@ const default_options: ParseOptions = {
  * @param options options parser
  * * {@link ParseOptions.sourceFile} used for cache key when `target` is file contents
  */
-export async function parsePost(
-  target: string,
-  options: DeepPartial<ParseOptions> = {}
-) {
+export async function parsePost(target: string, options: ParseOptions = {}) {
   if (!target) return null;
-  options = deepmerge(default_options, options);
-  // , { sourceFile: target }
+  const default_options: ParseOptions = {
+    shortcodes: {
+      css: false,
+      script: false,
+      include: false,
+      youtube: false,
+      link: false,
+      text: false,
+      now: false,
+      codeblock: false
+    },
+    sourceFile: null,
+    formatDate: false,
+    config: getConfig(),
+    cache: false,
+    fix: false
+  };
+
+  options = Object.assign(default_options, options);
+  const siteConfig = options.config ? setConfig(options.config) : getConfig();
   if (!options.sourceFile && existsSync(target)) options.sourceFile = target;
-  if (!options.config) options.config = config;
-  const HexoConfig = options.config;
-  const homepage = HexoConfig.url.endsWith('/')
-    ? HexoConfig.url
-    : HexoConfig.url + '/';
+
+  const homepage = siteConfig.url.endsWith('/')
+    ? siteConfig.url
+    : siteConfig.url + '/';
+  //console.log([siteConfig.url, siteConfig.root]);
   const fileTarget = options.sourceFile || target;
   const cacheKey = existsSync(fileTarget)
     ? md5FileSync(fileTarget)
@@ -445,12 +440,7 @@ export async function parsePost(
           });
 
           if (result === null) {
-            let tempFolder: string;
-            if (/dev/i.test(process.env.NODE_ENV || '')) {
-              tempFolder = join(__dirname, '../tmp');
-            } else {
-              tempFolder = join(process.cwd(), 'tmp/');
-            }
+            const tempFolder = join(process.cwd(), 'tmp');
             const logfile = join(
               tempFolder,
               'hexo-post-parser/errors/post-asset-folder/' +
@@ -481,7 +471,12 @@ export async function parsePost(
           } else {
             result = replaceArr(
               result,
-              [toUnix(process.cwd()), 'source/', '_posts', 'src-posts'],
+              [
+                toUnix(process.cwd()),
+                'source/',
+                '_posts',
+                `${siteConfig.post_dir || 'src-posts'}`
+              ],
               '/'
             );
             result = encodeURI((options.config?.root || '') + result);
@@ -566,8 +561,8 @@ export async function parsePost(
           normalize(publicFile),
           [
             normalize(process.cwd()),
-            options.config?.source_dir + '/_posts/',
-            'src-posts/',
+            siteConfig.source_dir + '/_posts/',
+            `${siteConfig.post_dir || 'src-posts'}/`,
             '_posts/'
           ],
           '/'
@@ -594,11 +589,12 @@ export async function parsePost(
       }
     }
 
-    if (options.config && 'generator' in options.config) {
+    // set layout metadata
+    /*if (options.config && 'generator' in options.config) {
       if (meta.type && !meta.layout && options.config.generator.type) {
         meta.layout = meta.type;
       }
-    }
+    }*/
 
     if (typeof options === 'object') {
       // @todo format dates
@@ -676,14 +672,17 @@ export async function parsePost(
       metadata: meta,
       body: body,
       content: body,
-      config: <any>HexoConfig
+      config: <any>siteConfig
     };
 
+    //console.log('hpp permalink in metadata', 'permalink' in result.metadata);
     if ('permalink' in result.metadata === false) {
       result.metadata.permalink = parsePermalink(result);
     }
 
-    result.metadata.slug = result.metadata.permalink;
+    if (siteConfig.generator?.type === 'jekyll') {
+      result.metadata.slug = result.metadata.permalink;
+    }
 
     // put fileTree
     if (isFile) {
@@ -693,7 +692,10 @@ export async function parsePost(
           ['source/_posts/', '_posts/'],
           'src-posts/'
         ),
-        public: toUnix(originalFile).replace('/src-posts/', '/source/_posts/')
+        public: toUnix(originalFile).replace(
+          `/${siteConfig.post_dir || 'src-posts'}/`,
+          '/source/_posts/'
+        )
       };
     }
 
