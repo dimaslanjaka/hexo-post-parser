@@ -6,7 +6,7 @@ if (!process.env.DEBUG) {
 
 import Bluebird from 'bluebird';
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'upath';
 import { getConfig, setConfig } from '../src'; // change dist or src
 import { startParse } from './startParse';
 
@@ -33,7 +33,7 @@ Bluebird.all([
 
   const dirs = (await deepReadDir(__dirname + '/src-posts'))
     .concat(...(await deepReadDir(__dirname + '/source/_posts')))
-    .filter((str) => str.endsWith('.md') && !str.includes('/feeds/'))
+    .filter((str) => str.endsWith('.md') && /\d{4,}\//gi.test(str))
     // Shuffle array
     .sort(() => 0.5 - Math.random())
     // get 5 post
