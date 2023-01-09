@@ -14,7 +14,7 @@ function moment(
     let parse = momentInstance(date, format);
     const config = getConfig();
     if (config.timezone) {
-      parse = parse.tz(config.timezone);
+      parse = parse.tz(config.timezone || 'UTC');
     }
     return parse;
   } catch {
