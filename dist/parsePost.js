@@ -47,6 +47,7 @@ const utils_1 = require("./gulp/utils");
 const toHtml_1 = require("./markdown/toHtml");
 const array_unique_1 = __importStar(require("./node/array-unique"));
 const color_1 = __importDefault(require("./node/color"));
+const debug_1 = __importDefault(require("./node/debug"));
 const filemanager_1 = require("./node/filemanager");
 const md5_file_1 = require("./node/md5-file");
 const sanitize_filename_1 = __importDefault(require("./node/sanitize-filename"));
@@ -494,6 +495,7 @@ function parsePost(target, options = {}) {
                         // @todo replace .md to .html
                         .replace(/.md$/, '.html');
                     // meta url with full url and removed multiple forward slashes
+                    (0, debug_1.default)('parse').extend('url')(url);
                     meta.url = new URL(homepage + url)
                         .toString()
                         .replace(/([^:]\/)\/+/g, '$1');
