@@ -481,7 +481,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         }
       }
 
-      const pathname = replaceArr(
+      const pathnamePerm = replaceArr(
         normalize(publicFile),
         [
           normalize(process.cwd()),
@@ -498,9 +498,9 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       //.replace(/.md$/, '');
       // meta url with full url and removed multiple forward slashes
 
-      debug('parse').extend('pathname')(pathname);
+      debug('parse').extend('pathname')(pathnamePerm);
 
-      const parsePerm = parsePermalink(pathname, {
+      const parsePerm = parsePermalink(pathnamePerm, {
         url: homepage,
         title: meta.title,
         permalink: siteConfig.permalink,
