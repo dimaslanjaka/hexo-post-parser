@@ -47,12 +47,10 @@ const utils_1 = require("./gulp/utils");
 const toHtml_1 = require("./markdown/toHtml");
 const array_unique_1 = __importStar(require("./node/array-unique"));
 const color_1 = __importDefault(require("./node/color"));
-const debug_1 = __importDefault(require("./node/debug"));
 const filemanager_1 = require("./node/filemanager");
 const md5_file_1 = require("./node/md5-file");
 const sanitize_filename_1 = __importDefault(require("./node/sanitize-filename"));
 const utils_2 = require("./node/utils");
-const parsePermalink_1 = require("./parsePermalink");
 const codeblock_1 = require("./shortcodes/codeblock");
 const css_1 = require("./shortcodes/css");
 const extractText_1 = require("./shortcodes/extractText");
@@ -101,10 +99,6 @@ function parsePost(target, options = {}) {
         const siteConfig = options.config ? (0, _config_1.setConfig)(options.config) : (0, _config_1.getConfig)();
         if (!options.sourceFile && (0, fs_extra_1.existsSync)(target))
             options.sourceFile = target;
-        const homepage = siteConfig.url.endsWith('/')
-            ? siteConfig.url
-            : siteConfig.url + '/';
-        //console.log([siteConfig.url, siteConfig.root]);
         const fileTarget = options.sourceFile || target;
         const cacheKey = (0, fs_extra_1.existsSync)(fileTarget)
             ? (0, md5_file_1.md5FileSync)(fileTarget)
@@ -476,33 +470,44 @@ function parsePost(target, options = {}) {
                         }
                     }
                 }
-                const pathnamePerm = (0, utils_2.replaceArr)((0, filemanager_1.normalize)(publicFile), [
-                    (0, filemanager_1.normalize)(process.cwd()),
+                /*
+                const homepage = siteConfig.url.endsWith('/')
+              ? siteConfig.url
+              : siteConfig.url + '/';
+                const pathnamePerm = replaceArr(
+                  normalize(publicFile),
+                  [
+                    normalize(process.cwd()),
                     siteConfig.source_dir + '/_posts/',
                     `${siteConfig.post_dir || 'src-posts'}/`,
                     '_posts/'
-                ], '/')
-                    // @todo remove multiple slashes
-                    .replace(/\/+/, '/')
-                    .replace(/^\/+/, '/');
+                  ],
+                  '/'
+                )
+                  // @todo remove multiple slashes
+                  .replace(/\/+/, '/')
+                  .replace(/^\/+/, '/');
                 // @todo remove .md
                 //.replace(/.md$/, '');
                 // meta url with full url and removed multiple forward slashes
-                (0, debug_1.default)('parse').extend('pathname')(pathnamePerm);
-                const parsePerm = (0, parsePermalink_1.parsePermalink)(pathnamePerm, {
-                    url: homepage,
-                    title: meta.title,
-                    permalink: siteConfig.permalink,
-                    date: String(meta.date)
+          
+                debug('parse').extend('pathname')(pathnamePerm);
+          
+                const parsePerm = parsePermalink(pathnamePerm, {
+                  url: homepage,
+                  title: meta.title,
+                  permalink: siteConfig.permalink,
+                  date: String(meta.date)
                 });
-                if (!meta.permalink)
-                    meta.permalink = parsePerm;
+          
+                if (!meta.permalink) meta.permalink = parsePerm;
                 if (!meta.url) {
-                    meta.url = new URL(homepage + parsePerm)
-                        .toString()
-                        .replace(/([^:]\/)\/+/g, '$1');
-                    (0, debug_1.default)('parse').extend('url')(meta.url);
-                }
+                  meta.url = new URL(homepage + parsePerm)
+                    .toString()
+                    .replace(/([^:]\/)\/+/g, '$1');
+          
+                  debug('parse').extend('url')(meta.url);
+                }*/
                 // determine post type
                 //meta.type = toUnix(originalArg).isMatch(/(_posts|src-posts)\//) ? 'post' : 'page';
                 if (!meta.type) {
