@@ -6,13 +6,21 @@ export /**
  * @param date
  * @returns
  */
-function moment(date: any = new Date(), format?: string) {
-  let parse = momentInstance(date, format);
-  const config = getConfig();
-  if (config.timezone) {
-    parse = parse.tz(config.timezone);
+function moment(
+  date: momentInstance.MomentInput = new Date(),
+  format?: string
+) {
+  try {
+    let parse = momentInstance(date, format);
+    const config = getConfig();
+    if (config.timezone) {
+      parse = parse.tz(config.timezone);
+    }
+    return parse;
+  } catch {
+    console.log('cannot parse date', String(date));
+    return momentInstance();
   }
-  return parse;
 }
 
 /**
