@@ -483,7 +483,7 @@ function parsePost(target, options = {}) {
                     }
                 }
                 if (!meta.url) {
-                    const url = (0, utils_2.replaceArr)((0, filemanager_1.normalize)(publicFile), [
+                    const pathname = (0, utils_2.replaceArr)((0, filemanager_1.normalize)(publicFile), [
                         (0, filemanager_1.normalize)(process.cwd()),
                         siteConfig.source_dir + '/_posts/',
                         `${siteConfig.post_dir || 'src-posts'}/`,
@@ -491,14 +491,25 @@ function parsePost(target, options = {}) {
                     ], '/')
                         // @todo remove multiple slashes
                         .replace(/\/+/, '/')
-                        .replace(/^\/+/, '/')
-                        // @todo replace .md to .html
-                        .replace(/.md$/, '.html');
+                        .replace(/^\/+/, '/');
+                    // @todo remove .md
+                    //.replace(/.md$/, '');
                     // meta url with full url and removed multiple forward slashes
-                    (0, debug_1.default)('parse').extend('url')(url);
-                    meta.url = new URL(homepage + url)
+                    const parsePerm = (0, parsePermalink_1.parsePermalink)(pathname, {
+                        url: homepage,
+                        title: meta.title,
+                        permalink: siteConfig.permalink,
+                        date: String(meta.date)
+                    });
+                    meta.url = new URL(homepage + parsePerm)
                         .toString()
                         .replace(/([^:]\/)\/+/g, '$1');
+                    //debug('parse').extend('pathname')(pathname);
+                    // console.log('hpp permalink in metadata', 'permalink' in result.metadata);
+                    if (!meta.permalink) {
+                        meta.permalink = parsePerm;
+                    }
+                    (0, debug_1.default)('parse').extend('url')(meta.url);
                 }
                 // determine post type
                 //meta.type = toUnix(originalArg).isMatch(/(_posts|src-posts)\//) ? 'post' : 'page';
@@ -585,10 +596,6 @@ function parsePost(target, options = {}) {
                 content: body,
                 config: siteConfig
             };
-            // console.log('hpp permalink in metadata', 'permalink' in result.metadata);
-            if (!result.metadata.permalink) {
-                result.metadata.permalink = (0, parsePermalink_1.parsePermalink)(result);
-            }
             if (((_a = siteConfig.generator) === null || _a === void 0 ? void 0 : _a.type) === 'jekyll') {
                 result.metadata.slug = result.metadata.permalink;
             }
