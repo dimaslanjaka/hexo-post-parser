@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePermalink = void 0;
-const path_1 = __importDefault(require("path"));
+const upath_1 = __importDefault(require("upath"));
 const dateMapper_1 = require("./dateMapper");
 const debug_1 = __importDefault(require("./node/debug"));
 const _config_1 = require("./types/_config");
@@ -31,7 +31,7 @@ function parsePermalink(post, config) {
         // Filename (without pathname)
         ':title': cleanPathname,
         // Filename (relative to “source/_posts/“ folder)
-        ':name': path_1.default.basename(cleanPathname),
+        ':name': upath_1.default.basename(cleanPathname),
         ':post_title': config.title
     };
     //console.log({ url, curl: config.url });
