@@ -10,17 +10,18 @@ import { startParse } from './startParse';
 
 fs.emptyDirSync(__dirname + '/tmp');
 
-console.log('first config', getConfig().permalink);
-
 Bluebird.all([
+  getConfig().permalink,
+  ':title/',
   ':title.html',
   ':year/:title',
-  ':year/:month/:title.html',
-  ':year/:month/:day/:title'
+  ':year/:day/:title.html',
+  ':year/:month/:day/:title',
+  'post/:title/'
 ]).each(async function (pattern) {
   setConfig({
     permalink: pattern,
-    root: '/subfolder',
+    root: '/subfolder/',
     url: 'http://example.net/subfolder'
   });
   console.log('permalink modified', getConfig().permalink);
