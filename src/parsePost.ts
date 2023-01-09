@@ -482,7 +482,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       }
 
       if (!meta.url) {
-        const url = replaceArr(
+        const pathname = replaceArr(
           normalize(publicFile),
           [
             normalize(process.cwd()),
@@ -494,14 +494,27 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         )
           // @todo remove multiple slashes
           .replace(/\/+/, '/')
-          .replace(/^\/+/, '/')
-          // @todo replace .md to .html
-          .replace(/.md$/, '.html');
+          .replace(/^\/+/, '/');
+        // @todo remove .md
+        //.replace(/.md$/, '');
         // meta url with full url and removed multiple forward slashes
-        debug('parse').extend('url')(url);
-        meta.url = new URL(homepage + url)
+
+        const parsePerm = parsePermalink(pathname, {
+          url: homepage,
+          title: meta.title,
+          permalink: siteConfig.permalink,
+          date: String(meta.date)
+        });
+        meta.url = new URL(homepage + parsePerm)
           .toString()
           .replace(/([^:]\/)\/+/g, '$1');
+        //debug('parse').extend('pathname')(pathname);
+        // console.log('hpp permalink in metadata', 'permalink' in result.metadata);
+        if (!meta.permalink) {
+          meta.permalink = parsePerm;
+        }
+
+        debug('parse').extend('url')(meta.url);
       }
 
       // determine post type
@@ -600,11 +613,6 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       content: body,
       config: <any>siteConfig
     };
-
-    // console.log('hpp permalink in metadata', 'permalink' in result.metadata);
-    if (!result.metadata.permalink) {
-      result.metadata.permalink = parsePermalink(result);
-    }
 
     if (siteConfig.generator?.type === 'jekyll') {
       result.metadata.slug = result.metadata.permalink;
