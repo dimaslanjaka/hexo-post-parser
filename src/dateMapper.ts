@@ -24,6 +24,12 @@ function moment(
 }
 
 /**
+ * custom moment
+ */
+export const cmoment = moment;
+export const customMoment = moment;
+
+/**
  * Moment check date is today
  * @param date
  * @returns
