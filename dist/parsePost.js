@@ -161,21 +161,34 @@ function parsePost(target, options = {}) {
                 // assign post id
                 meta.id = (0, generatePostId_1.generatePostId)(meta);
             }
-            if (options.fix) {
-                // @todo fix date
-                if (!meta.date) {
-                    meta.date = (0, dateMapper_1.moment)(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
+            // @todo set default date post
+            if (!meta.date) {
+                meta.date = (0, dateMapper_1.moment)(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
+            }
+            if (meta.modified && !meta.updated) {
+                meta.updated = (0, dateMapper_1.moment)(meta.modified).format('YYYY-MM-DDTHH:mm:ssZ');
+            }
+            if (!meta.updated) {
+                if (meta.modified) {
+                    // fix for hexo-blogger-xml
+                    meta.updated = meta.modified;
+                    delete meta.modified;
                 }
-                if (meta.modified && !meta.updated) {
-                    meta.updated = (0, dateMapper_1.moment)(meta.modified).format('YYYY-MM-DDTHH:mm:ssZ');
-                }
-                if (!meta.updated) {
+                else {
                     // @todo metadata date modified based on date published
                     let date = String(meta.date);
                     if (/\d{4}-\d-\d{2}/.test(date))
                         date = new Date(String(meta.date));
                     meta.updated = (0, dateMapper_1.moment)(date).format('YYYY-MM-DDTHH:mm:ssZ');
                 }
+            }
+            else {
+                if (meta.modified) {
+                    // fix for hexo-blogger-xml
+                    delete meta.modified;
+                }
+            }
+            if (options.fix) {
                 /*
                 // change date modified based on file modified date
                 if (isFile) {
@@ -193,7 +206,7 @@ function parsePost(target, options = {}) {
                 const lang = meta.lang || meta.language;
                 if (!lang) {
                     meta.lang = 'en';
-                    meta.language = 'en';
+                    //meta.language = 'en';
                 }
             }
             // @todo fix meta.category to meta.categories
@@ -216,25 +229,6 @@ function parsePost(target, options = {}) {
                 meta.tags = [];
             if (options.config.default_tag && !meta.tags.length)
                 meta.tags.push(options.config.default_tag);
-            // @todo set default date post
-            if (!meta.date)
-                meta.date = (0, dateMapper_1.moment)().format();
-            if (!meta.updated) {
-                if (meta.modified) {
-                    // fix for hexo-blogger-xml
-                    meta.updated = meta.modified;
-                    delete meta.modified;
-                }
-                else {
-                    meta.updated = meta.date;
-                }
-            }
-            else {
-                if (meta.modified) {
-                    // fix for hexo-blogger-xml
-                    delete meta.modified;
-                }
-            }
             // @todo fix thumbnail
             if (options.fix) {
                 const thumbnail = meta.cover || meta.thumbnail;
