@@ -482,31 +482,31 @@ function parsePost(target, options = {}) {
                         }
                     }
                 }
+                const pathnamePerm = (0, utils_2.replaceArr)((0, filemanager_1.normalize)(publicFile), [
+                    (0, filemanager_1.normalize)(process.cwd()),
+                    siteConfig.source_dir + '/_posts/',
+                    `${siteConfig.post_dir || 'src-posts'}/`,
+                    '_posts/'
+                ], '/')
+                    // @todo remove multiple slashes
+                    .replace(/\/+/, '/')
+                    .replace(/^\/+/, '/');
+                // @todo remove .md
+                //.replace(/.md$/, '');
+                // meta url with full url and removed multiple forward slashes
+                (0, debug_1.default)('parse').extend('pathname')(pathnamePerm);
+                const parsePerm = (0, parsePermalink_1.parsePermalink)(pathnamePerm, {
+                    url: homepage,
+                    title: meta.title,
+                    permalink: siteConfig.permalink,
+                    date: String(meta.date)
+                });
+                if (!meta.permalink)
+                    meta.permalink = parsePerm;
                 if (!meta.url) {
-                    const pathname = (0, utils_2.replaceArr)((0, filemanager_1.normalize)(publicFile), [
-                        (0, filemanager_1.normalize)(process.cwd()),
-                        siteConfig.source_dir + '/_posts/',
-                        `${siteConfig.post_dir || 'src-posts'}/`,
-                        '_posts/'
-                    ], '/')
-                        // @todo remove multiple slashes
-                        .replace(/\/+/, '/')
-                        .replace(/^\/+/, '/');
-                    // @todo remove .md
-                    //.replace(/.md$/, '');
-                    // meta url with full url and removed multiple forward slashes
-                    (0, debug_1.default)('parse').extend('pathname')(pathname);
-                    const parsePerm = (0, parsePermalink_1.parsePermalink)(pathname, {
-                        url: homepage,
-                        title: meta.title,
-                        permalink: siteConfig.permalink,
-                        date: String(meta.date)
-                    });
                     meta.url = new URL(homepage + parsePerm)
                         .toString()
                         .replace(/([^:]\/)\/+/g, '$1');
-                    if (!meta.permalink)
-                        meta.permalink = parsePerm;
                     (0, debug_1.default)('parse').extend('url')(meta.url);
                 }
                 // determine post type
