@@ -1,3 +1,4 @@
+import path from 'path';
 import { moment } from './dateMapper';
 import debug from './node/debug';
 import { getConfig } from './types/_config';
@@ -10,6 +11,9 @@ export function parsePermalink(
   post: string,
   config: {
     [key: string]: any;
+    /**
+     * permalink pattern
+     */
     permalink: string;
     url: string;
     /**
@@ -22,9 +26,13 @@ export function parsePermalink(
     title: string;
   }
 ) {
+  debug('permalink').extend('source')(post);
   let pattern = config.permalink || getConfig().permalink;
-  const date: moment.MomentInput = config.date;
+  const date = config.date;
 
+  /**
+   * @see {@link https://hexo.io/docs/permalinks.html}
+   */
   const replacer: Record<string, string> = {
     ':month': 'MM',
     ':year': 'YYYY',
@@ -33,7 +41,10 @@ export function parsePermalink(
     ':hour': 'HH',
     ':minute': 'mm',
     ':second': 'ss',
-    ':title': String(post).replace(/.(md|html)$/, ''),
+    // Filename (without pathname)
+    ':title': String(post).replace(/.md$/, ''),
+    // Filename (relative to “source/_posts/“ folder)
+    ':name': path.basename(String(post).replace(/.md$/, '')),
     ':post_title': config.title
   };
 
@@ -69,6 +80,6 @@ export function parsePermalink(
   if (/^https?:\/\//.test(newPattern)) return newPattern;
   const result = newPattern.replace(/\/{2,10}/g, '/').replace(config.url, '');
 
-  debug('permalink')(result);
+  debug('permalink').extend('result')(result);
   return result;
 }

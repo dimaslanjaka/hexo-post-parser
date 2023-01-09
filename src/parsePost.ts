@@ -499,6 +499,8 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         //.replace(/.md$/, '');
         // meta url with full url and removed multiple forward slashes
 
+        debug('parse').extend('pathname')(pathname);
+
         const parsePerm = parsePermalink(pathname, {
           url: homepage,
           title: meta.title,
@@ -508,11 +510,8 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         meta.url = new URL(homepage + parsePerm)
           .toString()
           .replace(/([^:]\/)\/+/g, '$1');
-        //debug('parse').extend('pathname')(pathname);
-        // console.log('hpp permalink in metadata', 'permalink' in result.metadata);
-        if (!meta.permalink) {
-          meta.permalink = parsePerm;
-        }
+
+        if (!meta.permalink) meta.permalink = parsePerm;
 
         debug('parse').extend('url')(meta.url);
       }
