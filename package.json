@@ -90,7 +90,7 @@
     "chalk": "^4.1.2",
     "deepmerge-ts": "^4.2.2",
     "fs-extra": "^11.1.0",
-    "jsdom": "^20.0.3",
+    "jsdom": "^21.0.0",
     "lodash": "^4.17.21",
     "lodash.deburr": "^4.1.0",
     "markdown-it": "^13.0.1",
