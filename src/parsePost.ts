@@ -131,22 +131,32 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       meta.id = generatePostId(meta);
     }
 
-    if (options.fix) {
-      // @todo fix date
-      if (!meta.date) {
-        meta.date = moment(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
-      }
-
-      if (meta.modified && !meta.updated) {
-        meta.updated = moment(meta.modified).format('YYYY-MM-DDTHH:mm:ssZ');
-      }
-      if (!meta.updated) {
+    // @todo set default date post
+    if (!meta.date) {
+      meta.date = moment(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
+    }
+    if (meta.modified && !meta.updated) {
+      meta.updated = moment(meta.modified).format('YYYY-MM-DDTHH:mm:ssZ');
+    }
+    if (!meta.updated) {
+      if (meta.modified) {
+        // fix for hexo-blogger-xml
+        meta.updated = meta.modified;
+        delete meta.modified;
+      } else {
         // @todo metadata date modified based on date published
         let date: string | Date = String(meta.date);
         if (/\d{4}-\d-\d{2}/.test(date)) date = new Date(String(meta.date));
         meta.updated = moment(date).format('YYYY-MM-DDTHH:mm:ssZ');
       }
+    } else {
+      if (meta.modified) {
+        // fix for hexo-blogger-xml
+        delete meta.modified;
+      }
+    }
 
+    if (options.fix) {
       /*
       // change date modified based on file modified date
       if (isFile) {
@@ -165,7 +175,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       const lang = meta.lang || meta.language;
       if (!lang) {
         meta.lang = 'en';
-        meta.language = 'en';
+        //meta.language = 'en';
       }
     }
 
@@ -188,23 +198,6 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     if (!meta.tags) meta.tags = [];
     if (options.config.default_tag && !meta.tags.length)
       meta.tags.push(options.config.default_tag);
-
-    // @todo set default date post
-    if (!meta.date) meta.date = moment().format();
-    if (!meta.updated) {
-      if (meta.modified) {
-        // fix for hexo-blogger-xml
-        meta.updated = meta.modified;
-        delete meta.modified;
-      } else {
-        meta.updated = meta.date;
-      }
-    } else {
-      if (meta.modified) {
-        // fix for hexo-blogger-xml
-        delete meta.modified;
-      }
-    }
 
     // @todo fix thumbnail
     if (options.fix) {
