@@ -4,6 +4,7 @@ import { join } from 'upath';
 import { buildPost, parsePost } from '../src';
 import { simplifyDump } from '../src/markdown/transformPosts/postMapper';
 import color from '../src/node/color';
+import debug from '../src/node/debug';
 import { write } from '../src/node/filemanager';
 import slugify from '../src/node/slugify';
 
@@ -48,7 +49,8 @@ export async function startParse(
       simplifyDump(parse)
     );
 
-    console.log(color.green('success parse'), [jsonFile, mdFile]);
+    debug('test')(jsonFile);
+    debug('test')(mdFile);
   } else {
     console.log(color.redBright('fail parse'), file);
   }

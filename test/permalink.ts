@@ -1,31 +1,36 @@
 process.cwd = () => __dirname;
-process.env.DEBUG = 'hexo-post-parser:permalink';
+process.env.DEBUG = 'hexo-post-parser:permalink,hexo-post-parser:parse:*';
 
+import Bluebird from 'bluebird';
 import fs from 'fs-extra';
 import path from 'path';
-import { getConfig, setConfig } from '../src/types/_config';
+import { getConfig, setConfig } from '../src';
 import { startParse } from './startParse';
 
 fs.emptyDirSync(__dirname + '/tmp');
 
 console.log('first config', getConfig().permalink);
 
-[':title.html', ':year/:title', ':year/:month/:day/:title'].forEach(
-  (pattern) => {
-    setConfig({ permalink: pattern });
+Bluebird.all([':title.html', ':year/:title', ':year/:month/:day/:title']).each(
+  async function (pattern) {
+    setConfig({
+      permalink: pattern,
+      root: '/subfolder',
+      url: 'http://example.net/subfolder'
+    });
     console.log('permalink modified', getConfig().permalink);
 
-    startParse(
+    await startParse(
       path.join(__dirname, 'src-posts/with-permalink.md'),
       getConfig(),
       pattern
     );
-    startParse(
+    await startParse(
       path.join(__dirname, 'src-posts/without-permalink.md'),
       getConfig(),
       pattern
     );
-    startParse(
+    await startParse(
       path.join(__dirname, 'source/_posts/auto-generated-post.md'),
       getConfig(),
       pattern

@@ -15,6 +15,7 @@ import { isValidHttpUrl } from './gulp/utils';
 import { renderMarkdownIt } from './markdown/toHtml';
 import uniqueArray, { uniqueStringArray } from './node/array-unique';
 import color from './node/color';
+import debug from './node/debug';
 import { normalize } from './node/filemanager';
 import { md5, md5FileSync } from './node/md5-file';
 import sanitizeFilename from './node/sanitize-filename';
@@ -497,6 +498,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
           // @todo replace .md to .html
           .replace(/.md$/, '.html');
         // meta url with full url and removed multiple forward slashes
+        debug('parse').extend('url')(url);
         meta.url = new URL(homepage + url)
           .toString()
           .replace(/([^:]\/)\/+/g, '$1');
