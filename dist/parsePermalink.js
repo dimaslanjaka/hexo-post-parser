@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePermalink = void 0;
+const path_1 = __importDefault(require("path"));
 const dateMapper_1 = require("./dateMapper");
 const debug_1 = __importDefault(require("./node/debug"));
 const _config_1 = require("./types/_config");
@@ -12,8 +13,12 @@ const _config_1 = require("./types/_config");
  * @param post post path
  */
 function parsePermalink(post, config) {
+    (0, debug_1.default)('permalink').extend('source')(post);
     let pattern = config.permalink || (0, _config_1.getConfig)().permalink;
     const date = config.date;
+    /**
+     * @see {@link https://hexo.io/docs/permalinks.html}
+     */
     const replacer = {
         ':month': 'MM',
         ':year': 'YYYY',
@@ -22,7 +27,10 @@ function parsePermalink(post, config) {
         ':hour': 'HH',
         ':minute': 'mm',
         ':second': 'ss',
-        ':title': String(post).replace(/.(md|html)$/, ''),
+        // Filename (without pathname)
+        ':title': String(post).replace(/.md$/, ''),
+        // Filename (relative to “source/_posts/“ folder)
+        ':name': path_1.default.basename(String(post).replace(/.md$/, '')),
         ':post_title': config.title
     };
     //console.log({ url, curl: config.url });
@@ -48,7 +56,7 @@ function parsePermalink(post, config) {
     if (/^https?:\/\//.test(newPattern))
         return newPattern;
     const result = newPattern.replace(/\/{2,10}/g, '/').replace(config.url, '');
-    (0, debug_1.default)('permalink')(result);
+    (0, debug_1.default)('permalink').extend('result')(result);
     return result;
 }
 exports.parsePermalink = parsePermalink;
