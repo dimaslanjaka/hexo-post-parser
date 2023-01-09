@@ -481,37 +481,37 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         }
       }
 
+      const pathname = replaceArr(
+        normalize(publicFile),
+        [
+          normalize(process.cwd()),
+          siteConfig.source_dir + '/_posts/',
+          `${siteConfig.post_dir || 'src-posts'}/`,
+          '_posts/'
+        ],
+        '/'
+      )
+        // @todo remove multiple slashes
+        .replace(/\/+/, '/')
+        .replace(/^\/+/, '/');
+      // @todo remove .md
+      //.replace(/.md$/, '');
+      // meta url with full url and removed multiple forward slashes
+
+      debug('parse').extend('pathname')(pathname);
+
+      const parsePerm = parsePermalink(pathname, {
+        url: homepage,
+        title: meta.title,
+        permalink: siteConfig.permalink,
+        date: String(meta.date)
+      });
+
+      if (!meta.permalink) meta.permalink = parsePerm;
       if (!meta.url) {
-        const pathname = replaceArr(
-          normalize(publicFile),
-          [
-            normalize(process.cwd()),
-            siteConfig.source_dir + '/_posts/',
-            `${siteConfig.post_dir || 'src-posts'}/`,
-            '_posts/'
-          ],
-          '/'
-        )
-          // @todo remove multiple slashes
-          .replace(/\/+/, '/')
-          .replace(/^\/+/, '/');
-        // @todo remove .md
-        //.replace(/.md$/, '');
-        // meta url with full url and removed multiple forward slashes
-
-        debug('parse').extend('pathname')(pathname);
-
-        const parsePerm = parsePermalink(pathname, {
-          url: homepage,
-          title: meta.title,
-          permalink: siteConfig.permalink,
-          date: String(meta.date)
-        });
         meta.url = new URL(homepage + parsePerm)
           .toString()
           .replace(/([^:]\/)\/+/g, '$1');
-
-        if (!meta.permalink) meta.permalink = parsePerm;
 
         debug('parse').extend('url')(meta.url);
       }
