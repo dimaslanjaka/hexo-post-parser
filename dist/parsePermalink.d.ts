@@ -4,6 +4,9 @@
  */
 export declare function parsePermalink(post: string, config: {
     [key: string]: any;
+    /**
+     * permalink pattern
+     */
     permalink: string;
     url: string;
     /**
