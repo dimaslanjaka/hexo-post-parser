@@ -15,12 +15,10 @@ import { isValidHttpUrl } from './gulp/utils';
 import { renderMarkdownIt } from './markdown/toHtml';
 import uniqueArray, { uniqueStringArray } from './node/array-unique';
 import color from './node/color';
-import debug from './node/debug';
 import { normalize } from './node/filemanager';
 import { md5, md5FileSync } from './node/md5-file';
 import sanitizeFilename from './node/sanitize-filename';
 import { cleanString, cleanWhiteSpace, replaceArr } from './node/utils';
-import { parsePermalink } from './parsePermalink';
 import { shortcodeCodeblock } from './shortcodes/codeblock';
 import { shortcodeCss } from './shortcodes/css';
 import { extractText } from './shortcodes/extractText';
@@ -71,10 +69,6 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
   const siteConfig = options.config ? setConfig(options.config) : getConfig();
   if (!options.sourceFile && existsSync(target)) options.sourceFile = target;
 
-  const homepage = siteConfig.url.endsWith('/')
-    ? siteConfig.url
-    : siteConfig.url + '/';
-  //console.log([siteConfig.url, siteConfig.root]);
   const fileTarget = options.sourceFile || target;
   const cacheKey = existsSync(fileTarget)
     ? md5FileSync(fileTarget)
@@ -474,6 +468,10 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         }
       }
 
+      /*
+      const homepage = siteConfig.url.endsWith('/')
+    ? siteConfig.url
+    : siteConfig.url + '/';
       const pathnamePerm = replaceArr(
         normalize(publicFile),
         [
@@ -507,7 +505,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
           .replace(/([^:]\/)\/+/g, '$1');
 
         debug('parse').extend('url')(meta.url);
-      }
+      }*/
 
       // determine post type
       //meta.type = toUnix(originalArg).isMatch(/(_posts|src-posts)\//) ? 'post' : 'page';
