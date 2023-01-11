@@ -102,8 +102,8 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
 
   // extract style, script
   const re = {
-    script: /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gm,
-    style: /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gm
+    script: /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gmi,
+    style: /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gmi
   };
   const extracted: {
     script: string[];
