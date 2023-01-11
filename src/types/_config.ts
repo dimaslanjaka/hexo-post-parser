@@ -118,9 +118,9 @@ if (existsSync(file)) {
       cache: !nocache
     }
   });
-} else {
+} /*else {
   console.log(file, 'not found');
-}
+}*/
 
 /**
  * get site _config.yml
