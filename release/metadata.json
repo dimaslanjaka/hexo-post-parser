@@ -82,12 +82,12 @@
   },
   "/package-lock.json": {
     "integrity": {
-      "sha1": "9b31ee9b9089dc1d8b8bb748b527da267dc51d1c",
-      "sha256": "xOjlT+Mz4oUTMA3AAFaRiPTg64/ovk0W5u2+GdpC0ck=",
-      "md5": "927c6d7b9189050352f0ee55275184ad",
-      "sha512": "/ePxXFHjTCgsk5izZnYM1BFHQGrwjrjCg2kr9Kt/6tSNG+2M94Gq9z+3hmewPQHoYfnn/CqOcd4Vnw3UdumHmw=="
+      "sha1": "ee89a423ce93f46fe7fa80c15ef36d6819e42d0b",
+      "sha256": "6NQJ9xAi7DoIfF6e4CVmNVEP3v2JfsRt71Bnns9nzd8=",
+      "md5": "6cbc9b49a7d05bc6421f2b0bbd2b0ecb",
+      "sha512": "6OBC46XemOxdvaWNH8gNKjDkvC/YgmBU0xHCXdBWdn5/9nQlEHkwzR5Y3mMLqb+WEjMK9ZAh9+pqkId2lAdfrQ=="
     },
-    "size": "589.87 KB"
+    "size": "590.23 KB"
   },
   "/release/hexo-post-parser-1.2.2.tgz": {
     "integrity": {
