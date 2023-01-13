@@ -656,7 +656,3 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
 }
 
 export default parsePost;
-
-export function parseFrontMatter() {
-  //
-}
