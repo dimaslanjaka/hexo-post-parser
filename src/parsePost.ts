@@ -115,6 +115,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     }
 
     let body = m[2];
+    const rawbody = body; // raw body
     if (!body) body = 'no content ' + (meta.title || '');
 
     const bodyHtml = renderMarkdownIt(body);
@@ -601,6 +602,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       metadata: meta,
       body: body,
       content: body,
+      rawbody,
       config: <any>siteConfig
     };
 
@@ -654,3 +656,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
 }
 
 export default parsePost;
+
+export function parseFrontMatter() {
+  //
+}
