@@ -116,10 +116,9 @@ if ((0, fs_1.existsSync)(file)) {
             cache: !nocache
         }
     });
-}
-else {
-    console.log(file, 'not found');
-}
+} /*else {
+  console.log(file, 'not found');
+}*/
 /**
  * get site _config.yml
  * @returns

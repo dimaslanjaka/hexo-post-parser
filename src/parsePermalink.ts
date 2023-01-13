@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'upath';
 import { moment } from './dateMapper';
 import debug from './node/debug';
 import { getConfig } from './types/_config';
