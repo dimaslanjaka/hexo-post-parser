@@ -29,6 +29,10 @@ export interface postMap extends Object {
      */
     body?: string;
     /**
+     * raw body (no shortcodes parsed)
+     */
+    rawbody: string;
+    /**
      * Article body (unused when property `body` is settled)
      */
     content?: string;
