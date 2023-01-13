@@ -9,4 +9,3 @@ import { ParseOptions, postMap } from './types';
  */
 export declare function parsePost(target: string, options?: ParseOptions): Promise<postMap>;
 export default parsePost;
-export declare function parseFrontMatter(): void;
