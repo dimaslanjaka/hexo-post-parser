@@ -3,4 +3,4 @@
  * @param content markdown post string
  * @returns
  */
-export declare function parsePostFM(content: string): import("front-matter").FrontMatterResult<unknown>;
+export declare function parsePostFM<T>(content: string): import("front-matter").FrontMatterResult<T>;
