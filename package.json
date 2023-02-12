@@ -67,7 +67,7 @@
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "git-command-helper": "*",
+    "git-command-helper": "workspace:^",
     "gulp": "^4.0.2",
     "jest": "^29.4.2",
     "minimatch": "^6.1.6",
