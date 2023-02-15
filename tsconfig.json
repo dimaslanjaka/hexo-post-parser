@@ -1,10 +1,33 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "tmp/tsc",
+    "target": "ES2015",
+    "module": "CommonJS",
+    "outDir": "tmp/dist",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strictNullChecks": false,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    "downlevelIteration": true,
+    "lib": [
+      "ES6",
+      "DOM"
+    ]
   },
-  "include": ["src", "test", "test/unit/parsePost-date.test.ts"],
-  "exclude": ["**/node_modules"]
+  "include": [
+    "src",
+    "test",
+    "test/unit/parsePost-date.test.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "node_modules",
+    ".vscode"
+  ]
 }
