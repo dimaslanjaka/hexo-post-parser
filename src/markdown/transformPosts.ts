@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { dirname, existsSync, mkdirSync, writeFileSync } from '../node/filemanager';
 import yaml from 'yaml';
-import { postMap } from './transformPosts/parsePost';
 import color from '../node/color';
-export { parsePost } from './transformPosts/parsePost';
+import {
+  dirname,
+  existsSync,
+  mkdirSync,
+  writeFileSync
+} from '../node/filemanager';
+import { postMap } from '../types';
 
 /**
  * Save Parsed Hexo markdown post

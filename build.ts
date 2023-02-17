@@ -1,5 +1,5 @@
 import Bluebird from 'bluebird';
-import { exec, ExecException, spawn, SpawnOptions } from 'child_process';
+import { exec, ExecException, spawn } from 'child_process';
 import fse, { writeFile } from 'fs-extra';
 import { join, toUnix } from 'upath';
 import yargs from 'yargs';
@@ -16,21 +16,16 @@ if (argv['update-version']) {
 /**
  * main build function
  */
-async function build() {
-  if (argv['clean']) fse.emptyDirSync(join(__dirname, 'dist'));
-  const summon = spawn('tsc', ['-p', 'tsconfig.build.json'], {
-    cwd: toUnix(__dirname),
-    stdio: 'inherit',
-    shell: true
-  });
-  summon.once('close', () => {
-    git({ cwd: __dirname, stdio: 'ignore' }, 'add', 'dist').then(() => {
-      git(
-        { cwd: __dirname, stdio: 'ignore' },
-        'commit',
-        '-m',
-        'build ' + new Date()
-      );
+function build() {
+  return new Promise((resolve) => {
+    if (argv['clean']) fse.emptyDirSync(join(__dirname, 'dist'));
+    const summon = spawn('tsc', ['--build', 'tsconfig.build.json'], {
+      cwd: toUnix(__dirname),
+      stdio: 'inherit',
+      shell: true
+    });
+    summon.once('close', () => {
+      resolve(null);
     });
   });
 }
@@ -90,46 +85,6 @@ function updateVersion() {
   } else {
     console.log('not updating the commit hash on github workflow');
   }
-}
-
-/**
- * git command
- * @param args
- * @returns
- */
-function git(options: null | SpawnOptions = {}, ...args: string[]) {
-  return new Promise(
-    (
-      resolve: (args: {
-        code: number | null;
-        stdout: string | null;
-        stderr: string | null;
-      }) => any,
-      reject: (args: { args: string[]; err: Error }) => any
-    ) => {
-      options = Object.assign(
-        {
-          cwd: toUnix(__dirname),
-          stdio: 'inherit'
-        },
-        options
-      );
-      const summon = spawn('git', args, options);
-      summon.on('close', function (code) {
-        // Should probably be 'exit', not 'close'
-        // *** Process completed
-        return resolve({
-          code,
-          stdout: String(summon.stdout),
-          stderr: String(summon.stderr)
-        });
-      });
-      summon.on('error', function (err) {
-        // *** Process creation failed
-        return reject({ args: args, err: err });
-      });
-    }
-  );
 }
 
 /**

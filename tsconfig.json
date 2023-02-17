@@ -15,19 +15,21 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "downlevelIteration": true,
-    "lib": [
-      "ES6",
-      "DOM"
-    ]
+    "lib": ["ES6", "DOM"],
+    "paths": {
+      "sbg-*": ["../sbg-*/src"],
+      "src": ["./src"],
+      "git-command-helper": ["../git-command-helper/src"]
+    }
   },
   "include": [
     "src",
     "test",
     "test/unit/parsePost-date.test.ts"
   ],
-  "exclude": [
-    "**/node_modules",
-    "node_modules",
-    ".vscode"
+  "exclude": ["**/node_modules", "node_modules", ".vscode"],
+  "references": [
+    { "path": "../sbg-utility" },
+    { "path": "../git-command-helper" }
   ]
 }
