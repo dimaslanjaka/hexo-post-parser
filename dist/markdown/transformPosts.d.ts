@@ -1,5 +1,4 @@
-import { postMap } from './transformPosts/parsePost';
-export { parsePost } from './transformPosts/parsePost';
+import { postMap } from '../types';
 /**
  * Save Parsed Hexo markdown post
  * @param parsed return {@link parsePost}
