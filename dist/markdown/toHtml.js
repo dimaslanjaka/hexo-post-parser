@@ -101,8 +101,8 @@ function renderBodyMarkdown(parse, verbose = false) {
     }
     // extract style, script
     const re = {
-        script: /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gmi,
-        style: /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gmi
+        script: /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim,
+        style: /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim
     };
     const extracted = {
         script: [],
