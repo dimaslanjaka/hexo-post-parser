@@ -17,7 +17,7 @@ export type DeepPartial<T> = {
 /**
  * mapped type
  */
-export type mergedPostMap = postMap & DeepPartial<postMap['metadata']>;
+export type mergedPostMap = DeepPartial<postMap & postMap['metadata']>;
 export interface archiveMap extends mergedPostMap {
     [key: string]: any;
     /**
