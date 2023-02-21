@@ -26,7 +26,8 @@
     "src",
     "dist",
     "_config.yml",
-    "*.{json,js,md}"
+    "*.{json,js,md}",
+    "!**/*.tsbuildinfo"
   ],
   "repository": {
     "type": "git",
