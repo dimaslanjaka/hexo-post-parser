@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.post_source_dir = exports.post_generated_dir = exports.nocache = exports.verbose = exports.setConfig = exports.getConfig = exports.findConfig = void 0;
-const fs_1 = require("fs");
+const fs_extra_1 = require("fs-extra");
 const process_1 = require("process");
 const upath_1 = require("upath");
 const yaml_1 = __importDefault(require("yaml"));
@@ -110,11 +110,17 @@ let settledOptions = defaultSiteOptions;
  */
 function findConfig(file) {
     // find _config.yml
-    if (!file)
+    if (!file) {
         file = (0, upath_1.join)(process.cwd(), '_config.yml');
+    }
+    else {
+        if (!file.endsWith('.yml')) {
+            file = (0, upath_1.join)(file, '_config.yml');
+        }
+    }
     // console.log('finding', file);
-    if ((0, fs_1.existsSync)(file)) {
-        const readConfig = (0, fs_1.readFileSync)(file, 'utf-8');
+    if ((0, fs_extra_1.existsSync)(file)) {
+        const readConfig = (0, fs_extra_1.readFileSync)(file, 'utf-8');
         const parse = yaml_1.default.parse(readConfig);
         settledOptions = Object.assign(settledOptions, parse, {
             verbose,
