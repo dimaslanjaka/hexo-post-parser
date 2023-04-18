@@ -246,7 +246,6 @@ class CacheFile extends tiny_typed_emitter_1.TypedEmitter {
         }
     }
 }
-exports.default = CacheFile;
 /**
  * memoizer persistent file
  * * cached function result for reusable
@@ -257,4 +256,5 @@ CacheFile.options = {
     sync: false,
     folder: exports.dbFolder
 };
+exports.default = CacheFile;
 //# sourceMappingURL=cache.js.map
