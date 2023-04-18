@@ -5,15 +5,17 @@ import {
   readdirSync,
   writeFileSync
 } from 'fs';
-import minimatch from 'minimatch';
+import { minimatch } from 'minimatch';
 import { basename, join } from 'upath';
 import { parsePost } from '.';
 import buildPost from './buildPost';
 import { getConfig, SiteConfig } from './types/_config';
 
+// dump posts to tmp/test
+
 const config = getConfig();
 
-const files = walkSync(join(__dirname, '../src-posts')).filter((path) => {
+const files = walkSync(join(__dirname, '../test/src-posts')).filter((path) => {
   const haveExclusion = config.skip_render.some((pattern) =>
     minimatch(path, pattern, { matchBase: true, dot: true })
   );

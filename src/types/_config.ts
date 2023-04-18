@@ -106,21 +106,28 @@ export type SiteConfig = typeof defaultSiteOptions & Record<string, any>;
 
 let settledOptions: SiteConfig = defaultSiteOptions;
 
-// find _config.yml
-const file = join(process.cwd(), '_config.yml');
-// console.log('finding', file);
-if (existsSync(file)) {
-  const readConfig = readFileSync(file, 'utf-8');
-  const parse = yaml.parse(readConfig);
-  settledOptions = Object.assign(settledOptions, parse, {
-    verbose,
-    generator: {
-      cache: !nocache
-    }
-  });
-} /*else {
-  console.log(file, 'not found');
-}*/
+/**
+ * find `_config.yml` and set to config
+ * @param file
+ */
+export function findConfig(file?: string) {
+  // find _config.yml
+  if (!file) file = join(process.cwd(), '_config.yml');
+  // console.log('finding', file);
+  if (existsSync(file)) {
+    const readConfig = readFileSync(file, 'utf-8');
+    const parse = yaml.parse(readConfig);
+    settledOptions = Object.assign(settledOptions, parse, {
+      verbose,
+      generator: {
+        cache: !nocache
+      }
+    });
+  }
+}
+
+// run at first import
+findConfig();
 
 /**
  * get site _config.yml

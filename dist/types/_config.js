@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.post_source_dir = exports.post_generated_dir = exports.nocache = exports.verbose = exports.setConfig = exports.getConfig = void 0;
+exports.post_source_dir = exports.post_generated_dir = exports.nocache = exports.verbose = exports.setConfig = exports.getConfig = exports.findConfig = void 0;
 const fs_1 = require("fs");
 const process_1 = require("process");
 const upath_1 = require("upath");
@@ -104,21 +104,29 @@ const defaultSiteOptions = {
     post_dir: 'src-posts'
 };
 let settledOptions = defaultSiteOptions;
-// find _config.yml
-const file = (0, upath_1.join)(process.cwd(), '_config.yml');
-// console.log('finding', file);
-if ((0, fs_1.existsSync)(file)) {
-    const readConfig = (0, fs_1.readFileSync)(file, 'utf-8');
-    const parse = yaml_1.default.parse(readConfig);
-    settledOptions = Object.assign(settledOptions, parse, {
-        verbose,
-        generator: {
-            cache: !nocache
-        }
-    });
-} /*else {
-  console.log(file, 'not found');
-}*/
+/**
+ * find `_config.yml` and set to config
+ * @param file
+ */
+function findConfig(file) {
+    // find _config.yml
+    if (!file)
+        file = (0, upath_1.join)(process.cwd(), '_config.yml');
+    // console.log('finding', file);
+    if ((0, fs_1.existsSync)(file)) {
+        const readConfig = (0, fs_1.readFileSync)(file, 'utf-8');
+        const parse = yaml_1.default.parse(readConfig);
+        settledOptions = Object.assign(settledOptions, parse, {
+            verbose,
+            generator: {
+                cache: !nocache
+            }
+        });
+    }
+}
+exports.findConfig = findConfig;
+// run at first import
+findConfig();
 /**
  * get site _config.yml
  * @returns
