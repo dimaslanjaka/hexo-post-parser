@@ -77,6 +77,11 @@ declare const defaultSiteOptions: {
 };
 export type SiteConfig = typeof defaultSiteOptions & Record<string, any>;
 /**
+ * find `_config.yml` and set to config
+ * @param file
+ */
+export declare function findConfig(file?: string): void;
+/**
  * get site _config.yml
  * @returns
  */
