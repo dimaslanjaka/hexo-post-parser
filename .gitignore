@@ -126,3 +126,9 @@ typings/
 
 # es2016
 /src-old
+
+# unknown folders
+/libssh2
+/zlib
+/curl
+/docs

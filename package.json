@@ -110,7 +110,8 @@
     "test": "test"
   },
   "packageManager": "yarn@3.5.0",
-  "optionalDependencies": {
-    "node-libcurl": "^3.0.0"
+  "engineStrict": true,
+  "engines": {
+    "node": ">=16.0.0 <18.0.0"
   }
 }
