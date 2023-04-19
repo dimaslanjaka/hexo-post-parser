@@ -7,5 +7,12 @@
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": ["./src/**/*"],
-  "exclude": ["**/node_modules", "**/tests", "**/*.spec*.ts", "**/*.test.ts"]
+  "exclude": [
+    "**/node_modules",
+    "**/tests",
+    "**/*.spec*.ts",
+    "**/*.test.ts",
+    "src/curl",
+    "src/translator"
+  ]
 }
