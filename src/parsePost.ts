@@ -9,7 +9,6 @@ import { JSDOM } from 'jsdom';
 import { persistentCache } from 'sbg-utility';
 import { basename, dirname, join, toUnix } from 'upath';
 import yaml from 'yaml';
-import { dateMapper, moment } from './dateMapper';
 import { generatePostId } from './generatePostId';
 import { isValidHttpUrl } from './gulp/utils';
 import { renderMarkdownIt } from './markdown/toHtml';
@@ -19,6 +18,7 @@ import { normalize } from './node/filemanager';
 import { md5, md5FileSync } from './node/md5-file';
 import sanitizeFilename from './node/sanitize-filename';
 import { cleanString, cleanWhiteSpace, replaceArr } from './node/utils';
+import { moment, parseDateMapper } from './parseDateMapper';
 import { shortcodeCodeblock } from './shortcodes/codeblock';
 import { shortcodeCss } from './shortcodes/css';
 import { extractText } from './shortcodes/extractText';
@@ -538,10 +538,12 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
             : 'YYYY-MM-DDTHH:mm:ssZ';
 
         if (meta.date) {
-          meta.date = new dateMapper(String(meta.date)).format(pattern);
+          meta.date = new parseDateMapper(String(meta.date)).format(pattern);
         }
         if (meta.updated) {
-          meta.updated = new dateMapper(String(meta.updated)).format(pattern);
+          meta.updated = new parseDateMapper(String(meta.updated)).format(
+            pattern
+          );
         }
       }
       // @todo process shortcodes

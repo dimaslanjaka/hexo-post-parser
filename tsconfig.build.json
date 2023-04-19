@@ -1,18 +1,26 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "pretty": true,
+    //"pretty": true,
     "outDir": "dist",
     "rootDir": "./src",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "tmp/tsconfig.tsbuildinfo",
+    "resolveJsonModule": true,
+    "noEmitOnError": true,
+    "esModuleInterop": true
   },
-  "include": ["./src/**/*"],
-  "exclude": [
-    "**/node_modules",
-    "**/tests",
-    "**/*.spec*.ts",
-    "**/*.test.ts",
-    "src/curl",
-    "src/translator"
-  ]
+  "filesGlob": ["**/*.ts"],
+  "include": [
+    "./src/index*.ts",
+    "./src/build*.ts",
+    "./src/generate*.ts",
+    "./src/parse*",
+    "./src/node",
+    "./src/types",
+    "./src/shortcodes",
+    "./src/utils",
+    "./src/gulp",
+    "./src/markdown"
+  ],
+  "exclude": ["**/node_modules", "**/test*", "**/*.spec*.ts", "**/*.test*.ts"]
 }

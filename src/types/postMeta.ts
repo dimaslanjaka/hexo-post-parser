@@ -1,4 +1,4 @@
-import { dateMapper } from '../dateMapper';
+import { parseDateMapper } from '../parseDateMapper';
 import { postAuthor } from '../types';
 
 /**
@@ -35,7 +35,7 @@ export interface postMeta {
   /**
    * Post modified date
    */
-  updated?: string | dateMapper;
+  updated?: string | parseDateMapper;
   /**
    * Author metadata
    */
@@ -43,7 +43,7 @@ export interface postMeta {
   /**
    * Post published date
    */
-  date?: string | dateMapper;
+  date?: string | parseDateMapper;
   /**
    * Post tags
    */

@@ -1,6 +1,6 @@
 import path from 'upath';
-import { moment } from './dateMapper';
 import debug from './node/debug';
+import { moment } from './parseDateMapper';
 import { getConfig } from './types/_config';
 
 /**

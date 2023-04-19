@@ -10,17 +10,12 @@
     "strictNullChecks": false,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "downlevelIteration": true,
-    "lib": ["ES6", "DOM"],
-    "paths": {
-      "sbg-*": ["../sbg-*/src"],
-      "src": ["./src"],
-      "git-command-helper": ["../git-command-helper/src"]
-    }
+    "lib": ["ES6", "DOM"]
   },
   "include": ["src", "test", "test/unit/parsePost-date.test.ts"],
   "exclude": ["**/node_modules", "node_modules", ".vscode"],
