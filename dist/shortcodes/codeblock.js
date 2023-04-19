@@ -14,22 +14,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shortcodeCodeblock = void 0;
 const axios_1 = __importDefault(require("axios"));
-const persistent_cache_1 = __importDefault(require("persistent-cache"));
+const sbg_utility_1 = require("sbg-utility");
 const upath_1 = require("upath");
 const color_1 = __importDefault(require("../node/color"));
 const jsdom_1 = __importDefault(require("../node/jsdom"));
 const md5_file_1 = require("../node/md5-file");
 const utils_1 = require("../node/utils");
 const _config_1 = require("../types/_config");
-const dom = new jsdom_1.default();
-const _cache = (0, persistent_cache_1.default)({
-    base: (0, upath_1.join)(process.cwd(), 'tmp'),
-    name: 'shortcode/codeblock',
-    duration: 1000 * 3600 * 24 // 24 hours
-});
-const logname = color_1.default.Shamrock('[codeblock]');
+let _cache;
 function shortcodeCodeblock(str) {
     return __awaiter(this, void 0, void 0, function* () {
+        const dom = new jsdom_1.default();
+        const logname = color_1.default.Shamrock('[codeblock]');
+        if (!_cache) {
+            _cache = new sbg_utility_1.persistentCache({
+                base: (0, upath_1.join)(process.cwd(), 'tmp'),
+                name: 'shortcode/codeblock',
+                duration: 1000 * 3600 * 24 // 24 hours
+            });
+        }
         const config = (0, _config_1.getConfig)();
         const regex = /(\{% codeblock (.*?) %\}|\{% codeblock %\})((.*?|\n)+?)(\{% endcodeblock %\})/gim;
         let m;

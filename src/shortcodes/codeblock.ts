@@ -1,5 +1,5 @@
 import axios from 'axios';
-import cache from 'persistent-cache';
+import { persistentCache } from 'sbg-utility';
 import { join } from 'upath';
 import color from '../node/color';
 import jdom from '../node/jsdom';
@@ -7,15 +7,18 @@ import { md5 } from '../node/md5-file';
 import { replaceArr } from '../node/utils';
 import { getConfig } from '../types/_config';
 
-const dom = new jdom();
-const _cache = cache({
-  base: join(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),
-  name: 'shortcode/codeblock',
-  duration: 1000 * 3600 * 24 // 24 hours
-});
-const logname = color.Shamrock('[codeblock]');
+let _cache: persistentCache;
 
 export async function shortcodeCodeblock(str: string) {
+  const dom = new jdom();
+  const logname = color.Shamrock('[codeblock]');
+  if (!_cache) {
+    _cache = new persistentCache({
+      base: join(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),
+      name: 'shortcode/codeblock',
+      duration: 1000 * 3600 * 24 // 24 hours
+    });
+  }
   const config = getConfig();
   const regex =
     /(\{% codeblock (.*?) %\}|\{% codeblock %\})((.*?|\n)+?)(\{% endcodeblock %\})/gim;

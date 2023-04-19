@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs-extra';
 import HexoConfig from 'hexo/HexoConfig';
 import { cwd } from 'process';
 import { join } from 'upath';
@@ -112,7 +112,13 @@ let settledOptions: SiteConfig = defaultSiteOptions;
  */
 export function findConfig(file?: string) {
   // find _config.yml
-  if (!file) file = join(process.cwd(), '_config.yml');
+  if (!file) {
+    file = join(process.cwd(), '_config.yml');
+  } else {
+    if (!file.endsWith('.yml')) {
+      file = join(file, '_config.yml');
+    }
+  }
   // console.log('finding', file);
   if (existsSync(file)) {
     const readConfig = readFileSync(file, 'utf-8');

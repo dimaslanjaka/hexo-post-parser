@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePost = void 0;
 const fs_extra_1 = require("fs-extra");
 const jsdom_1 = require("jsdom");
-const persistent_cache_1 = __importDefault(require("persistent-cache"));
+const sbg_utility_1 = require("sbg-utility");
 const upath_1 = require("upath");
 const yaml_1 = __importDefault(require("yaml"));
 const dateMapper_1 = require("./dateMapper");
@@ -61,11 +61,7 @@ const time_1 = require("./shortcodes/time");
 const youtube_1 = require("./shortcodes/youtube");
 const _config_1 = require("./types/_config");
 const string_1 = require("./utils/string");
-const _cache = (0, persistent_cache_1.default)({
-    base: (0, upath_1.join)(process.cwd(), 'tmp'),
-    name: 'parsePost',
-    duration: 1000 * 3600 * 24 // 24 hours
-});
+let _cache;
 /**
  * Parse Hexo markdown post (structured with yaml and universal markdown blocks)
  * * return {@link postMap} metadata {string & object} and body
@@ -78,6 +74,13 @@ function parsePost(target, options = {}) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!target)
             return null;
+        if (!_cache) {
+            _cache = new sbg_utility_1.persistentCache({
+                base: (0, upath_1.join)(process.cwd(), 'tmp'),
+                name: 'parsePost',
+                duration: 1000 * 3600 * 24 // 24 hours
+            });
+        }
         const default_options = {
             shortcodes: {
                 css: false,

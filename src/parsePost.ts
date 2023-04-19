@@ -6,7 +6,7 @@ import {
   writeFileSync
 } from 'fs-extra';
 import { JSDOM } from 'jsdom';
-import cache from 'persistent-cache';
+import { persistentCache } from 'sbg-utility';
 import { basename, dirname, join, toUnix } from 'upath';
 import yaml from 'yaml';
 import { dateMapper, moment } from './dateMapper';
@@ -31,11 +31,7 @@ import { ParseOptions, postMap } from './types';
 import { getConfig, post_generated_dir, setConfig } from './types/_config';
 import { countWords, removeDoubleSlashes } from './utils/string';
 
-const _cache = cache({
-  base: join(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),
-  name: 'parsePost',
-  duration: 1000 * 3600 * 24 // 24 hours
-});
+let _cache: persistentCache;
 
 /**
  * Parse Hexo markdown post (structured with yaml and universal markdown blocks)
@@ -47,6 +43,13 @@ const _cache = cache({
  */
 export async function parsePost(target: string, options: ParseOptions = {}) {
   if (!target) return null;
+  if (!_cache) {
+    _cache = new persistentCache({
+      base: join(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),
+      name: 'parsePost',
+      duration: 1000 * 3600 * 24 // 24 hours
+    });
+  }
   const default_options: ParseOptions = {
     shortcodes: {
       css: false,
