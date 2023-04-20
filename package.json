@@ -20,7 +20,8 @@
     "update:packer": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
     "update:ncu": "npx npm-check-updates -u -x chalk",
     "update": "run-s update:** && node postinstall.js",
-    "postupdate": "npm install"
+    "postupdate": "npm install",
+    "test": "jest --runInBand"
   },
   "files": [
     "dist",
