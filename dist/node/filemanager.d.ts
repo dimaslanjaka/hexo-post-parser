@@ -59,7 +59,7 @@ declare const filemanager: {
     mkdirSync: (path: fs.PathLike, options?: fs.MakeDirectoryOptions) => string;
 };
 export declare function removeMultiSlashes(str: string): string;
-export declare const globSrc: (pattern: string, opts?: glob.IOptions) => Bluebird<string[]>;
+export declare const globSrc: (pattern: string, opts?: glob.GlobOptionsWithFileTypesUnset) => Bluebird<string[]>;
 export default filemanager;
 export declare const writeFileSync: (path: fs.PathLike, content: any) => Bluebird<string | Buffer | import("url").URL>;
 export declare const cwd: () => string;
@@ -96,4 +96,4 @@ export declare const write: (path: fs.PathLike, content: any) => Bluebird<string
 export declare const fsreadDirSync: typeof fs.readdirSync;
 export declare const existsSync: typeof fs.existsSync, readFileSync: typeof fs.readFileSync, appendFileSync: typeof fs.appendFileSync, statSync: fs.StatSyncFn;
 export declare const basename: typeof upath.basename, relative: typeof upath.relative, extname: typeof upath.extname;
-export declare const PATH_SEPARATOR: "/" | "\\";
+export declare const PATH_SEPARATOR: "\\" | "/";

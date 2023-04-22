@@ -166,12 +166,12 @@ exports.removeMultiSlashes = removeMultiSlashes;
 const globSrc = function (pattern, opts = {}) {
     return new bluebird_1.default((resolve, reject) => {
         const opt = Object.assign({ cwd: (0, exports.cwd)(), dot: true, matchBase: true }, opts);
-        glob(pattern, opt, function (err, files) {
-            if (err) {
-                return reject(err);
-            }
+        glob
+            .glob(pattern, opt)
+            .then(function (files) {
             resolve(files.map(upath_1.default.toUnix));
-        });
+        })
+            .catch(reject);
     });
 };
 exports.globSrc = globSrc;

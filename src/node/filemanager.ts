@@ -150,18 +150,21 @@ export function removeMultiSlashes(str: string) {
   return str.replace(/(\/)+/g, '$1');
 }
 
-export const globSrc = function (pattern: string, opts: glob.IOptions = {}) {
+export const globSrc = function (
+  pattern: string,
+  opts: glob.GlobOptionsWithFileTypesUnset = {}
+) {
   return new Bluebird((resolve: (arg: string[]) => any, reject) => {
-    const opt: glob.IOptions = Object.assign(
+    const opt: glob.GlobOptionsWithFileTypesUnset = Object.assign(
       { cwd: cwd(), dot: true, matchBase: true },
       opts
     );
-    glob(pattern, opt, function (err, files) {
-      if (err) {
-        return reject(err);
-      }
-      resolve(files.map(upath.toUnix));
-    });
+    glob
+      .glob(pattern, opt)
+      .then(function (files) {
+        resolve(files.map(upath.toUnix));
+      })
+      .catch(reject);
   });
 };
 
