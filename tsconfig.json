@@ -15,7 +15,8 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "downlevelIteration": true,
-    "lib": ["ES6", "DOM"]
+    "lib": ["ES6", "DOM"],
+    "tsBuildInfoFile": "tmp/tsconfig.tsbuildinfo"
   },
   "include": ["src", "test", "test/unit/parsePost-date.test.ts"],
   "exclude": ["**/node_modules", "node_modules", ".vscode"],

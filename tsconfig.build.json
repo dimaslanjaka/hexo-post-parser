@@ -4,13 +4,11 @@
     //"pretty": true,
     "outDir": "dist",
     "rootDir": "./src",
-    "tsBuildInfoFile": "tmp/tsconfig.tsbuildinfo",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
     "resolveJsonModule": true,
-    "noEmitOnError": true,
     "esModuleInterop": true,
     "declaration": true
   },
-  "filesGlob": ["**/*.ts"],
   "include": [
     "./src/index*.ts",
     "./src/build*.ts",
