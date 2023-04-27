@@ -7,7 +7,8 @@
     "tsBuildInfoFile": "tmp/tsconfig.tsbuildinfo",
     "resolveJsonModule": true,
     "noEmitOnError": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "declaration": true
   },
   "filesGlob": ["**/*.ts"],
   "include": [
