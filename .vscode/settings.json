@@ -20,7 +20,7 @@
   "code-runner.saveAllFilesBeforeRun": true,
   "code-runner.respectShebang": true,
   "code-runner.executorMapByGlob": {
-    "*.test.ts": "yarn test -- $fileNameWithoutExt"
+    "*.test.ts": "npm test -- $fileNameWithoutExt"
   },
   "npm.packageManager": "yarn"
 }
