@@ -19,6 +19,7 @@ import { md5, md5FileSync } from './node/md5-file';
 import sanitizeFilename from './node/sanitize-filename';
 import { cleanString, cleanWhiteSpace, replaceArr } from './node/utils';
 import { moment, parseDateMapper } from './parseDateMapper';
+import { parsePostFM } from './parsePost-front-matter';
 import { shortcodeCodeblock } from './shortcodes/codeblock';
 import { shortcodeCss } from './shortcodes/css';
 import { extractText } from './shortcodes/extractText';
@@ -27,7 +28,7 @@ import { parseShortCodeInclude } from './shortcodes/include';
 import { shortcodeScript } from './shortcodes/script';
 import { shortcodeNow } from './shortcodes/time';
 import { shortcodeYoutube } from './shortcodes/youtube';
-import { ParseOptions, postMap } from './types';
+import { ParseOptions, postMap, postMeta } from './types';
 import { getConfig, post_generated_dir, setConfig } from './types/_config';
 import { countWords, removeDoubleSlashes } from './utils/string';
 
@@ -94,7 +95,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     if (options.sourceFile) originalFile = options.sourceFile;
   }
 
-  const mapper = async (m: RegExpMatchArray) => {
+  const mapper = async (m: RegExpMatchArray | postMeta) => {
     if (!m) {
       throw new Error(originalFile + ' cannot be mapped');
     }
@@ -105,19 +106,31 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       tags: [],
       categories: []
     };
-    try {
-      meta = yaml.parse(m[1]);
-    } catch (error) {
-      //if (error instanceof Error) console.log(error.message, 'cannot parse metadata');
-      return null;
+
+    let body = '';
+
+    if (Array.isArray(m)) {
+      body = m[2];
+      try {
+        meta = yaml.parse(m[1]);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log('metadata', error.message);
+        } else {
+          console.log('metadata', error);
+        }
+        return null;
+      }
+    } else {
+      meta = Object.assign(meta, m);
     }
+
     if (typeof meta !== 'object') {
       //writeFileSync(join(cwd(), 'tmp/dump.json'), JSON.stringify(m, null, 2));
       //console.log('meta required object');
       return null;
     }
 
-    let body = m[2];
     const rawbody = body; // raw body
 
     // add custom body
@@ -306,7 +319,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         meta.photos = uniqueStringArray(
           meta.photos.filter((str) => str.trim().length > 0)
         );
-      } catch (e) {
+      } catch (e: any) {
         console.error('cannot unique photos', meta.title, e.message);
       }
     }
@@ -651,13 +664,17 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     mapper
   )[0];
   if (typeof testPost2 === 'object' && testPost2 !== null) {
-    //console.log('test 2 passed');
+    // console.log('test 2 passed');
     return testPost2;
   }
 
   const regexPage = /^---([\s\S]*?)---[\n\s\S]([\n\s\S]*)/gm;
   const testPage = Array.from(target.matchAll(regexPage)).map(mapper)[0];
   if (typeof testPage === 'object' && testPage !== null) return testPage;
+
+  const parseFM = parsePostFM(target);
+  const mapFM = mapper(parseFM.attributes as postMeta);
+  if (typeof mapFM === 'object' && mapFM !== null) return mapFM;
 
   return null;
 }
