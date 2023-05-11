@@ -10,7 +10,6 @@ import showdown from 'showdown';
 import { join, write } from '../node/filemanager';
 import slugify from '../node/slugify/index';
 import { postMap } from '../types/postMap';
-import './markdown-it';
 
 export const converterOpt = {
   strikethrough: true,

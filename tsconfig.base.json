@@ -14,7 +14,8 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "downlevelIteration": true,
-    "lib": ["ES6", "DOM"]
+    "lib": ["ES6", "DOM"],
+    "typeRoots": ["typings"]
   },
   "include": ["src", "test"],
   "exclude": ["**/node_modules", "node_modules", ".vscode"]
