@@ -1,7 +1,7 @@
 process.cwd = () => __dirname;
 
 import { join } from 'upath';
-import { buildPost, parsePost } from '../src';
+import { buildPost, getConfig, parsePost } from '../src';
 import { simplifyDump } from '../src/markdown/transformPosts/postMapper';
 import color from '../src/node/color';
 import debug from '../src/node/debug';
@@ -16,7 +16,7 @@ import slugify from '../src/node/slugify';
  */
 export async function startParse(
   file: string,
-  config: Record<string, any>,
+  config?: Record<string, any>,
   outputPrefix?: string
 ) {
   const parse = await parsePost(file, {
@@ -34,7 +34,7 @@ export async function startParse(
     cache: false,
     fix: true,
     sourceFile: file,
-    config: <any>config
+    config: <any>config || getConfig()
   });
   if (parse && parse.metadata) {
     const filename = parse.metadata.title;
