@@ -26,7 +26,9 @@ export default class ErrorMarkdown {
     const frame = e.stack.split('\n')[2]; // change to 3 for grandparent func
     //const lineNumber = frame.split(':').reverse()[1];
     //const functionName = frame.split(' ')[5];
-    this.filelog = join(process.cwd(), 'tmp', 'errors', md5(hash ? hash : toUnix(frame))) + '.md';
+    this.filelog =
+      join(process.cwd(), 'tmp', 'errors', md5(hash ? hash : toUnix(frame))) +
+      '.md';
     this.message = 'error messages log at ' + this.filelog;
 
     if (typeof obj == 'object') {
