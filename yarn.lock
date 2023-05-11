@@ -1284,7 +1284,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.1.1":
+"@types/node@npm:*, @types/node@npm:^20.1.2":
   version: 20.1.2
   resolution: "@types/node@npm:20.1.2"
   checksum: 9bb2cf0a846e60cc06c44a5622c1998d8373c8675b24d11c86845a29f32c60f5bca9627f2a2535640f902be3dbcc60f126a895abe8e10f12e1467ae3deaba56d
@@ -4949,7 +4949,7 @@ __metadata:
     "@types/lodash": ^4.14.194
     "@types/lodash.deburr": ^4.1.7
     "@types/markdown-it": ^12.2.3
-    "@types/node": ^20.1.1
+    "@types/node": ^20.1.2
     "@types/yargs": ^17.0.24
     "@typescript-eslint/eslint-plugin": ^5.59.5
     "@typescript-eslint/parser": ^5.59.5
@@ -4968,7 +4968,7 @@ __metadata:
     git-command-helper: ^1.2.2
     gulp: ^4.0.2
     jest: ^29.5.0
-    jsdom: ^22.0.0
+    jsdom: ~21.1.2
     lodash: ^4.17.21
     lodash.deburr: ^4.1.0
     markdown-it: ^13.0.1
@@ -4983,7 +4983,7 @@ __metadata:
     moment-timezone: ^0.5.43
     prettier: ^2.8.8
     rimraf: ^5.0.0
-    sbg-utility: ^1.0.9
+    sbg-utility: ^1.1.0
     semver: ^7.5.0
     showdown: ^2.1.0
     tiny-typed-emitter: ^2.1.0
@@ -6270,7 +6270,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:21.1.2":
+"jsdom@npm:21.1.2, jsdom@npm:~21.1.2":
   version: 21.1.2
   resolution: "jsdom@npm:21.1.2"
   dependencies:
@@ -6306,42 +6306,6 @@ __metadata:
     canvas:
       optional: true
   checksum: 6b3cf2d15e5a5712b3db5ff56eba82b97c9a879b52e95063cc8323bdf8837b6ca15cfec85b57ab71c95c6b4a4098bf67f274c6ff4e9ff519aa4811a04f290610
-  languageName: node
-  linkType: hard
-
-"jsdom@npm:^22.0.0":
-  version: 22.0.0
-  resolution: "jsdom@npm:22.0.0"
-  dependencies:
-    abab: ^2.0.6
-    cssstyle: ^3.0.0
-    data-urls: ^4.0.0
-    decimal.js: ^10.4.3
-    domexception: ^4.0.0
-    form-data: ^4.0.0
-    html-encoding-sniffer: ^3.0.0
-    http-proxy-agent: ^5.0.0
-    https-proxy-agent: ^5.0.1
-    is-potential-custom-element-name: ^1.0.1
-    nwsapi: ^2.2.4
-    parse5: ^7.1.2
-    rrweb-cssom: ^0.6.0
-    saxes: ^6.0.0
-    symbol-tree: ^3.2.4
-    tough-cookie: ^4.1.2
-    w3c-xmlserializer: ^4.0.0
-    webidl-conversions: ^7.0.0
-    whatwg-encoding: ^2.0.0
-    whatwg-mimetype: ^3.0.0
-    whatwg-url: ^12.0.1
-    ws: ^8.13.0
-    xml-name-validator: ^4.0.0
-  peerDependencies:
-    canvas: ^2.5.0
-  peerDependenciesMeta:
-    canvas:
-      optional: true
-  checksum: 5d554ccb1637035d1c3baa832ce6f6c66549b6fa43cc7c39295250092e74a10c2e6c674cb40a208ae850d80436dd109862f95d293528345ab5d6cc5213847f8e
   languageName: node
   linkType: hard
 
@@ -8675,7 +8639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sbg-utility@npm:^1.0.9":
+"sbg-utility@npm:^1.0.9, sbg-utility@npm:^1.1.0":
   version: 1.1.0
   resolution: "sbg-utility@npm:1.1.0"
   dependencies:
