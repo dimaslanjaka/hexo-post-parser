@@ -36,15 +36,18 @@ export const customMoment = moment;
  */
 export const isToday = (date: any) => moment(0, 'HH').diff(date, 'days') == 0;
 
+export type DateMapperInput = moment.MomentInput | parseDateMapper;
+
 /**
  * HexoJS date formatter
  * * Playground Test {@link https://codepen.io/dimaslanjaka/pen/LYegjaV}
  */
 export class parseDateMapper {
   data: moment.Moment;
-  constructor(date: moment.MomentInput) {
+  constructor(date: DateMapperInput) {
     const config = getConfig();
     if (typeof date == 'string' && date.length > 0) {
+      date = date.trim();
       if (/\s/.test(date)) {
         // process date for spaced data format
         try {
