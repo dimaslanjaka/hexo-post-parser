@@ -44,6 +44,7 @@ class parseDateMapper {
         this.toString = () => this.data.format('YYYY-MM-DDTHH:mm:ssZ');
         const config = (0, _config_1.getConfig)();
         if (typeof date == 'string' && date.length > 0) {
+            date = date.trim();
             if (/\s/.test(date)) {
                 // process date for spaced data format
                 try {

@@ -11,13 +11,14 @@ export declare const customMoment: typeof moment;
  * @returns
  */
 export declare const isToday: (date: any) => boolean;
+export type DateMapperInput = moment.MomentInput | parseDateMapper;
 /**
  * HexoJS date formatter
  * * Playground Test {@link https://codepen.io/dimaslanjaka/pen/LYegjaV}
  */
 export declare class parseDateMapper {
     data: moment.Moment;
-    constructor(date: moment.MomentInput);
+    constructor(date: DateMapperInput);
     format: (pattern: string) => string;
     year: () => string;
     toString: () => string;

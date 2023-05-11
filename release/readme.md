@@ -1,6 +1,24 @@
-# Release `hexo-post-parser` Tarball
+# Release `hexo-post-parser` tarball
+## Releases
+| version | tarball url |
+| :--- | :--- |
+| 1.2.8 | https://github.com/dimaslanjaka/hexo-post-parser/raw/2605619/release/hexo-post-parser-1.2.8.tgz |
+| 1.2.9 | https://github.com/dimaslanjaka/hexo-post-parser/raw/e5cb1e6/release/hexo-post-parser-1.2.9.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/182b07e/release/hexo-post-parser.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/monorepo/release/hexo-post-parser.tgz |
 
-## Get URL of `hexo-post-parser` Release Tarball
+use this tarball with `resolutions`:
+```json
+{
+  "resolutions": {
+    "hexo-post-parser": "<url of tarball>"
+  }
+}
+```
+
+## Releases
+
+    ## Get URL of `hexo-post-parser` Release Tarball
 - select tarball file
 ![gambar](https://user-images.githubusercontent.com/12471057/203216375-8af4b5d9-00c2-40fb-8d3d-d220beaabd46.png)
 - copy raw url
