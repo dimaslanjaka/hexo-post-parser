@@ -1130,9 +1130,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hexo@https://github.com/dimaslanjaka/hexo/raw/1a61a20/releases/hexo.tgz":
+"@types/hexo@https://github.com/dimaslanjaka/hexo/raw/b3fdaec4a1c70ca1cf56f2b4f2607fc049c588a0/releases/hexo.tgz":
   version: 7.0.0-rc1
-  resolution: "@types/hexo@https://github.com/dimaslanjaka/hexo/raw/1a61a20/releases/hexo.tgz"
+  resolution: "@types/hexo@https://github.com/dimaslanjaka/hexo/raw/b3fdaec4a1c70ca1cf56f2b4f2607fc049c588a0/releases/hexo.tgz"
   dependencies:
     abbrev: ^2.0.0
     archy: ^1.0.0
@@ -1160,7 +1160,7 @@ __metadata:
     warehouse: ^5.0.0
   bin:
     hexo: ./bin/hexo
-  checksum: 2746d70afbededda769dca0983c2d563072007eafdf649c6b9bb66404a9ac4a916b65fc779f784425bca672acc378423ee39eca6d70fe3819ef0a368a9f3ce99
+  checksum: 9acd3b312de27b167a834d4cc42be4edf656c0d5f2b726a0ad747eab5278eeadcf73ceac3ce8f3fd9de4d2a576a419d43c3c72768cc451fe240a90de7f4248a5
   languageName: node
   linkType: hard
 
@@ -3016,7 +3016,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@https://github.com/dimaslanjaka/node-cross-spawn/tarball/private":
+"cross-spawn@https://github.com/dimaslanjaka/node-cross-spawn/tarball/5560156be9745d682c7a5e727cffeee0b0179ab1, cross-spawn@https://github.com/dimaslanjaka/node-cross-spawn/tarball/private":
   version: 7.0.4
   resolution: "cross-spawn@https://github.com/dimaslanjaka/node-cross-spawn.git#commit=5560156be9745d682c7a5e727cffeee0b0179ab1"
   dependencies:
@@ -4944,7 +4944,7 @@ __metadata:
     "@types/fs-extra": ^11.0.1
     "@types/glob": ^8.1.0
     "@types/gulp": ^4.0.10
-    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/1a61a20/releases/hexo.tgz"
+    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/b3fdaec4a1c70ca1cf56f2b4f2607fc049c588a0/releases/hexo.tgz"
     "@types/jsdom": ^21.1.1
     "@types/lodash": ^4.14.194
     "@types/lodash.deburr": ^4.1.7
@@ -4958,7 +4958,7 @@ __metadata:
     binary-collections: ^1.0.3
     bluebird: ^3.7.2
     chalk: ^4.1.2
-    cross-spawn: "https://github.com/dimaslanjaka/node-cross-spawn/raw/5560156/release/cross-spawn.tgz"
+    cross-spawn: "https://github.com/dimaslanjaka/node-cross-spawn/tarball/5560156be9745d682c7a5e727cffeee0b0179ab1"
     debug: ^4.3.4
     eslint: ^8.40.0
     eslint-config-prettier: ^8.8.0
