@@ -7,6 +7,7 @@ import color from '../src/node/color';
 import debug from '../src/node/debug';
 import { write } from '../src/node/filemanager';
 import slugify from '../src/node/slugify';
+import { SiteConfig } from '../src/types/_config';
 
 /**
  * start parse post
@@ -16,7 +17,7 @@ import slugify from '../src/node/slugify';
  */
 export async function startParse(
   file: string,
-  config?: Record<string, any>,
+  config?: SiteConfig,
   outputPrefix?: string
 ) {
   const parse = await parsePost(file, {
@@ -34,7 +35,7 @@ export async function startParse(
     cache: false,
     fix: true,
     sourceFile: file,
-    config: <any>config || getConfig()
+    config: config || getConfig()
   });
   if (parse && parse.metadata) {
     const filename = parse.metadata.title;
@@ -52,7 +53,10 @@ export async function startParse(
     debug('test')(String(jsonFile).replace(join(__dirname, '..') + '/', ''));
     debug('test')(String(mdFile).replace(join(__dirname, '..') + '/', ''));
   } else {
-    debug('test')(color.redBright('fail parse'), file);
+    debug('test')(
+      color.redBright('fail parse'),
+      file.replace(join(__dirname, '..') + '/', '')
+    );
   }
   return parse;
 }
