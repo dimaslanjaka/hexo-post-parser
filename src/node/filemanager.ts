@@ -67,16 +67,23 @@ const walk = function (
   });
 };
 
-export type readdirSyncCb = (files: string[] | ErrnoException) => any;
+export type readDirectoryRecursivePromise = (
+  files: string[] | ErrnoException
+) => any;
+export type readDirectoryRecursiveCb = (
+  err: ErrnoException,
+  results?: string[]
+) => any;
+
 export function readDirectoryRecursive(
   dirPath: string
-): Bluebird<ErrnoException | string[]>;
+): Bluebird<Parameters<readDirectoryRecursivePromise>[0]>;
 export function readDirectoryRecursive(
   dirPath: string,
-  callback: (err: ErrnoException, results?: string[]) => any = undefined
+  callback?: readDirectoryRecursiveCb
 ) {
   if (typeof callback !== 'function') {
-    return new Bluebird((res: readdirSyncCb) => {
+    return new Bluebird((res: readDirectoryRecursivePromise) => {
       walk(dirPath, function (err, files) {
         if (!err) {
           res(files);
