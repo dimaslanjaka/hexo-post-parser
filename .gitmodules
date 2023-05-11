@@ -1,4 +1,0 @@
-[submodule "bin"]
-	path = bin
-	url = https://github.com/dimaslanjaka/bin.git
-	branch = master
