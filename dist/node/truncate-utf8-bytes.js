@@ -19,7 +19,8 @@ function truncate(getLength, string, byteLength) {
     for (let i = 0; i < charLength; i += 1) {
         codePoint = string.charCodeAt(i);
         segment = string[i];
-        if (isHighSurrogate(codePoint) && isLowSurrogate(string.charCodeAt(i + 1))) {
+        if (isHighSurrogate(codePoint) &&
+            isLowSurrogate(string.charCodeAt(i + 1))) {
             i += 1;
             segment += string[i];
         }

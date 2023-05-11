@@ -21,7 +21,7 @@ class array_iterator {
                 if (item) {
                     return {
                         value: item,
-                        done: false,
+                        done: false
                     };
                 }
                 return { done: true };
@@ -31,11 +31,11 @@ class array_iterator {
                 if (item) {
                     return {
                         value: item,
-                        done: false,
+                        done: false
                     };
                 }
                 return { done: true };
-            },
+            }
         };
     }
 }
