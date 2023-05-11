@@ -490,6 +490,30 @@ function parsePost(target, options = {}) {
                     }
                 }
                 /*
+                if (!meta.permalink) {
+                  // console.log('permalink empty', publicFile);
+                  const homepage = siteConfig.url;
+                  const srcPostDir = normalize(
+                    join(process.cwd(), siteConfig.post_dir || 'src-posts')
+                  );
+                  const genPostDir = normalize(
+                    join(process.cwd(), siteConfig.source_dir, '_posts')
+                  );
+          
+                  const pathnamePerm = normalize(publicFile)
+                    .replace(srcPostDir, '')
+                    .replace(genPostDir, '');
+                  console.log({ publicFile, pathnamePerm });
+                  const parsePerm = parsePermalink(pathnamePerm, {
+                    url: homepage,
+                    title: meta.title,
+                    permalink: siteConfig.permalink,
+                    date: String(meta.date)
+                  });
+                  meta.permalink = parsePerm;
+                }
+                */
+                /*
                 const homepage = siteConfig.url.endsWith('/')
               ? siteConfig.url
               : siteConfig.url + '/';
