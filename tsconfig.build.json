@@ -4,7 +4,6 @@
     //"pretty": true,
     "outDir": "dist",
     "rootDir": "./src",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "declaration": true
