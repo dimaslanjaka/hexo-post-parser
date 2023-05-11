@@ -119,6 +119,8 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
 
     let body = m[2];
     const rawbody = body; // raw body
+
+    // add custom body
     if (!body) body = 'no content ' + (meta.title || '');
 
     const bodyHtml = renderMarkdownIt(body);
