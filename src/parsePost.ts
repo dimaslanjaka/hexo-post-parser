@@ -159,7 +159,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       } else {
         // @todo metadata date modified based on date published
         const str = String(meta.date);
-        let date: Date;
+        let date: Date = str.trim().length > 0 ? new Date(str) : new Date();
         if (/\d{4}-\d-\d{2}/.test(str)) {
           date = new Date(str);
         }
