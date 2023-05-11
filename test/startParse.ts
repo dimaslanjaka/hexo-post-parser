@@ -49,8 +49,8 @@ export async function startParse(
       simplifyDump(parse)
     );
 
-    debug('test')(jsonFile);
-    debug('test')(mdFile);
+    debug('test')(String(jsonFile).replace(join(__dirname, '..') + '/', ''));
+    debug('test')(String(mdFile).replace(join(__dirname, '..') + '/', ''));
   } else {
     console.log(color.redBright('fail parse'), file);
   }
