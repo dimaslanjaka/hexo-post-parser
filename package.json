@@ -18,7 +18,7 @@
     "update:typedoc-runner": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/typedoc-runner.js > typedoc-runner.js",
     "update:typedoc-server": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/typedoc-server.js > typedoc-server.js",
     "update:packer": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
-    "update:ncu": "npx npm-check-updates -u -x chalk",
+    "update:ncu": "npx npm-check-updates -u -x chalk,jsdom",
     "update": "run-s \"update:**\"",
     "test": "jest --runInBand"
   },
