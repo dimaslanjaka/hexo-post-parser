@@ -52,7 +52,7 @@ export async function startParse(
     debug('test')(String(jsonFile).replace(join(__dirname, '..') + '/', ''));
     debug('test')(String(mdFile).replace(join(__dirname, '..') + '/', ''));
   } else {
-    console.log(color.redBright('fail parse'), file);
+    debug('test')(color.redBright('fail parse'), file);
   }
   return parse;
 }
