@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import MarkdownIt from 'markdown-it';
 import MarkdownItAbbr from 'markdown-it-abbr';
 import MarkdownItAnchor from 'markdown-it-anchor';
@@ -11,6 +10,7 @@ import showdown from 'showdown';
 import { join, write } from '../node/filemanager';
 import slugify from '../node/slugify/index';
 import { postMap } from '../types/postMap';
+import './markdown-it';
 
 export const converterOpt = {
   strikethrough: true,
@@ -105,19 +105,16 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
     script: /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim,
     style: /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim
   };
-  const extracted: {
-    script: string[];
-    style: string[];
-  } = {
-    script: [],
-    style: []
+  const extracted = {
+    script: [] as string[],
+    style: [] as string[]
   };
   for (const key in re) {
     if (Object.prototype.hasOwnProperty.call(re, key)) {
-      const regex = re[key];
+      const regex = re[key as keyof typeof extracted];
       Array.from(body.matchAll(regex)).forEach((m, i) => {
         const str = m[0];
-        extracted[key][i] = str;
+        extracted[key as keyof typeof extracted][i] = str;
         body = body.replace(str, `<!--${key}${i}-->`);
       });
     }
@@ -142,8 +139,9 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
       Array.from(rendered.matchAll(regex)).forEach((m) => {
         //console.log(match.length, regex, m[0], m[1], m[2]);
         const keyname = m[1];
-        const index = m[2];
-        const extractmatch = extracted[keyname][index];
+        const index = parseInt(m[2]);
+        const extractmatch =
+          extracted[keyname as keyof typeof extracted][index];
         rendered = rendered.replace(m[0], extractmatch);
       });
     }
