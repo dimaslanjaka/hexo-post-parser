@@ -1,20 +1,7 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "CommonJS",
-    "outDir": "tmp/dist",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "strictNullChecks": false,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": false,
-    "declaration": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "downlevelIteration": true,
-    "lib": ["ES6", "DOM"]
+    "strict": true
   },
   "include": ["src", "test"],
   "exclude": ["**/node_modules", "node_modules", ".vscode"]
