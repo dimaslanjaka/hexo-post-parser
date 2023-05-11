@@ -8,6 +8,9 @@ dist/**/*.json
 .yarn/**/*.tgz
 .yarn/**/*.gz
 .yarn/**/*.zip
+.yarn/version*
+.yarn/unplugged
+.yarn/cache
 
 # Logs
 logs
@@ -126,9 +129,3 @@ typings/
 
 # es2016
 /src-old
-
-# unknown folders
-/libssh2
-/zlib
-/curl
-/docs

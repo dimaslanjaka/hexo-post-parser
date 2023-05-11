@@ -18,5 +18,9 @@
   "code-runner.runInTerminal": true,
   "code-runner.clearPreviousOutput": true,
   "code-runner.saveAllFilesBeforeRun": true,
+  "code-runner.respectShebang": true,
+  "code-runner.executorMapByGlob": {
+    "*.test.ts": "yarn test -- $fileNameWithoutExt"
+  },
   "npm.packageManager": "yarn"
 }

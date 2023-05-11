@@ -8,7 +8,7 @@ gulp.task('docs', function (done) {
 });
 
 gulp.task('build', function () {
-  return spawn('ts-node', ['build.ts'], { cwd: __dirname });
+  return spawn('yarn', ['build'], { cwd: __dirname });
 });
 
 gulp.task('watch', function () {

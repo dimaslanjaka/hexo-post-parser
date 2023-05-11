@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import { parseDateMapper } from '../../parseDateMapper';
 import { postMap } from '../../types/postMap';
 
 /**
@@ -64,7 +64,7 @@ export interface archiveMap extends mergedPostMap {
  * @returns
  */
 export default function postMapper(post: postMap): archiveMap {
-  post.metadata.date = new dateMapper(<string>post.metadata.date);
+  post.metadata.date = new parseDateMapper(<string>post.metadata.date);
   return Object.assign(post, post.metadata);
 }
 
@@ -174,20 +174,4 @@ export function simplifyDump<T extends DumperType>(
     }
   }
   return post;
-}
-
-/**
- * HexoJS date formatter
- * * Playground Test {@link https://codepen.io/dimaslanjaka/pen/LYegjaV}
- */
-export class dateMapper {
-  data: moment.Moment;
-  constructor(date: moment.MomentInput) {
-    if (typeof date == 'string') {
-      this.data = moment(date);
-    }
-  }
-  format = (pattern: string) => this.data.format(pattern);
-  year = () => this.data.format('YYYY');
-  toString = () => this.data.format('YYYY-MM-DDTHH:mm:ssZ');
 }
