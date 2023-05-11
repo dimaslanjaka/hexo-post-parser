@@ -14,4 +14,3 @@ function parsePostFM(content) {
     return (0, front_matter_1.default)(content, { allowUnsafe: true });
 }
 exports.parsePostFM = parsePostFM;
-//# sourceMappingURL=parsePost-front-matter.js.map

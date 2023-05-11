@@ -78,4 +78,3 @@ function slugifySanitizeFilename(str) {
         .join('-');
 }
 exports.slugifySanitizeFilename = slugifySanitizeFilename;
-//# sourceMappingURL=sanitize-filename.js.map

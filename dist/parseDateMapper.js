@@ -3,11 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD:dist/dateMapper.js
-exports.dateMapper = exports.isToday = exports.customMoment = exports.cmoment = exports.moment = void 0;
-=======
 exports.parseDateMapper = exports.isToday = exports.customMoment = exports.cmoment = exports.moment = void 0;
->>>>>>> monorepo:dist/parseDateMapper.js
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const _config_1 = require("./types/_config");
 function moment(date = new Date(), format) {
@@ -41,17 +37,14 @@ exports.isToday = isToday;
  * HexoJS date formatter
  * * Playground Test {@link https://codepen.io/dimaslanjaka/pen/LYegjaV}
  */
-<<<<<<< HEAD:dist/dateMapper.js
-class dateMapper {
-=======
 class parseDateMapper {
->>>>>>> monorepo:dist/parseDateMapper.js
     constructor(date) {
         this.format = (pattern) => this.data.format(pattern);
         this.year = () => this.data.format('YYYY');
         this.toString = () => this.data.format('YYYY-MM-DDTHH:mm:ssZ');
         const config = (0, _config_1.getConfig)();
         if (typeof date == 'string' && date.length > 0) {
+            date = date.trim();
             if (/\s/.test(date)) {
                 // process date for spaced data format
                 try {
@@ -70,9 +63,4 @@ class parseDateMapper {
         }
     }
 }
-<<<<<<< HEAD:dist/dateMapper.js
-exports.dateMapper = dateMapper;
-//# sourceMappingURL=dateMapper.js.map
-=======
 exports.parseDateMapper = parseDateMapper;
->>>>>>> monorepo:dist/parseDateMapper.js

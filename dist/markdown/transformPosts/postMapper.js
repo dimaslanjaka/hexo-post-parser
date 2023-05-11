@@ -1,17 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dateMapper = exports.simplifyDump = exports.array_wrap = exports.postChunksMapper = void 0;
-const moment_timezone_1 = __importDefault(require("moment-timezone"));
+exports.simplifyDump = exports.array_wrap = exports.postChunksMapper = void 0;
+const parseDateMapper_1 = require("../../parseDateMapper");
 /**
  * Transform post object
  * * merge post metadata property ({@link postMap.metadata}) to root property
  * @returns
  */
 function postMapper(post) {
-    post.metadata.date = new dateMapper(post.metadata.date);
+    post.metadata.date = new parseDateMapper_1.parseDateMapper(post.metadata.date);
     return Object.assign(post, post.metadata);
 }
 exports.default = postMapper;
@@ -110,18 +107,3 @@ function simplifyDump(post, except = []) {
     return post;
 }
 exports.simplifyDump = simplifyDump;
-/**
- * HexoJS date formatter
- * * Playground Test {@link https://codepen.io/dimaslanjaka/pen/LYegjaV}
- */
-class dateMapper {
-    constructor(date) {
-        this.format = (pattern) => this.data.format(pattern);
-        this.year = () => this.data.format('YYYY');
-        this.toString = () => this.data.format('YYYY-MM-DDTHH:mm:ssZ');
-        if (typeof date == 'string') {
-            this.data = (0, moment_timezone_1.default)(date);
-        }
-    }
-}
-exports.dateMapper = dateMapper;

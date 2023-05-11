@@ -73,4 +73,3 @@ layout="responsive"
     return content;
 }
 exports.shortcodeYoutube = shortcodeYoutube;
-//# sourceMappingURL=youtube.js.map

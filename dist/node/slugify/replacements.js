@@ -6,4 +6,3 @@ const overridableReplacements = [
     ['♥', ' love '],
 ];
 exports.default = overridableReplacements;
-//# sourceMappingURL=replacements.js.map

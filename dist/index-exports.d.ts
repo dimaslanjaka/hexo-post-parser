@@ -1,7 +1,6 @@
-import './a_index';
+export declare function require<T>(name: string): T;
 export * from './buildPost';
 export * from './generatePostId';
-export * from './globals';
 export { renderMarkdownIt as renderMarkdown } from './markdown/toHtml';
 export * as color from './node/color';
 export * from './parsePermalink';

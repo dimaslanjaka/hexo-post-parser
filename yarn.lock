@@ -4966,6 +4966,7 @@ __metadata:
     front-matter: ^4.0.2
     fs-extra: ^11.1.1
     git-command-helper: ^1.2.2
+    glob: ^10.2.3
     gulp: ^4.0.2
     jest: ^29.5.0
     jsdom: ~21.1.2

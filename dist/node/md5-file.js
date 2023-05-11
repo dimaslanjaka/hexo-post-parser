@@ -68,4 +68,3 @@ function md5File(path) {
     });
 }
 exports.default = md5File;
-//# sourceMappingURL=md5-file.js.map

@@ -35,4 +35,3 @@ function shortcodeNow(file, read) {
 }
 exports.shortcodeNow = shortcodeNow;
 exports.default = shortcodeNow;
-//# sourceMappingURL=time.js.map

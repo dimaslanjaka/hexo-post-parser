@@ -159,4 +159,3 @@ exports.post_generated_dir = (0, upath_1.join)((0, process_1.cwd)(), getConfig()
  * SBG Source Post Dir
  */
 exports.post_source_dir = (0, upath_1.join)((0, process_1.cwd)(), 'src-posts');
-//# sourceMappingURL=_config.js.map

@@ -20,4 +20,3 @@ function countWords(str) {
     return str.split(' ').length;
 }
 exports.countWords = countWords;
-//# sourceMappingURL=string.js.map

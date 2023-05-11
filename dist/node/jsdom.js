@@ -29,4 +29,3 @@ class jdom {
     }
 }
 exports.default = jdom;
-//# sourceMappingURL=jsdom.js.map

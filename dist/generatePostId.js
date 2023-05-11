@@ -35,4 +35,3 @@ function generatePostId(meta) {
     return (0, uuid_1.default)(id);
 }
 exports.generatePostId = generatePostId;
-//# sourceMappingURL=generatePostId.js.map

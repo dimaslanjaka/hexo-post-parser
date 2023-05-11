@@ -150,4 +150,3 @@ function renderBodyMarkdown(parse, verbose = false) {
     return rendered;
 }
 exports.renderBodyMarkdown = renderBodyMarkdown;
-//# sourceMappingURL=toHtml.js.map

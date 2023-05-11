@@ -27,13 +27,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setConfig = exports.getConfig = exports.color = exports.renderMarkdown = void 0;
-/// special imports
-require("./a_index");
+/// special exports
+const fs_1 = require("fs");
+const path_1 = require("path");
+// [task] generate empty config if not exists
+[
+    (0, path_1.join)(__dirname, 'types/_config_project.json'),
+    (0, path_1.join)(__dirname, 'types/_config_theme.json'),
+    (0, path_1.join)(__dirname, 'types/_config_hashes.json')
+].forEach((path) => {
+    if (!(0, fs_1.existsSync)(path)) {
+        if (!(0, fs_1.existsSync)((0, path_1.dirname)(path)))
+            (0, fs_1.mkdirSync)((0, path_1.dirname)(path), { recursive: true });
+        (0, fs_1.writeFileSync)(path, '{}');
+    }
+});
 ///
 /// exports
 __exportStar(require("./buildPost"), exports);
 __exportStar(require("./generatePostId"), exports);
-__exportStar(require("./globals"), exports);
 var toHtml_1 = require("./markdown/toHtml");
 Object.defineProperty(exports, "renderMarkdown", { enumerable: true, get: function () { return toHtml_1.renderMarkdownIt; } });
 exports.color = __importStar(require("./node/color"));
@@ -45,4 +57,3 @@ var _config_1 = require("./types/_config");
 Object.defineProperty(exports, "getConfig", { enumerable: true, get: function () { return _config_1.getConfig; } });
 Object.defineProperty(exports, "setConfig", { enumerable: true, get: function () { return _config_1.setConfig; } });
 ////
-//# sourceMappingURL=index-exports.js.map

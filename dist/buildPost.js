@@ -58,4 +58,3 @@ function _dummy() {
     return { parsePost: parsePost_1.parsePost };
 }
 exports.default = buildPost;
-//# sourceMappingURL=buildPost.js.map

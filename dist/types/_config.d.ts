@@ -1,4 +1,3 @@
-import HexoConfig from 'hexo/HexoConfig';
 declare const nocache: any;
 declare const verbose: any;
 declare const defaultSiteOptions: {
@@ -93,7 +92,8 @@ export declare function getConfig(): SiteConfig;
  */
 export declare function setConfig(obj: Record<string, any>): SiteConfig;
 export { verbose, nocache };
-export interface ProjectConfig extends HexoConfig {
+type HC = import('sbg-utility').config.ProjConf;
+export interface ProjectConfig extends HC {
     [key: string]: any;
     /**
      * Source posts

@@ -36,4 +36,3 @@ function truncate(getLength, string, byteLength) {
 const getLength = Buffer.byteLength.bind(Buffer);
 const main = truncate.bind(null, getLength);
 exports.default = main;
-//# sourceMappingURL=truncate-utf8-bytes.js.map

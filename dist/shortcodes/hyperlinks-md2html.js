@@ -34,4 +34,3 @@ function replaceMD2HTML(content) {
 }
 exports.replaceMD2HTML = replaceMD2HTML;
 exports.default = replaceMD2HTML;
-//# sourceMappingURL=hyperlinks-md2html.js.map

@@ -1,4 +1,3 @@
-import moment from 'moment-timezone';
 import { postMap } from '../../types/postMap';
 /**
  * Partializing properties
@@ -75,14 +74,3 @@ export interface DumperType extends Object {
 }
 export declare function simplifyDump<T>(post: T, except?: string[] | string): T;
 export declare function simplifyDump<T extends any[]>(post: T, except?: string[] | string): T;
-/**
- * HexoJS date formatter
- * * Playground Test {@link https://codepen.io/dimaslanjaka/pen/LYegjaV}
- */
-export declare class dateMapper {
-    data: moment.Moment;
-    constructor(date: moment.MomentInput);
-    format: (pattern: string) => string;
-    year: () => string;
-    toString: () => string;
-}

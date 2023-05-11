@@ -68,4 +68,3 @@ function extractText(file, str) {
 }
 exports.extractText = extractText;
 exports.default = extractText;
-//# sourceMappingURL=extractText.js.map

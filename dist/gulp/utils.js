@@ -141,4 +141,3 @@ function isValidHttpUrl(str) {
     return validate;
 }
 exports.isValidHttpUrl = isValidHttpUrl;
-//# sourceMappingURL=utils.js.map

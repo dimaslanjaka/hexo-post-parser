@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePermalink = void 0;
 const upath_1 = __importDefault(require("upath"));
-const dateMapper_1 = require("./dateMapper");
 const debug_1 = __importDefault(require("./node/debug"));
+const parseDateMapper_1 = require("./parseDateMapper");
 const _config_1 = require("./types/_config");
 /**
  * transform permalink format in `_config.yml`
@@ -48,7 +48,7 @@ function parsePermalink(post, config) {
             pattern = pattern.replace(date_pattern, replacer[date_pattern]);
         }
         else {
-            pattern = pattern.replace(date_pattern, (0, dateMapper_1.moment)(date).format(replacer[date_pattern]));
+            pattern = pattern.replace(date_pattern, (0, parseDateMapper_1.moment)(date).format(replacer[date_pattern]));
         }
     }
     // replace %20 to space
@@ -58,4 +58,3 @@ function parsePermalink(post, config) {
     return result;
 }
 exports.parsePermalink = parsePermalink;
-//# sourceMappingURL=parsePermalink.js.map

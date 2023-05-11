@@ -11,4 +11,3 @@ function escapeStringRegexp(string) {
     return string.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d');
 }
 exports.default = escapeStringRegexp;
-//# sourceMappingURL=escape-string-regexp.js.map

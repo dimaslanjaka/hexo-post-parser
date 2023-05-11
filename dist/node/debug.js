@@ -13,4 +13,3 @@ function debug(name) {
     return (0, debug_1.default)('hexo-post-parser').extend(name);
 }
 exports.default = debug;
-//# sourceMappingURL=debug.js.map

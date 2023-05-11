@@ -88,4 +88,3 @@ function slugifyWithCounter() {
     return countable;
 }
 exports.slugifyWithCounter = slugifyWithCounter;
-//# sourceMappingURL=index.js.map

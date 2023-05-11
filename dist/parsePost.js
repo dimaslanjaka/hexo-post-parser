@@ -41,7 +41,6 @@ const jsdom_1 = require("jsdom");
 const sbg_utility_1 = require("sbg-utility");
 const upath_1 = require("upath");
 const yaml_1 = __importDefault(require("yaml"));
-const dateMapper_1 = require("./dateMapper");
 const generatePostId_1 = require("./generatePostId");
 const utils_1 = require("./gulp/utils");
 const toHtml_1 = require("./markdown/toHtml");
@@ -51,6 +50,7 @@ const filemanager_1 = require("./node/filemanager");
 const md5_file_1 = require("./node/md5-file");
 const sanitize_filename_1 = __importDefault(require("./node/sanitize-filename"));
 const utils_2 = require("./node/utils");
+const parseDateMapper_1 = require("./parseDateMapper");
 const codeblock_1 = require("./shortcodes/codeblock");
 const css_1 = require("./shortcodes/css");
 const extractText_1 = require("./shortcodes/extractText");
@@ -161,10 +161,10 @@ function parsePost(target, options = {}) {
             }
             // @todo set default date post
             if (!meta.date) {
-                meta.date = (0, dateMapper_1.moment)(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
+                meta.date = (0, parseDateMapper_1.moment)(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
             }
             if (meta.modified && !meta.updated) {
-                meta.updated = (0, dateMapper_1.moment)(meta.modified).format('YYYY-MM-DDTHH:mm:ssZ');
+                meta.updated = (0, parseDateMapper_1.moment)(meta.modified).format('YYYY-MM-DDTHH:mm:ssZ');
             }
             if (!meta.updated) {
                 if (meta.modified) {
@@ -177,7 +177,7 @@ function parsePost(target, options = {}) {
                     let date = String(meta.date);
                     if (/\d{4}-\d-\d{2}/.test(date))
                         date = new Date(String(meta.date));
-                    meta.updated = (0, dateMapper_1.moment)(date).format('YYYY-MM-DDTHH:mm:ssZ');
+                    meta.updated = (0, parseDateMapper_1.moment)(date).format('YYYY-MM-DDTHH:mm:ssZ');
                 }
             }
             else {
@@ -536,10 +536,10 @@ function parsePost(target, options = {}) {
                         ? options.formatDate.pattern
                         : 'YYYY-MM-DDTHH:mm:ssZ';
                     if (meta.date) {
-                        meta.date = new dateMapper_1.dateMapper(String(meta.date)).format(pattern);
+                        meta.date = new parseDateMapper_1.parseDateMapper(String(meta.date)).format(pattern);
                     }
                     if (meta.updated) {
-                        meta.updated = new dateMapper_1.dateMapper(String(meta.updated)).format(pattern);
+                        meta.updated = new parseDateMapper_1.parseDateMapper(String(meta.updated)).format(pattern);
                     }
                 }
                 // @todo process shortcodes
@@ -635,4 +635,3 @@ function parsePost(target, options = {}) {
 }
 exports.parsePost = parsePost;
 exports.default = parsePost;
-//# sourceMappingURL=parsePost.js.map

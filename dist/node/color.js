@@ -153,4 +153,3 @@ const chalkcolor = {
 };
 const color = Object.assign(colors, chalkcolor);
 exports.default = color;
-//# sourceMappingURL=color.js.map

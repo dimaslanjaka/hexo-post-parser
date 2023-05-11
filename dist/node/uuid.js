@@ -58,4 +58,3 @@ const makeid = (n = 36, prefix = '') => {
     return text;
 };
 exports.makeid = makeid;
-//# sourceMappingURL=uuid.js.map

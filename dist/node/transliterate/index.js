@@ -30,4 +30,3 @@ function transliterate(string, options) {
     return string;
 }
 exports.default = transliterate;
-//# sourceMappingURL=index.js.map

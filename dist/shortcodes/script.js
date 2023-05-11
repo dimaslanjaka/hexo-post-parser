@@ -53,4 +53,3 @@ function shortcodeScript(file, str) {
     return str;
 }
 exports.shortcodeScript = shortcodeScript;
-//# sourceMappingURL=script.js.map
