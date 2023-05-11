@@ -28,5 +28,9 @@
   "code-runner.executorMapByGlob": {
     "*.test.ts": "npm test -- $fileNameWithoutExt"
   },
+  "code-runner.executorMap": {
+    "javascript": "node",
+    "typescript": "node -r ./tshook.js"
+  },
   "npm.packageManager": "yarn"
 }
