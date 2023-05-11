@@ -67,14 +67,30 @@ const walk = function (
   });
 };
 
+export type readdirSyncCb = (files: string[] | ErrnoException) => any;
+export function readDirectoryRecursive(
+  dirPath: string
+): Bluebird<ErrnoException | string[]>;
+export function readDirectoryRecursive(
+  dirPath: string,
+  callback: (err: ErrnoException, results?: string[]) => any = undefined
+) {
+  if (typeof callback !== 'function') {
+    return new Bluebird((res: readdirSyncCb) => {
+      walk(dirPath, function (err, files) {
+        if (!err) {
+          res(files);
+        } else {
+          res(err);
+        }
+      });
+    });
+  }
+  return walk(dirPath, callback);
+}
+
 const filemanager = {
-  // eslint-disable-next-line no-unused-vars
-  readdirSync: (
-    path: fs.PathLike,
-    callback: (err: ErrnoException, results?: string[]) => any
-  ) => {
-    return walk(path, callback);
-  },
+  readdirSync: readDirectoryRecursive,
 
   /**
    * Remove dir or file recursive synchronously (non-empty folders supported)
@@ -220,7 +236,7 @@ export function read(
  * @returns
  */
 export const join = upath.join;
-export const { write, readdirSync, rmdirSync, rm, mkdirSync } = filemanager;
+export const { write, rmdirSync, rm, mkdirSync } = filemanager;
 export const fsreadDirSync = fs.readdirSync;
 export const { existsSync, readFileSync, appendFileSync, statSync } = fs;
 export const { basename, relative, extname } = upath;
