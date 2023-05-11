@@ -2018,6 +2018,6 @@ const replacements = [
     ['🆆', 'W'],
     ['🆇', 'X'],
     ['🆈', 'Y'],
-    ['🆉', 'Z'],
+    ['🆉', 'Z']
 ];
 exports.default = replacements;

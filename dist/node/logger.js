@@ -126,6 +126,6 @@ const logger = {
     },
     profileEnd: function (label) {
         return console.profileEnd(label);
-    },
+    }
 };
 exports.default = logger;
