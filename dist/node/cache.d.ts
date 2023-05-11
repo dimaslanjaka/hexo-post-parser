@@ -57,7 +57,7 @@ export default class CacheFile extends TypedEmitter<CacheFileEvent> {
     dbFile: string;
     static options: CacheOpt;
     private currentHash;
-    constructor(hash?: any, opt?: CacheOpt);
+    constructor(hash?: string, opt?: CacheOpt);
     /**
      * clear cache
      * @returns

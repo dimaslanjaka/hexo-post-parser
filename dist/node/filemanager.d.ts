@@ -21,8 +21,11 @@ export declare const cacheDir: string;
 export type Mutable<T> = {
     -readonly [k in keyof T]: T[k];
 };
+export type readDirectoryRecursivePromise = (files: string[] | ErrnoException) => any;
+export type readDirectoryRecursiveCb = (err: ErrnoException, results?: string[]) => any;
+export declare function readDirectoryRecursive(dirPath: string): Bluebird<Parameters<readDirectoryRecursivePromise>[0]>;
 declare const filemanager: {
-    readdirSync: (path: fs.PathLike, callback: (err: ErrnoException, results?: string[]) => any) => void;
+    readdirSync: typeof readDirectoryRecursive;
     /**
      * Remove dir or file recursive synchronously (non-empty folders supported)
      * @param path
@@ -92,7 +95,7 @@ export declare function read(path: string, opt?: Parameters<typeof fs.readFileSy
  * @returns
  */
 export declare const join: typeof upath.join;
-export declare const write: (path: fs.PathLike, content: any) => Bluebird<string | Buffer | import("url").URL>, readdirSync: (path: fs.PathLike, callback: (err: ErrnoException, results?: string[]) => any) => void, rmdirSync: (path: fs.PathLike, options?: fs.RmOptions) => void, rm: (path: fs.PathLike, options?: fs.RmOptions | fs.NoParamCallback, callback?: fs.NoParamCallback) => void, mkdirSync: (path: fs.PathLike, options?: fs.MakeDirectoryOptions) => string;
+export declare const write: (path: fs.PathLike, content: any) => Bluebird<string | Buffer | import("url").URL>, rmdirSync: (path: fs.PathLike, options?: fs.RmOptions) => void, rm: (path: fs.PathLike, options?: fs.RmOptions | fs.NoParamCallback, callback?: fs.NoParamCallback) => void, mkdirSync: (path: fs.PathLike, options?: fs.MakeDirectoryOptions) => string;
 export declare const fsreadDirSync: typeof fs.readdirSync;
 export declare const existsSync: typeof fs.existsSync, readFileSync: typeof fs.readFileSync, appendFileSync: typeof fs.appendFileSync, statSync: fs.StatSyncFn;
 export declare const basename: typeof upath.basename, relative: typeof upath.relative, extname: typeof upath.extname;

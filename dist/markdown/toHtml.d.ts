@@ -9,7 +9,7 @@ export declare const converterOpt: {
  * @package showdown
  * @param str
  */
-export default function renderShowdown(str: string): any;
+export default function renderShowdown(str: string): string;
 /**
  * Render markdown to html using `markdown-it`, `markdown-it-attrs`, `markdown-it-anchors`, `markdown-it-sup`, `markdown-it-sub`, `markdown-it-mark`, `markdown-it-footnote`, `markdown-it-abbr`
  * * {@link https://www.npmjs.com/package/markdown-it-attrs}
