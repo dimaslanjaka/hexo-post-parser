@@ -1,5 +1,4 @@
 import { existsSync, readFileSync } from 'fs-extra';
-import HexoConfig from 'hexo/HexoConfig';
 import { cwd } from 'process';
 import { join } from 'upath';
 import yaml from 'yaml';
@@ -155,7 +154,9 @@ export function setConfig(obj: Record<string, any>) {
 
 export { verbose, nocache };
 
-export interface ProjectConfig extends HexoConfig {
+type HC = import('sbg-utility').config.ProjConf;
+
+export interface ProjectConfig extends HC {
   [key: string]: any;
   /**
    * Source posts
