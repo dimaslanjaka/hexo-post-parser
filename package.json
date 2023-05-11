@@ -51,7 +51,7 @@
     "@jest/globals": "^29.5.0",
     "@jest/types": "^29.5.0",
     "@types/bluebird": "^3.5.38",
-    "@types/debug": "^4.1.7",
+    "@types/debug": "^4",
     "@types/fs-extra": "^11.0.1",
     "@types/glob": "^8.1.0",
     "@types/gulp": "^4.0.10",
