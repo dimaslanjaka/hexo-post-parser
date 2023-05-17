@@ -1,8 +1,9 @@
 process.cwd = () => __dirname;
+import './config';
 
 import { join } from 'path';
-import config from '../src/types/_config';
+import { getConfig } from '../src';
 import { startParse } from './startParse';
 
 const post = join(__dirname, 'src-posts/shortcode-include.md');
-startParse(post, config);
+startParse(post, getConfig());
