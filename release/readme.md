@@ -2,9 +2,10 @@
 ## Releases
 | version | tarball url |
 | :--- | :--- |
-| 1.2.8 | https://github.com/dimaslanjaka/hexo-post-parser/raw/f14014d/release/hexo-post-parser-1.2.8.tgz |
-| 1.2.9 | https://github.com/dimaslanjaka/hexo-post-parser/raw/f14014d/release/hexo-post-parser-1.2.9.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/f14014d/release/hexo-post-parser.tgz |
+| 1.2.10 | https://github.com/dimaslanjaka/hexo-post-parser/raw/dece83c/release/hexo-post-parser-1.2.10.tgz |
+| 1.2.8 | https://github.com/dimaslanjaka/hexo-post-parser/raw/473f006/release/hexo-post-parser-1.2.8.tgz |
+| 1.2.9 | https://github.com/dimaslanjaka/hexo-post-parser/raw/f73414f/release/hexo-post-parser-1.2.9.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/47519dd/release/hexo-post-parser.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/monorepo/release/hexo-post-parser.tgz |
 
 use this tarball with `resolutions`:
