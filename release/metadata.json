@@ -19,12 +19,12 @@
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "5083bf4adcd57b6dee11ef8f7edf5820d339430a",
-      "sha256": "9lmt7as9VNqMj/FxZbMvjBYgyoG9Gb6p0w6eh6KqtxU=",
-      "md5": "2872258a590f000c2030884b0d442f02",
-      "sha512": "daPHwfecjGUyWNYVKAA8ecCGr70jSBHde5FDD4O5UJ3aYGyTObLFYfzy1nds4BMCP9jy+++UzzRhA2hwJ3TbNw=="
+      "sha1": "582032231e78eb41cc3c73326ee777017d77a47a",
+      "sha256": "0WvyH++7DJ00kqbPfvP9DU6SmVlNKebZytnWclrGcUM=",
+      "md5": "37ab263b44eb8cb04e9767a9f7c01b21",
+      "sha512": "201Wt21AeDLvxzlVgSLSmqyve6I5eRUG/WD5g++EhXQhRk8rDhp+LHDzryHs0RjmUFfmidD+u9ZfeaWLHYuD9w=="
     },
-    "size": "355.54 KB"
+    "size": "359.64 KB"
   },
   "/release/hexo-post-parser-1.2.9.tgz": {
     "integrity": {
