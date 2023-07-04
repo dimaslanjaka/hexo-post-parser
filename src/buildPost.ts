@@ -1,6 +1,7 @@
 import * as yaml from 'yaml';
 import { parsePost } from './parsePost';
 import { postMap } from './types/postMap';
+import { sortObjectByKeys } from './utils/object';
 
 /**
  * Rebuild {@link parsePost} result to markdown post back
@@ -28,6 +29,8 @@ export function buildPost(parsed: Partial<postMap>) {
     if ('content' in parsed.metadata) {
       delete parsed.metadata.content;
     }
+    // re-order meta keys alphabetically
+    parsed.metadata = sortObjectByKeys(parsed.metadata);
     return `---\n${yaml.stringify(parsed.metadata)}---\n\n${parsed.body}`;
   }
   return parsed.body;

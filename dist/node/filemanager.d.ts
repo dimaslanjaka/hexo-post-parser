@@ -94,9 +94,9 @@ export declare function read(path: string, opt?: Parameters<typeof fs.readFileSy
  * @param str
  * @returns
  */
-export declare const join: typeof utility.utils.filemanager.path.join;
+export declare const join: typeof utility.utils.path.join;
 export declare const write: (path: fs.PathLike, content: any) => Bluebird<string | Buffer | import("url").URL>, rmdirSync: (path: fs.PathLike, options?: fs.RmOptions) => void, rm: (path: fs.PathLike, options?: fs.RmOptions | fs.NoParamCallback, callback?: fs.NoParamCallback) => void, mkdirSync: (path: fs.PathLike, options?: fs.MakeDirectoryOptions) => string;
 export declare const fsreadDirSync: typeof fs.readdirSync;
 export declare const existsSync: typeof fs.existsSync, readFileSync: typeof fs.readFileSync, appendFileSync: typeof fs.appendFileSync, statSync: fs.StatSyncFn;
-export declare const basename: typeof utility.utils.filemanager.path.basename, relative: typeof utility.utils.filemanager.path.relative, extname: typeof utility.utils.filemanager.path.extname;
+export declare const basename: typeof utility.utils.path.basename, relative: typeof utility.utils.path.relative, extname: typeof utility.utils.path.extname;
 export declare const PATH_SEPARATOR: "/" | "\\";

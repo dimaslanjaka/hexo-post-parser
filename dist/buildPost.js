@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildPost = void 0;
 const yaml = __importStar(require("yaml"));
 const parsePost_1 = require("./parsePost");
+const object_1 = require("./utils/object");
 /**
  * Rebuild {@link parsePost} result to markdown post back
  * @param parsed parsed post return {@link parsePost}
@@ -49,6 +50,8 @@ function buildPost(parsed) {
         if ('content' in parsed.metadata) {
             delete parsed.metadata.content;
         }
+        // re-order meta keys alphabetically
+        parsed.metadata = (0, object_1.sortObjectByKeys)(parsed.metadata);
         return `---\n${yaml.stringify(parsed.metadata)}---\n\n${parsed.body}`;
     }
     return parsed.body;
