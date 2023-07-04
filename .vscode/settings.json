@@ -1,4 +1,10 @@
 {
+  "terminal.integrated.env.linux": {
+    "PATH": "${env:PATH}:${workspaceFolder}/node_modules/.bin:${workspaceFolder}/bin"
+  },
+  "terminal.integrated.env.windows": {
+    "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin"
+  },
   "files.exclude": {
     "**/node_modules": true
   },
@@ -20,7 +26,11 @@
   "code-runner.saveAllFilesBeforeRun": true,
   "code-runner.respectShebang": true,
   "code-runner.executorMapByGlob": {
-    "*.test.ts": "yarn test -- $fileNameWithoutExt"
+    "*.test.ts": "npm test -- $fileNameWithoutExt"
+  },
+  "code-runner.executorMap": {
+    "javascript": "node",
+    "typescript": "node -r ./tshook.js"
   },
   "npm.packageManager": "yarn"
 }

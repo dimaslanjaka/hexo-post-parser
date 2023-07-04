@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.renderBodyMarkdown = exports.renderMarkdownIt = exports.converterOpt = void 0;
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 const markdown_it_1 = __importDefault(require("markdown-it"));
 const markdown_it_abbr_1 = __importDefault(require("markdown-it-abbr"));
 const markdown_it_anchor_1 = __importDefault(require("markdown-it-anchor"));
@@ -139,7 +138,7 @@ function renderBodyMarkdown(parse, verbose = false) {
             Array.from(rendered.matchAll(regex)).forEach((m) => {
                 //console.log(match.length, regex, m[0], m[1], m[2]);
                 const keyname = m[1];
-                const index = m[2];
+                const index = parseInt(m[2]);
                 const extractmatch = extracted[keyname][index];
                 rendered = rendered.replace(m[0], extractmatch);
             });

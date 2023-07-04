@@ -7,11 +7,11 @@ exports.defaultResovableValue = exports.dbFolder = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const fs_1 = require("fs");
 const lodash_1 = __importDefault(require("lodash"));
+const sbg_utility_1 = __importDefault(require("sbg-utility"));
 const tiny_typed_emitter_1 = require("tiny-typed-emitter");
 const upath_1 = require("upath");
 require("./cache-serialize");
 const filemanager_1 = require("./filemanager");
-const JSON_1 = require("./JSON");
 const logger_1 = __importDefault(require("./logger"));
 const md5_file_1 = require("./md5-file");
 const memoize_fs_1 = __importDefault(require("./memoize-fs"));
@@ -136,10 +136,10 @@ class CacheFile extends tiny_typed_emitter_1.TypedEmitter {
         // save cache on process exit
         scheduler_1.default.add('writeCacheFile-' + this.currentHash, () => {
             logger_1.default.log(chalk_1.default.magentaBright(self.currentHash), 'saved cache', self.dbFile);
-            (0, filemanager_1.write)(self.dbFile, (0, JSON_1.json_encode)(self.md5Cache));
+            (0, filemanager_1.write)(self.dbFile, sbg_utility_1.default.jsonStringifyWithCircularRefs(self.md5Cache));
         });
         if (value)
-            (0, filemanager_1.write)(locationCache, (0, JSON_1.json_encode)(value));
+            (0, filemanager_1.write)(locationCache, sbg_utility_1.default.jsonStringifyWithCircularRefs(value));
         this.emit('update');
         return this;
     }

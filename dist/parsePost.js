@@ -51,6 +51,7 @@ const md5_file_1 = require("./node/md5-file");
 const sanitize_filename_1 = __importDefault(require("./node/sanitize-filename"));
 const utils_2 = require("./node/utils");
 const parseDateMapper_1 = require("./parseDateMapper");
+const parsePost_front_matter_1 = require("./parsePost-front-matter");
 const codeblock_1 = require("./shortcodes/codeblock");
 const css_1 = require("./shortcodes/css");
 const extractText_1 = require("./shortcodes/extractText");
@@ -137,20 +138,32 @@ function parsePost(target, options = {}) {
                 tags: [],
                 categories: []
             };
-            try {
-                meta = yaml_1.default.parse(m[1]);
+            let body = '';
+            if (Array.isArray(m)) {
+                body = m[2];
+                try {
+                    meta = yaml_1.default.parse(m[1]);
+                }
+                catch (error) {
+                    if (error instanceof Error) {
+                        console.log('metadata', error.message);
+                    }
+                    else {
+                        console.log('metadata', error);
+                    }
+                    return null;
+                }
             }
-            catch (error) {
-                //if (error instanceof Error) console.log(error.message, 'cannot parse metadata');
-                return null;
+            else {
+                meta = Object.assign(meta, m);
             }
             if (typeof meta !== 'object') {
                 //writeFileSync(join(cwd(), 'tmp/dump.json'), JSON.stringify(m, null, 2));
                 //console.log('meta required object');
                 return null;
             }
-            let body = m[2];
             const rawbody = body; // raw body
+            // add custom body
             if (!body)
                 body = 'no content ' + (meta.title || '');
             const bodyHtml = (0, toHtml_1.renderMarkdownIt)(body);
@@ -174,9 +187,11 @@ function parsePost(target, options = {}) {
                 }
                 else {
                     // @todo metadata date modified based on date published
-                    let date = String(meta.date);
-                    if (/\d{4}-\d-\d{2}/.test(date))
-                        date = new Date(String(meta.date));
+                    const str = String(meta.date);
+                    let date = str.trim().length > 0 ? new Date(str) : new Date();
+                    if (/\d{4}-\d-\d{2}/.test(str)) {
+                        date = new Date(str);
+                    }
                     meta.updated = (0, parseDateMapper_1.moment)(date).format('YYYY-MM-DDTHH:mm:ssZ');
                 }
             }
@@ -475,6 +490,30 @@ function parsePost(target, options = {}) {
                     }
                 }
                 /*
+                if (!meta.permalink) {
+                  // console.log('permalink empty', publicFile);
+                  const homepage = siteConfig.url;
+                  const srcPostDir = normalize(
+                    join(process.cwd(), siteConfig.post_dir || 'src-posts')
+                  );
+                  const genPostDir = normalize(
+                    join(process.cwd(), siteConfig.source_dir, '_posts')
+                  );
+          
+                  const pathnamePerm = normalize(publicFile)
+                    .replace(srcPostDir, '')
+                    .replace(genPostDir, '');
+                  console.log({ publicFile, pathnamePerm });
+                  const parsePerm = parsePermalink(pathnamePerm, {
+                    url: homepage,
+                    title: meta.title,
+                    permalink: siteConfig.permalink,
+                    date: String(meta.date)
+                  });
+                  meta.permalink = parsePerm;
+                }
+                */
+                /*
                 const homepage = siteConfig.url.endsWith('/')
               ? siteConfig.url
               : siteConfig.url + '/';
@@ -623,13 +662,17 @@ function parsePost(target, options = {}) {
         const regexPostNoOpening = /^([\s\S]*?)---[\n\s\S]\n([\n\s\S]*)/g;
         const testPost2 = Array.from(target.matchAll(regexPostNoOpening)).map(mapper)[0];
         if (typeof testPost2 === 'object' && testPost2 !== null) {
-            //console.log('test 2 passed');
+            // console.log('test 2 passed');
             return testPost2;
         }
         const regexPage = /^---([\s\S]*?)---[\n\s\S]([\n\s\S]*)/gm;
         const testPage = Array.from(target.matchAll(regexPage)).map(mapper)[0];
         if (typeof testPage === 'object' && testPage !== null)
             return testPage;
+        const parseFM = (0, parsePost_front_matter_1.parsePostFM)(target);
+        const mapFM = mapper(parseFM.attributes);
+        if (typeof mapFM === 'object' && mapFM !== null)
+            return mapFM;
         return null;
     });
 }

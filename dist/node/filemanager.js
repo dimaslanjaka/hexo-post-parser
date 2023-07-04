@@ -26,15 +26,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PATH_SEPARATOR = exports.extname = exports.relative = exports.basename = exports.statSync = exports.appendFileSync = exports.readFileSync = exports.existsSync = exports.fsreadDirSync = exports.mkdirSync = exports.rm = exports.rmdirSync = exports.readdirSync = exports.write = exports.join = exports.read = exports.resolve = exports.dirname = exports.cwd = exports.writeFileSync = exports.globSrc = exports.removeMultiSlashes = exports.cacheDir = exports.normalize = void 0;
+exports.PATH_SEPARATOR = exports.extname = exports.relative = exports.basename = exports.statSync = exports.appendFileSync = exports.readFileSync = exports.existsSync = exports.fsreadDirSync = exports.mkdirSync = exports.rm = exports.rmdirSync = exports.write = exports.join = exports.read = exports.resolve = exports.dirname = exports.cwd = exports.writeFileSync = exports.globSrc = exports.removeMultiSlashes = exports.readDirectoryRecursive = exports.cacheDir = exports.normalize = void 0;
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 const bluebird_1 = __importDefault(require("bluebird"));
 const fs = __importStar(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
 const process_1 = require("process");
+const sbg_utility_1 = __importDefault(require("sbg-utility"));
 const true_case_path_1 = require("true-case-path");
 const upath_1 = __importStar(require("upath"));
-const JSON_1 = require("./JSON");
 const glob = require("glob");
 /**
  * cross-platform normalize path to fixed-case windows drive letters
@@ -89,11 +89,24 @@ const walk = function (dir, done) {
         });
     });
 };
+function readDirectoryRecursive(dirPath, callback) {
+    if (typeof callback !== 'function') {
+        return new bluebird_1.default((res) => {
+            walk(dirPath, function (err, files) {
+                if (!err) {
+                    res(files);
+                }
+                else {
+                    res(err);
+                }
+            });
+        });
+    }
+    return walk(dirPath, callback);
+}
+exports.readDirectoryRecursive = readDirectoryRecursive;
 const filemanager = {
-    // eslint-disable-next-line no-unused-vars
-    readdirSync: (path, callback) => {
-        return walk(path, callback);
-    },
+    readdirSync: readDirectoryRecursive,
     /**
      * Remove dir or file recursive synchronously (non-empty folders supported)
      * @param path
@@ -139,7 +152,7 @@ const filemanager = {
             fs.mkdirSync(dir, { recursive: true });
         if (typeof content != 'string') {
             if (typeof content == 'object') {
-                content = (0, JSON_1.json_encode)(content);
+                content = sbg_utility_1.default.jsonStringifyWithCircularRefs(content);
             }
             else {
                 content = String(content);
@@ -219,7 +232,7 @@ exports.read = read;
  * @returns
  */
 exports.join = upath_1.default.join;
-exports.write = filemanager.write, exports.readdirSync = filemanager.readdirSync, exports.rmdirSync = filemanager.rmdirSync, exports.rm = filemanager.rm, exports.mkdirSync = filemanager.mkdirSync;
+exports.write = filemanager.write, exports.rmdirSync = filemanager.rmdirSync, exports.rm = filemanager.rm, exports.mkdirSync = filemanager.mkdirSync;
 exports.fsreadDirSync = fs.readdirSync;
 exports.existsSync = fs.existsSync, exports.readFileSync = fs.readFileSync, exports.appendFileSync = fs.appendFileSync, exports.statSync = fs.statSync;
 exports.basename = upath_1.default.basename, exports.relative = upath_1.default.relative, exports.extname = upath_1.default.extname;

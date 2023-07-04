@@ -1,7 +1,7 @@
 process.cwd = () => __dirname;
 if (!process.env.DEBUG) {
   // process.env.DEBUG = 'hexo-post-parser:permalink,hexo-post-parser:parse:*';
-  process.env.DEBUG = 'hexo-post-parser:permalink:result';
+  process.env.DEBUG = 'hexo-post-parser:permalink';
 }
 
 import Bluebird from 'bluebird';
@@ -41,7 +41,8 @@ Bluebird.all([
 
   for (let i = 0; i < dirs.length; i++) {
     const file = dirs[i];
-    await startParse(file, getConfig(), pattern);
+    const post = await startParse(file, getConfig(), pattern);
+    console.log(post.metadata.permalink);
     await new Promise((resolve) => setTimeout(resolve, 700));
   }
 });

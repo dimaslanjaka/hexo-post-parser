@@ -3,9 +3,9 @@ import Bluebird from 'bluebird';
 import * as fs from 'fs-extra';
 import { default as nodePath } from 'path';
 import { cwd as nodeCwd } from 'process';
+import utility from 'sbg-utility';
 import { trueCasePathSync } from 'true-case-path';
 import upath, { toUnix } from 'upath';
-import { json_encode } from './JSON';
 import ErrnoException = NodeJS.ErrnoException;
 
 import glob = require('glob');
@@ -67,14 +67,37 @@ const walk = function (
   });
 };
 
+export type readDirectoryRecursivePromise = (
+  files: string[] | ErrnoException
+) => any;
+export type readDirectoryRecursiveCb = (
+  err: ErrnoException,
+  results?: string[]
+) => any;
+
+export function readDirectoryRecursive(
+  dirPath: string
+): Bluebird<Parameters<readDirectoryRecursivePromise>[0]>;
+export function readDirectoryRecursive(
+  dirPath: string,
+  callback?: readDirectoryRecursiveCb
+) {
+  if (typeof callback !== 'function') {
+    return new Bluebird((res: readDirectoryRecursivePromise) => {
+      walk(dirPath, function (err, files) {
+        if (!err) {
+          res(files);
+        } else {
+          res(err);
+        }
+      });
+    });
+  }
+  return walk(dirPath, callback);
+}
+
 const filemanager = {
-  // eslint-disable-next-line no-unused-vars
-  readdirSync: (
-    path: fs.PathLike,
-    callback: (err: ErrnoException, results?: string[]) => any
-  ) => {
-    return walk(path, callback);
-  },
+  readdirSync: readDirectoryRecursive,
 
   /**
    * Remove dir or file recursive synchronously (non-empty folders supported)
@@ -125,7 +148,7 @@ const filemanager = {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     if (typeof content != 'string') {
       if (typeof content == 'object') {
-        content = json_encode(content);
+        content = utility.jsonStringifyWithCircularRefs(content);
       } else {
         content = String(content);
       }
@@ -220,7 +243,7 @@ export function read(
  * @returns
  */
 export const join = upath.join;
-export const { write, readdirSync, rmdirSync, rm, mkdirSync } = filemanager;
+export const { write, rmdirSync, rm, mkdirSync } = filemanager;
 export const fsreadDirSync = fs.readdirSync;
 export const { existsSync, readFileSync, appendFileSync, statSync } = fs;
 export const { basename, relative, extname } = upath;
