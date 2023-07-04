@@ -61,6 +61,7 @@ const script_1 = require("./shortcodes/script");
 const time_1 = require("./shortcodes/time");
 const youtube_1 = require("./shortcodes/youtube");
 const _config_1 = require("./types/_config");
+const object_1 = require("./utils/object");
 const string_1 = require("./utils/string");
 let _cache;
 /**
@@ -630,6 +631,8 @@ function parsePost(target, options = {}) {
             meta = Object.keys(meta)
                 .sort()
                 .reduce((acc, key) => (Object.assign(Object.assign({}, acc), { [key]: meta[key] })), {});
+            // re-order meta keys alphabetically
+            meta = (0, object_1.sortObjectByKeys)(meta);
             const result = {
                 metadata: meta,
                 body: body,

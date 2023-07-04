@@ -30,6 +30,7 @@ import { shortcodeNow } from './shortcodes/time';
 import { shortcodeYoutube } from './shortcodes/youtube';
 import { ParseOptions, postMap, postMeta } from './types';
 import { getConfig, post_generated_dir, setConfig } from './types/_config';
+import { sortObjectByKeys } from './utils/object';
 import { countWords, removeDoubleSlashes } from './utils/string';
 
 let _cache: persistentCache;
@@ -645,6 +646,9 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         }),
         {}
       ) as postMap['metadata'];
+
+    // re-order meta keys alphabetically
+    meta = sortObjectByKeys(meta);
 
     const result: postMap = {
       metadata: meta,
