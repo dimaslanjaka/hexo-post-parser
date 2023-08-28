@@ -59,7 +59,7 @@
     "@types/jsdom": "^21.1.1",
     "@types/lodash": "^4.14.194",
     "@types/lodash.deburr": "^4.1.7",
-    "@types/markdown-it": "^12.2.3",
+    "@types/markdown-it": "^13.0.1",
     "@types/node": "^20.1.7",
     "@types/showdown": "^2",
     "@types/yargs": "^17.0.24",
