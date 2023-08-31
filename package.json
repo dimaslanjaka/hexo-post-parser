@@ -69,7 +69,7 @@
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/tarball/5560156be9745d682c7a5e727cffeee0b0179ab1",
     "debug": "^4.3.4",
     "eslint": "^8.40.0",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "git-command-helper": "^2.0.1",
     "gulp": "^4.0.2",
