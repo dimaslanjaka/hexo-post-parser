@@ -10,16 +10,23 @@
   },
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
-    "source.organizeImports": true
+    "source.organizeImports": false
   },
   "[typescript]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    }
   },
   "[javascript]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": false
+    }
   },
   "files.eol": "\n",
-  "eslint.packageManager": "yarn",
   "eslint.run": "onSave",
   "code-runner.runInTerminal": true,
   "code-runner.clearPreviousOutput": true,
