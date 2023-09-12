@@ -33,3 +33,6 @@ tmp
 
 # es2016
 /src-old
+
+# ignore yarn config in pre-release
+/.yarn*
