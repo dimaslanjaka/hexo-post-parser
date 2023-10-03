@@ -705,7 +705,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
   if (typeof testPage === 'object' && testPage !== null) return testPage;
 
   const parseFM = parsePostFM(target);
-  const mapFM = mapper(parseFM.attributes as postMeta);
+  const mapFM = mapper(parseFM.attributes);
   if (typeof mapFM === 'object' && mapFM !== null) return mapFM;
 
   return null;

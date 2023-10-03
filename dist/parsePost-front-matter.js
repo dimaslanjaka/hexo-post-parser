@@ -16,6 +16,8 @@ function parsePostFM(source) {
     if (fs_1.default.existsSync(source)) {
         content = fs_1.default.readFileSync(source).toString();
     }
-    return (0, front_matter_1.default)(content, { allowUnsafe: true });
+    return (0, front_matter_1.default)(content, {
+        allowUnsafe: true
+    });
 }
 exports.parsePostFM = parsePostFM;
