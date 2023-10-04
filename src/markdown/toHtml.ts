@@ -76,19 +76,19 @@ export function renderMarkdownIt(str: string) {
  * Fixable render markdown mixed with html
  * * render {@link postMap.body}
  * @todo render markdown to html
- * @param parse
+ * @param parsed
  * @param verbose dump
  * @returns
  */
-export function renderBodyMarkdown(parse: postMap, verbose = false) {
-  if (!parse) throw new Error('cannot render markdown of undefined');
+export function renderBodyMarkdown(parsed: postMap, verbose = false) {
+  if (!parsed) throw new Error('cannot render markdown of undefined');
 
-  let body: string = parse.body || parse.content;
+  let body: string = parsed.body || parsed.content;
   if (typeof body != 'string')
     throw new Error('cannot render undefined markdown body');
 
   // extract code block first
-  const re_code_block = /```[\s\S]*?```/gm;
+  const re_code_block = /^```\s?(\w.*\s+)?([\s\S]*?)```/gm;
   const codeBlocks: string[] = [];
   Array.from(body.matchAll(re_code_block)).forEach((m, i) => {
     const str = m[0];
@@ -122,6 +122,9 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
     write(join(process.cwd(), 'tmp/extracted-body.md'), body);
     write(join(process.cwd(), 'tmp/extracted-object.json'), extracted);
   }
+
+  // callbacks here
+
   // restore extracted code blocks
   codeBlocks.forEach((s, i) => {
     const regex = new RegExp(`<codeblock${i}/>`, 'gm');
@@ -131,6 +134,7 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
   });
   let rendered = renderMarkdownIt(body);
   if (verbose) write(join(process.cwd(), 'tmp/rendered.md'), rendered);
+
   // restore extracted script, style
   for (const key in re) {
     if (Object.prototype.hasOwnProperty.call(re, key)) {
