@@ -4,7 +4,13 @@ import { join, write } from '../node/filemanager';
 import { postMap } from '../types/postMap';
 import { renderMarkdownIt } from './toHtml';
 
+/**
+ * * group 0 = whole codeblock
+ * * group 1 = code language when exist otherwise inner codeblock
+ * * group 2 = inner codeblock
+ */
 export const re_code_block = /^```\s?(\w.*\s+)?([\s\S]*?)```/gm;
+export const re_inline_code_block = /`([^`\n\r]+)`/gm;
 export const re_script_tag = /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim;
 export const re_style_tag = /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim;
 
