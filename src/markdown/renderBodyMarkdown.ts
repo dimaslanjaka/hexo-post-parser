@@ -3,6 +3,9 @@ import { postMap } from '../types/postMap';
 import { renderMarkdownIt } from './toHtml';
 
 interface RenderBodyOptions extends postMap {
+  /**
+   * enable dump
+   */
   verbose?: boolean;
 }
 
@@ -11,16 +14,11 @@ interface RenderBodyOptions extends postMap {
  * * render {@link postMap.body}
  * @todo render markdown to html
  * @param options
- * @param verbose override dump (priority than options.verbose)
  * @returns
  */
-export default function renderBodyMarkdown(
-  options: RenderBodyOptions,
-  verbose = false
-) {
+export default function renderBodyMarkdown(options: RenderBodyOptions) {
   if (!options) throw new Error('cannot render markdown of undefined');
-  //
-  if ('verbose' in options && !verbose) verbose = options.verbose;
+  const { verbose } = options;
 
   let body: string = options.body || options.content;
   if (typeof body != 'string')
