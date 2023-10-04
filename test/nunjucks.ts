@@ -9,7 +9,6 @@ import { getConfig, parsePost } from '../src';
 import renderCodeblock from '../src/markdown/renderCodeblock';
 
 const file = join(__dirname, 'src-posts/nunjucks-in-markdown.md');
-
 parsePost(file, {
   formatDate: true,
   shortcodes: {
@@ -26,7 +25,7 @@ parsePost(file, {
   fix: true,
   sourceFile: file,
   config: getConfig()
-}).then((result) => {
+}).then(async (result) => {
   result.body = renderCodeblock(result.body);
   writefile(__dirname + '/tmp/nunjucks.md', result.body);
 });
