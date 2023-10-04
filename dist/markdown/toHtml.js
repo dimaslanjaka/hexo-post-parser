@@ -96,7 +96,7 @@ function renderBodyMarkdown(parse, verbose = false) {
         body = body.replace(str, `<codeblock${i}/>`);
     });
     if (verbose) {
-        (0, filemanager_1.write)((0, filemanager_1.join)(__dirname, 'tmp/extracted-codeblock.json'), codeBlocks);
+        (0, filemanager_1.write)((0, filemanager_1.join)(process.cwd(), 'tmp/extracted-codeblock.json'), codeBlocks);
     }
     // extract style, script
     const re = {
@@ -118,8 +118,8 @@ function renderBodyMarkdown(parse, verbose = false) {
         }
     }
     if (verbose) {
-        (0, filemanager_1.write)((0, filemanager_1.join)(__dirname, 'tmp/extracted-body.md'), body);
-        (0, filemanager_1.write)((0, filemanager_1.join)(__dirname, 'tmp/extracted-object.json'), extracted);
+        (0, filemanager_1.write)((0, filemanager_1.join)(process.cwd(), 'tmp/extracted-body.md'), body);
+        (0, filemanager_1.write)((0, filemanager_1.join)(process.cwd(), 'tmp/extracted-object.json'), extracted);
     }
     // restore extracted code blocks
     codeBlocks.forEach((s, i) => {
@@ -130,7 +130,7 @@ function renderBodyMarkdown(parse, verbose = false) {
     });
     let rendered = renderMarkdownIt(body);
     if (verbose)
-        (0, filemanager_1.write)((0, filemanager_1.join)(__dirname, 'tmp/rendered.md'), rendered);
+        (0, filemanager_1.write)((0, filemanager_1.join)(process.cwd(), 'tmp/rendered.md'), rendered);
     // restore extracted script, style
     for (const key in re) {
         if (Object.prototype.hasOwnProperty.call(re, key)) {
@@ -145,7 +145,7 @@ function renderBodyMarkdown(parse, verbose = false) {
         }
     }
     if (verbose)
-        (0, filemanager_1.write)((0, filemanager_1.join)(__dirname, 'tmp/restored.md'), rendered);
+        (0, filemanager_1.write)((0, filemanager_1.join)(process.cwd(), 'tmp/restored.md'), rendered);
     return rendered;
 }
 exports.renderBodyMarkdown = renderBodyMarkdown;

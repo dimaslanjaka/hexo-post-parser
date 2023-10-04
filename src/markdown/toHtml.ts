@@ -96,7 +96,7 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
     body = body.replace(str, `<codeblock${i}/>`);
   });
   if (verbose) {
-    write(join(__dirname, 'tmp/extracted-codeblock.json'), codeBlocks);
+    write(join(process.cwd(), 'tmp/extracted-codeblock.json'), codeBlocks);
   }
 
   // extract style, script
@@ -119,8 +119,8 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
     }
   }
   if (verbose) {
-    write(join(__dirname, 'tmp/extracted-body.md'), body);
-    write(join(__dirname, 'tmp/extracted-object.json'), extracted);
+    write(join(process.cwd(), 'tmp/extracted-body.md'), body);
+    write(join(process.cwd(), 'tmp/extracted-object.json'), extracted);
   }
   // restore extracted code blocks
   codeBlocks.forEach((s, i) => {
@@ -130,7 +130,7 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
     });
   });
   let rendered = renderMarkdownIt(body);
-  if (verbose) write(join(__dirname, 'tmp/rendered.md'), rendered);
+  if (verbose) write(join(process.cwd(), 'tmp/rendered.md'), rendered);
   // restore extracted script, style
   for (const key in re) {
     if (Object.prototype.hasOwnProperty.call(re, key)) {
@@ -146,6 +146,6 @@ export function renderBodyMarkdown(parse: postMap, verbose = false) {
     }
   }
 
-  if (verbose) write(join(__dirname, 'tmp/restored.md'), rendered);
+  if (verbose) write(join(process.cwd(), 'tmp/restored.md'), rendered);
   return rendered;
 }
