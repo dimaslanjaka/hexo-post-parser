@@ -67,7 +67,6 @@
     "@typescript-eslint/parser": "^6.7.0",
     "binary-collections": "^1.0.3",
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/ff4b648/release/cross-spawn.tgz",
-    "debug": "^4.3.4",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -94,6 +93,7 @@
     "axios": "^1.4.0",
     "bluebird": "^3.7.2",
     "chalk": "^4.1.2",
+    "debug": "^4.3.4",
     "front-matter": "^4.0.2",
     "fs-extra": "^11.1.1",
     "glob": "^10.2.4",
@@ -121,7 +121,7 @@
     "test": "test",
     "lib": "dist"
   },
-  "packageManager": "yarn@3.6.3",
+  "packageManager": "yarn@3.6.4",
   "engines": {
     "node": ">=14.0.0"
   }
