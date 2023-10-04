@@ -4,6 +4,10 @@ import { join, write } from '../node/filemanager';
 import { postMap } from '../types/postMap';
 import { renderMarkdownIt } from './toHtml';
 
+export const re_code_block = /^```\s?(\w.*\s+)?([\s\S]*?)```/gm;
+export const re_script_tag = /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim;
+export const re_style_tag = /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim;
+
 interface RenderBodyOptions extends postMap {
   /**
    * enable dump
@@ -47,7 +51,6 @@ class RenderMarkdownBody extends events.EventEmitter {
     // eslint-disable-next-line prefer-const
     let { body, verbose } = this.options;
     // extract code block first
-    const re_code_block = /^```\s?(\w.*\s+)?([\s\S]*?)```/gm;
     const codeBlocks: string[] = [];
     Array.from(body.matchAll(re_code_block)).forEach((m, i) => {
       const str = m[0];
@@ -64,8 +67,8 @@ class RenderMarkdownBody extends events.EventEmitter {
   }
 
   private re = {
-    script: /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim,
-    style: /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim
+    script: re_script_tag,
+    style: re_style_tag
   };
   extractStyleScript() {
     // eslint-disable-next-line prefer-const
