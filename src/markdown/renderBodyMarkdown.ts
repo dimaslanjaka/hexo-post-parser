@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
+import { default as events } from 'events';
 import { join, write } from '../node/filemanager';
 import { postMap } from '../types/postMap';
 import { renderMarkdownIt } from './toHtml';
@@ -9,6 +11,139 @@ interface RenderBodyOptions extends postMap {
   verbose?: boolean;
 }
 
+interface ClassEvents {
+  beforeRender: (body: string) => void;
+  afterRender: (body: string) => void;
+}
+
+interface RenderMarkdownBody {
+  on<U extends keyof ClassEvents>(event: U, listener: ClassEvents[U]): this;
+
+  emit<U extends keyof ClassEvents>(
+    event: U,
+    ...args: Parameters<ClassEvents[U]>
+  ): boolean;
+}
+
+class RenderMarkdownBody extends events.EventEmitter {
+  private options: RenderBodyOptions;
+  private codeBlocks: string[] = [];
+  private styleScriptBlocks = {
+    script: [] as string[],
+    style: [] as string[]
+  };
+
+  constructor(options: RenderBodyOptions) {
+    super();
+    // fix when body assigned to property content
+    if (!options.body) options.body = options.content;
+    this.options = options;
+  }
+
+  /**
+   * extract markdown codeblock
+   */
+  extractCodeBlock() {
+    // eslint-disable-next-line prefer-const
+    let { body, verbose } = this.options;
+    // extract code block first
+    const re_code_block = /^```\s?(\w.*\s+)?([\s\S]*?)```/gm;
+    const codeBlocks: string[] = [];
+    Array.from(body.matchAll(re_code_block)).forEach((m, i) => {
+      const str = m[0];
+      codeBlocks[i] = str;
+      body = body.replace(str, `<codeblock${i}/>`);
+    });
+    if (verbose) {
+      write(join(process.cwd(), 'tmp/extracted-codeblock.json'), codeBlocks);
+    }
+    // apply
+    this.codeBlocks = codeBlocks;
+    this.options.body = body;
+    return this;
+  }
+
+  private re = {
+    script: /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim,
+    style: /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim
+  };
+  extractStyleScript() {
+    // eslint-disable-next-line prefer-const
+    let { body, verbose } = this.options;
+    const re = this.re;
+    const extracted = this.styleScriptBlocks;
+    for (const key in re) {
+      if (Object.prototype.hasOwnProperty.call(re, key)) {
+        const regex = re[key as keyof typeof extracted];
+        Array.from(body.matchAll(regex)).forEach((m, i) => {
+          const str = m[0];
+          extracted[key as keyof typeof extracted][i] = str;
+          body = body.replace(str, `<!--${key}${i}-->`);
+        });
+      }
+    }
+    if (verbose) {
+      write(join(process.cwd(), 'tmp/extracted-body.md'), body);
+      write(join(process.cwd(), 'tmp/extracted-object.json'), extracted);
+    }
+    // apply
+    this.styleScriptBlocks = extracted;
+    this.options.body = body;
+    return this;
+  }
+
+  restoreCodeBlock() {
+    // eslint-disable-next-line prefer-const
+    let { body } = this.options;
+    this.codeBlocks.forEach((s, i) => {
+      const regex = new RegExp(`<codeblock${i}/>`, 'gm');
+      Array.from(body.matchAll(regex)).forEach((codeblock) => {
+        body = body.replace(codeblock[0], s);
+      });
+    });
+    // apply
+    this.options.body = body;
+    return this;
+  }
+
+  restoreStyleScript() {
+    const re = this.re;
+    const extracted = this.styleScriptBlocks;
+    let rendered = this.options.body;
+    for (const key in re) {
+      const regex = new RegExp(`<!--(${key})(\\d{1,2})-->`, 'gm');
+      Array.from(rendered.matchAll(regex)).forEach((m) => {
+        //console.log(match.length, regex, m[0], m[1], m[2]);
+        const keyname = m[1];
+        const index = parseInt(m[2]);
+        const extractmatch =
+          extracted[keyname as keyof typeof extracted][index];
+        rendered = rendered.replace(m[0], extractmatch);
+      });
+    }
+    // apply
+    this.options.body = rendered;
+    return this;
+  }
+
+  renderMarkdown() {
+    // eslint-disable-next-line prefer-const
+    let { body, verbose } = this.options;
+    this.emit('beforeRender', body);
+    const rendered = renderMarkdownIt(body);
+    if (verbose) write(join(process.cwd(), 'tmp/rendered.md'), rendered);
+    // apply
+    this.options.body = rendered;
+    return this;
+  }
+
+  getResult() {
+    return this.options.body;
+  }
+}
+
+export { RenderMarkdownBody };
+
 /**
  * Fixable render markdown mixed with html
  * * render {@link postMap.body}
@@ -18,71 +153,23 @@ interface RenderBodyOptions extends postMap {
  */
 export default function renderBodyMarkdown(options: RenderBodyOptions) {
   if (!options) throw new Error('cannot render markdown of undefined');
+
+  const c = new RenderMarkdownBody(options);
+
   const { verbose } = options;
 
-  let body: string = options.body || options.content;
-  if (typeof body != 'string')
-    throw new Error('cannot render undefined markdown body');
-
   // extract code block first
-  const re_code_block = /^```\s?(\w.*\s+)?([\s\S]*?)```/gm;
-  const codeBlocks: string[] = [];
-  Array.from(body.matchAll(re_code_block)).forEach((m, i) => {
-    const str = m[0];
-    codeBlocks[i] = str;
-    body = body.replace(str, `<codeblock${i}/>`);
-  });
-  if (verbose) {
-    write(join(process.cwd(), 'tmp/extracted-codeblock.json'), codeBlocks);
-  }
+  c.extractCodeBlock()
+    // extract style, script
+    .extractStyleScript()
+    // restore extracted code blocks
+    .restoreCodeBlock()
+    // callbacks here
+    .renderMarkdown()
+    // restore extracted script, style
+    .restoreStyleScript();
 
-  // extract style, script
-  const re = {
-    script: /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim,
-    style: /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim
-  };
-  const extracted = {
-    script: [] as string[],
-    style: [] as string[]
-  };
-  for (const key in re) {
-    if (Object.prototype.hasOwnProperty.call(re, key)) {
-      const regex = re[key as keyof typeof extracted];
-      Array.from(body.matchAll(regex)).forEach((m, i) => {
-        const str = m[0];
-        extracted[key as keyof typeof extracted][i] = str;
-        body = body.replace(str, `<!--${key}${i}-->`);
-      });
-    }
-  }
-  if (verbose) {
-    write(join(process.cwd(), 'tmp/extracted-body.md'), body);
-    write(join(process.cwd(), 'tmp/extracted-object.json'), extracted);
-  }
-
-  // restore extracted code blocks
-  codeBlocks.forEach((s, i) => {
-    const regex = new RegExp(`<codeblock${i}/>`, 'gm');
-    Array.from(body.matchAll(regex)).forEach((codeblock) => {
-      body = body.replace(codeblock[0], s);
-    });
-  });
-
-  // callbacks here
-  let rendered = renderMarkdownIt(body);
-  if (verbose) write(join(process.cwd(), 'tmp/rendered.md'), rendered);
-
-  // restore extracted script, style
-  for (const key in re) {
-    const regex = new RegExp(`<!--(${key})(\\d{1,2})-->`, 'gm');
-    Array.from(rendered.matchAll(regex)).forEach((m) => {
-      //console.log(match.length, regex, m[0], m[1], m[2]);
-      const keyname = m[1];
-      const index = parseInt(m[2]);
-      const extractmatch = extracted[keyname as keyof typeof extracted][index];
-      rendered = rendered.replace(m[0], extractmatch);
-    });
-  }
+  const rendered = c.getResult();
 
   if (verbose) write(join(process.cwd(), 'tmp/restored.md'), rendered);
   return rendered;
