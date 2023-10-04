@@ -1,6 +1,7 @@
 export declare function require<T>(name: string): T;
 export * from './buildPost';
 export * from './generatePostId';
+export { default as renderBodyMarkdown } from './markdown/renderBodyMarkdown';
 export { renderMarkdownIt as renderMarkdown } from './markdown/toHtml';
 export * as color from './node/color';
 export * from './parsePermalink';

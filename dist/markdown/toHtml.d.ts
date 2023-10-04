@@ -1,4 +1,3 @@
-import { postMap } from '../types/postMap';
 export declare const converterOpt: {
     strikethrough: boolean;
     tables: boolean;
@@ -24,12 +23,3 @@ export default function renderShowdown(str: string): string;
  * @returns
  */
 export declare function renderMarkdownIt(str: string): string;
-/**
- * Fixable render markdown mixed with html
- * * render {@link postMap.body}
- * @todo render markdown to html
- * @param parse
- * @param verbose dump
- * @returns
- */
-export declare function renderBodyMarkdown(parse: postMap, verbose?: boolean): string;
