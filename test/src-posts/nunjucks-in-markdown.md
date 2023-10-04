@@ -21,4 +21,5 @@ const var = `build-${{ hashFiles('package-lock.json') }}`
 
 ## below is meta info
 
-published: {{ date }}
+- published: {{ page.date }}
+- modified: {{ page.updated }}
