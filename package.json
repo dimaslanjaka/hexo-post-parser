@@ -8,6 +8,7 @@
   "scripts": {
     "clean": "rm -rf dist && tsc -b --clean",
     "build": "tsc --build tsconfig.build.json",
+    "build-clean": "yarn clean && yarn build",
     "pack": "node packer.js --yarn",
     "docs": "node typedoc-runner.js --publish",
     "format": "prettier -w src/**/*.ts",
