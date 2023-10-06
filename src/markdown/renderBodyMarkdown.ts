@@ -146,8 +146,21 @@ class RenderMarkdownBody extends events.EventEmitter {
     return this;
   }
 
-  getResult() {
+  /**
+   * get the content
+   * @returns
+   */
+  getContent() {
     return this.options.body;
+  }
+
+  /**
+   * update the content
+   * @param content
+   */
+  setContent(content: string) {
+    this.options.body = content;
+    return this;
   }
 }
 
@@ -178,7 +191,7 @@ export default function renderBodyMarkdown(options: RenderBodyOptions) {
     // restore extracted script, style
     .restoreStyleScript();
 
-  const rendered = c.getResult();
+  const rendered = c.getContent();
 
   if (verbose) write(join(process.cwd(), 'tmp/restored.md'), rendered);
   return rendered;
