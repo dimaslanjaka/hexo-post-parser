@@ -1,7 +1,6 @@
 /// <reference types="node" />
 /// <reference types="node" />
 /// <reference types="node" />
-/// <reference types="node" />
 import Bluebird from 'bluebird';
 import * as fs from 'fs-extra';
 import upath from 'upath';
@@ -97,6 +96,6 @@ export declare function read(path: string, opt?: Parameters<typeof fs.readFileSy
 export declare const join: typeof upath.join;
 export declare const write: (path: fs.PathLike, content: any) => Bluebird<string | Buffer | import("url").URL>, rmdirSync: (path: fs.PathLike, options?: fs.RmOptions) => void, rm: (path: fs.PathLike, options?: fs.RmOptions | fs.NoParamCallback, callback?: fs.NoParamCallback) => void, mkdirSync: (path: fs.PathLike, options?: fs.MakeDirectoryOptions) => string;
 export declare const fsreadDirSync: typeof fs.readdirSync;
-export declare const existsSync: typeof fs.existsSync, readFileSync: typeof fs.readFileSync, appendFileSync: typeof fs.appendFileSync, statSync: fs.StatSyncFn;
+export declare const existsSync: typeof fs.existsSync, readFileSync: typeof fs.readFileSync, appendFileSync: typeof fs.appendFileSync, statSync: typeof fs.statSync;
 export declare const basename: typeof upath.basename, relative: typeof upath.relative, extname: typeof upath.extname;
 export declare const PATH_SEPARATOR: "/" | "\\";
