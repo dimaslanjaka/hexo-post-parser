@@ -6,7 +6,11 @@ import {
   writeFileSync
 } from 'fs-extra';
 import { JSDOM } from 'jsdom';
-import { persistentCache } from 'sbg-utility';
+import {
+  jsonStringifyWithCircularRefs,
+  persistentCache,
+  writefile
+} from 'sbg-utility';
 import { basename, dirname, join, toUnix } from 'upath';
 import yaml from 'yaml';
 import { generatePostId } from './generatePostId';
@@ -45,9 +49,10 @@ let _cache: persistentCache;
  */
 export async function parsePost(target: string, options: ParseOptions = {}) {
   if (!target) return null;
+  const tmpDir = join(process.cwd(), 'tmp/hexo-post-parser');
   if (!_cache) {
     _cache = new persistentCache({
-      base: join(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),
+      base: tmpDir, //join(process.cwd(), 'node_modules/.cache/persistent'),
       name: 'parsePost',
       duration: 1000 * 3600 * 24 // 24 hours
     });
@@ -113,13 +118,22 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     if (Array.isArray(m)) {
       body = m[2];
       try {
-        meta = yaml.parse(m[1]);
+        meta = yaml.parse(m[1]) || meta;
       } catch (error) {
-        if (error instanceof Error) {
-          console.log('metadata', error.message);
-        } else {
-          console.log('metadata', error);
-        }
+        // if (error instanceof Error) {
+        //   console.log('metadata', error.message);
+        // } else {
+        //   console.log('metadata', error);
+        // }
+        const w = writefile(
+          join(
+            tmpDir,
+            'errors',
+            sanitizeFilename(basename(options.sourceFile).trim(), '-') + '.json'
+          ),
+          jsonStringifyWithCircularRefs(error)
+        );
+        console.error('metadata error written', w.file);
         return null;
       }
     } else {

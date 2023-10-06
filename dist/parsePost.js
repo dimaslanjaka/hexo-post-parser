@@ -76,9 +76,10 @@ function parsePost(target, options = {}) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!target)
             return null;
+        const tmpDir = (0, upath_1.join)(process.cwd(), 'tmp/hexo-post-parser');
         if (!_cache) {
             _cache = new sbg_utility_1.persistentCache({
-                base: (0, upath_1.join)(process.cwd(), 'tmp'),
+                base: tmpDir,
                 name: 'parsePost',
                 duration: 1000 * 3600 * 24 // 24 hours
             });
@@ -143,15 +144,16 @@ function parsePost(target, options = {}) {
             if (Array.isArray(m)) {
                 body = m[2];
                 try {
-                    meta = yaml_1.default.parse(m[1]);
+                    meta = yaml_1.default.parse(m[1]) || meta;
                 }
                 catch (error) {
-                    if (error instanceof Error) {
-                        console.log('metadata', error.message);
-                    }
-                    else {
-                        console.log('metadata', error);
-                    }
+                    // if (error instanceof Error) {
+                    //   console.log('metadata', error.message);
+                    // } else {
+                    //   console.log('metadata', error);
+                    // }
+                    const w = (0, sbg_utility_1.writefile)((0, upath_1.join)(tmpDir, 'errors', (0, sanitize_filename_1.default)((0, upath_1.basename)(options.sourceFile).trim(), '-') + '.json'), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(error));
+                    console.error('metadata error written', w.file);
                     return null;
                 }
             }
