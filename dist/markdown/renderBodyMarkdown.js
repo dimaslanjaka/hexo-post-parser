@@ -55,6 +55,9 @@ class RenderMarkdownBody extends events_1.default.EventEmitter {
         this.options.body = body;
         return this;
     }
+    getExtractedCodeblock() {
+        return this.codeBlocks;
+    }
     extractStyleScript() {
         // eslint-disable-next-line prefer-const
         let { body, verbose } = this.options;
@@ -78,6 +81,9 @@ class RenderMarkdownBody extends events_1.default.EventEmitter {
         this.styleScriptBlocks = extracted;
         this.options.body = body;
         return this;
+    }
+    getExtractedStyleScript() {
+        return this.styleScriptBlocks;
     }
     restoreCodeBlock() {
         // eslint-disable-next-line prefer-const

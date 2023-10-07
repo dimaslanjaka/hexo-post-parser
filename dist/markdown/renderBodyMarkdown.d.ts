@@ -37,8 +37,13 @@ declare class RenderMarkdownBody extends events.EventEmitter {
      * extract markdown codeblock
      */
     extractCodeBlock(): this;
+    getExtractedCodeblock(): string[];
     private re;
     extractStyleScript(): this;
+    getExtractedStyleScript(): {
+        script: string[];
+        style: string[];
+    };
     restoreCodeBlock(): this;
     restoreStyleScript(): this;
     renderMarkdown(): this;

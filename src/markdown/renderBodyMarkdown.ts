@@ -28,6 +28,7 @@ interface RenderBodyOptions extends Partial<postMap> {
 interface ClassEvents {
   beforeRender: (body: string) => void;
   afterRender: (body: string) => void;
+  // beforeExtractCodeblock: (codeblock: string) => string;
 }
 
 interface RenderMarkdownBody {
@@ -60,6 +61,7 @@ class RenderMarkdownBody extends events.EventEmitter {
   extractCodeBlock() {
     // eslint-disable-next-line prefer-const
     let { body, verbose } = this.options;
+
     // extract code block first
     const codeBlocks: string[] = [];
     Array.from(body.matchAll(re_code_block)).forEach((m, i) => {
@@ -76,10 +78,15 @@ class RenderMarkdownBody extends events.EventEmitter {
     return this;
   }
 
+  getExtractedCodeblock() {
+    return this.codeBlocks;
+  }
+
   private re = {
     script: re_script_tag,
     style: re_style_tag
   };
+
   extractStyleScript() {
     // eslint-disable-next-line prefer-const
     let { body, verbose } = this.options;
@@ -103,6 +110,10 @@ class RenderMarkdownBody extends events.EventEmitter {
     this.styleScriptBlocks = extracted;
     this.options.body = body;
     return this;
+  }
+
+  getExtractedStyleScript() {
+    return this.styleScriptBlocks;
   }
 
   restoreCodeBlock() {
