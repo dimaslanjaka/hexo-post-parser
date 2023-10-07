@@ -14,11 +14,15 @@ export const re_inline_code_block = /`([^`\n\r]+)`/gm;
 export const re_script_tag = /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim;
 export const re_style_tag = /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim;
 
-interface RenderBodyOptions extends postMap {
+interface RenderBodyOptions extends Partial<postMap> {
   /**
    * enable dump
    */
   verbose?: boolean;
+  /**
+   * the content
+   */
+  body: string;
 }
 
 interface ClassEvents {

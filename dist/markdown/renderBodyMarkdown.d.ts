@@ -10,11 +10,15 @@ export declare const re_code_block: RegExp;
 export declare const re_inline_code_block: RegExp;
 export declare const re_script_tag: RegExp;
 export declare const re_style_tag: RegExp;
-interface RenderBodyOptions extends postMap {
+interface RenderBodyOptions extends Partial<postMap> {
     /**
      * enable dump
      */
     verbose?: boolean;
+    /**
+     * the content
+     */
+    body: string;
 }
 interface ClassEvents {
     beforeRender: (body: string) => void;
