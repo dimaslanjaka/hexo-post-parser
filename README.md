@@ -34,28 +34,29 @@ generator:
 parse post overriden options
 ```typescript
 const { parsePost } = require('hexo-post-parser');
-parsePost('/path/to/file.md', {
-shortcodes: {
-  youtube: true,
-  css: true,
-  include: true,
-  link: true,
-  now: true,
-  script: true,
-  text: true,
-  codeblock: true
-},
-config: {
-  generator: {
-    cache: false,
-    verbose: false,
-    amp: false,
-    type: 'hexo'
-  }
-},
-formatDate: true,
-fix: true,
-sourceFile: file.path
+const filePath = '/path/to/file.md';
+parsePost(filePath, {
+  shortcodes: {
+    youtube: true,
+    css: true,
+    include: true,
+    link: true,
+    now: true,
+    script: true,
+    text: true,
+    codeblock: true
+  },
+  config: {
+    generator: {
+      cache: false,
+      verbose: false,
+      amp: false,
+      type: 'hexo'
+    }
+  },
+  formatDate: true,
+  fix: true,
+  sourceFile: filePath
 })
 ```
 
