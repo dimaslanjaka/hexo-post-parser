@@ -34,7 +34,9 @@ generator:
 parse post overriden options
 ```typescript
 const { parsePost } = require('hexo-post-parser');
-parsePost('/path/to/file.md', {
+
+const filePath = '/path/to/file.md';
+parsePost(filePath, {
 shortcodes: {
   youtube: true,
   css: true,
@@ -55,7 +57,7 @@ config: {
 },
 formatDate: true,
 fix: true,
-sourceFile: file.path
+sourceFile: filePath
 })
 ```
 
