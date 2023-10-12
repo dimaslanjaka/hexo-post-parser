@@ -1,5 +1,4 @@
 import path from 'upath';
-import debug from './node/debug';
 import { moment } from './parseDateMapper';
 import { getConfig } from './types/_config';
 
@@ -26,7 +25,7 @@ export function parsePermalink(
     title: string;
   }
 ) {
-  debug('permalink').extend('source')(post);
+  // debug('permalink').extend('source')(post);
   let pattern = config.permalink || getConfig().permalink;
   const date = config.date;
   const cleanPathname = post.replace(/.md$/, '');
@@ -79,6 +78,6 @@ export function parsePermalink(
   const newPattern = pattern.replace(/%20/g, ' ');
   const result = newPattern.replace(/\/{2,10}/g, '/').replace(config.url, '');
 
-  debug('permalink').extend('result')(result);
+  // debug('permalink').extend('result')(result);
   return result;
 }

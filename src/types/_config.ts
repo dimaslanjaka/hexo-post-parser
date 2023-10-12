@@ -4,11 +4,13 @@ import { join } from 'upath';
 import yaml from 'yaml';
 import yargs from 'yargs';
 
-const argv = yargs(process.argv.slice(2)).argv;
+const argv = yargs(process.argv.slice(2)).argv as Record<string, any> & {
+  _: any[];
+};
 const nocache = argv['nocache'];
 const verbose = argv['verbose'];
 
-const defaultSiteOptions = {
+const defaultSiteOptions: import('hexo')['config'] = {
   // Site
   title: 'Hexo',
   subtitle: '',
@@ -61,7 +63,8 @@ const defaultSiteOptions = {
   prismjs: {
     preprocess: true,
     line_number: true,
-    tab_replace: ''
+    tab_replace: '',
+    exclude_languages: []
   },
   // Category & Tag
   default_category: 'uncategorized',
@@ -152,7 +155,7 @@ export function setConfig(obj: Record<string, any>) {
   return settledOptions;
 }
 
-export { verbose, nocache };
+export { nocache, verbose };
 
 type HC = import('sbg-utility').config.ProjConf;
 

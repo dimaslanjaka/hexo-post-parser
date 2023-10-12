@@ -1,4 +1,6 @@
 **/node_modules
+yarn.lock
+package-lock.json
 
 # keep all dist files
 !dist
@@ -31,3 +33,6 @@ tmp
 
 # es2016
 /src-old
+
+# ignore yarn config in pre-release
+/.yarn*

@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePermalink = void 0;
 const upath_1 = __importDefault(require("upath"));
-const debug_1 = __importDefault(require("./node/debug"));
 const parseDateMapper_1 = require("./parseDateMapper");
 const _config_1 = require("./types/_config");
 /**
@@ -13,7 +12,7 @@ const _config_1 = require("./types/_config");
  * @param post post path
  */
 function parsePermalink(post, config) {
-    (0, debug_1.default)('permalink').extend('source')(post);
+    // debug('permalink').extend('source')(post);
     let pattern = config.permalink || (0, _config_1.getConfig)().permalink;
     const date = config.date;
     const cleanPathname = post.replace(/.md$/, '');
@@ -54,7 +53,7 @@ function parsePermalink(post, config) {
     // replace %20 to space
     const newPattern = pattern.replace(/%20/g, ' ');
     const result = newPattern.replace(/\/{2,10}/g, '/').replace(config.url, '');
-    (0, debug_1.default)('permalink').extend('result')(result);
+    // debug('permalink').extend('result')(result);
     return result;
 }
 exports.parsePermalink = parsePermalink;
