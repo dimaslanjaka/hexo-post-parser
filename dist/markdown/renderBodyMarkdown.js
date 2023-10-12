@@ -55,6 +55,9 @@ class RenderMarkdownBody extends events_1.default.EventEmitter {
         this.options.body = body;
         return this;
     }
+    getExtractedCodeblock() {
+        return this.codeBlocks;
+    }
     extractStyleScript() {
         // eslint-disable-next-line prefer-const
         let { body, verbose } = this.options;
@@ -78,6 +81,9 @@ class RenderMarkdownBody extends events_1.default.EventEmitter {
         this.styleScriptBlocks = extracted;
         this.options.body = body;
         return this;
+    }
+    getExtractedStyleScript() {
+        return this.styleScriptBlocks;
     }
     restoreCodeBlock() {
         // eslint-disable-next-line prefer-const
@@ -121,8 +127,20 @@ class RenderMarkdownBody extends events_1.default.EventEmitter {
         this.options.body = rendered;
         return this;
     }
-    getResult() {
+    /**
+     * get the content
+     * @returns
+     */
+    getContent() {
         return this.options.body;
+    }
+    /**
+     * update the content
+     * @param content
+     */
+    setContent(content) {
+        this.options.body = content;
+        return this;
     }
 }
 exports.RenderMarkdownBody = RenderMarkdownBody;
@@ -148,7 +166,7 @@ function renderBodyMarkdown(options) {
         .renderMarkdown()
         // restore extracted script, style
         .restoreStyleScript();
-    const rendered = c.getResult();
+    const rendered = c.getContent();
     if (verbose)
         (0, filemanager_1.write)((0, filemanager_1.join)(process.cwd(), 'tmp/restored.md'), rendered);
     return rendered;

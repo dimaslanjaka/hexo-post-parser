@@ -14,16 +14,21 @@ export const re_inline_code_block = /`([^`\n\r]+)`/gm;
 export const re_script_tag = /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim;
 export const re_style_tag = /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim;
 
-interface RenderBodyOptions extends postMap {
+interface RenderBodyOptions extends Partial<postMap> {
   /**
    * enable dump
    */
   verbose?: boolean;
+  /**
+   * the content
+   */
+  body: string;
 }
 
 interface ClassEvents {
   beforeRender: (body: string) => void;
   afterRender: (body: string) => void;
+  // beforeExtractCodeblock: (codeblock: string) => string;
 }
 
 interface RenderMarkdownBody {
@@ -56,6 +61,7 @@ class RenderMarkdownBody extends events.EventEmitter {
   extractCodeBlock() {
     // eslint-disable-next-line prefer-const
     let { body, verbose } = this.options;
+
     // extract code block first
     const codeBlocks: string[] = [];
     Array.from(body.matchAll(re_code_block)).forEach((m, i) => {
@@ -72,10 +78,15 @@ class RenderMarkdownBody extends events.EventEmitter {
     return this;
   }
 
+  getExtractedCodeblock() {
+    return this.codeBlocks;
+  }
+
   private re = {
     script: re_script_tag,
     style: re_style_tag
   };
+
   extractStyleScript() {
     // eslint-disable-next-line prefer-const
     let { body, verbose } = this.options;
@@ -99,6 +110,10 @@ class RenderMarkdownBody extends events.EventEmitter {
     this.styleScriptBlocks = extracted;
     this.options.body = body;
     return this;
+  }
+
+  getExtractedStyleScript() {
+    return this.styleScriptBlocks;
   }
 
   restoreCodeBlock() {
@@ -146,8 +161,21 @@ class RenderMarkdownBody extends events.EventEmitter {
     return this;
   }
 
-  getResult() {
+  /**
+   * get the content
+   * @returns
+   */
+  getContent() {
     return this.options.body;
+  }
+
+  /**
+   * update the content
+   * @param content
+   */
+  setContent(content: string) {
+    this.options.body = content;
+    return this;
   }
 }
 
@@ -178,7 +206,7 @@ export default function renderBodyMarkdown(options: RenderBodyOptions) {
     // restore extracted script, style
     .restoreStyleScript();
 
-  const rendered = c.getResult();
+  const rendered = c.getContent();
 
   if (verbose) write(join(process.cwd(), 'tmp/restored.md'), rendered);
   return rendered;

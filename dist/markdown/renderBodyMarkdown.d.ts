@@ -10,11 +10,15 @@ export declare const re_code_block: RegExp;
 export declare const re_inline_code_block: RegExp;
 export declare const re_script_tag: RegExp;
 export declare const re_style_tag: RegExp;
-interface RenderBodyOptions extends postMap {
+interface RenderBodyOptions extends Partial<postMap> {
     /**
      * enable dump
      */
     verbose?: boolean;
+    /**
+     * the content
+     */
+    body: string;
 }
 interface ClassEvents {
     beforeRender: (body: string) => void;
@@ -33,12 +37,26 @@ declare class RenderMarkdownBody extends events.EventEmitter {
      * extract markdown codeblock
      */
     extractCodeBlock(): this;
+    getExtractedCodeblock(): string[];
     private re;
     extractStyleScript(): this;
+    getExtractedStyleScript(): {
+        script: string[];
+        style: string[];
+    };
     restoreCodeBlock(): this;
     restoreStyleScript(): this;
     renderMarkdown(): this;
-    getResult(): string;
+    /**
+     * get the content
+     * @returns
+     */
+    getContent(): string;
+    /**
+     * update the content
+     * @param content
+     */
+    setContent(content: string): this;
 }
 export { RenderMarkdownBody };
 /**
