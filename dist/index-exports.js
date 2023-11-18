@@ -25,8 +25,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setConfig = exports.getConfig = exports.color = exports.renderMarkdown = void 0;
+exports.setConfig = exports.getConfig = exports.color = exports.renderMarkdown = exports.renderBodyMarkdown = void 0;
 /// special exports
 const fs_1 = require("fs");
 const path_1 = require("path");
@@ -46,6 +49,8 @@ const path_1 = require("path");
 /// exports
 __exportStar(require("./buildPost"), exports);
 __exportStar(require("./generatePostId"), exports);
+var renderBodyMarkdown_1 = require("./markdown/renderBodyMarkdown");
+Object.defineProperty(exports, "renderBodyMarkdown", { enumerable: true, get: function () { return __importDefault(renderBodyMarkdown_1).default; } });
 var toHtml_1 = require("./markdown/toHtml");
 Object.defineProperty(exports, "renderMarkdown", { enumerable: true, get: function () { return toHtml_1.renderMarkdownIt; } });
 exports.color = __importStar(require("./node/color"));

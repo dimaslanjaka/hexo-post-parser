@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.post_source_dir = exports.post_generated_dir = exports.nocache = exports.verbose = exports.setConfig = exports.getConfig = exports.findConfig = void 0;
+exports.post_source_dir = exports.post_generated_dir = exports.verbose = exports.nocache = exports.setConfig = exports.getConfig = exports.findConfig = void 0;
 const fs_extra_1 = require("fs-extra");
 const process_1 = require("process");
 const upath_1 = require("upath");
@@ -67,7 +67,8 @@ const defaultSiteOptions = {
     prismjs: {
         preprocess: true,
         line_number: true,
-        tab_replace: ''
+        tab_replace: '',
+        exclude_languages: []
     },
     // Category & Tag
     default_category: 'uncategorized',
