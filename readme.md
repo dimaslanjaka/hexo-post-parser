@@ -1,7 +1,7 @@
-# hexo-post-parser
+# JS Parse FrontMatter Markdown Post
 [![Build](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build.yml)
 
-Parse Hexo Posts To Object
+Parse **FrontMatter Markdown** Posts To Javascript Object
 
 - [READ FULL EXAMPLE](https://github.com/dimaslanjaka/hexo-post-parser/tree/master/tests)
 - [Typescript Source Code](https://github.com/dimaslanjaka/hexo-post-parser/tree/master/src)
@@ -11,11 +11,38 @@ Parse Hexo Posts To Object
 ## Features
 - Parsing HexoJS markdown post
 - Parsing Jekyll markdown post
+- Parsing Hugo markdown post
+- Parsing Frontmatter markdown
 - Post Asset Folder Auto Fix for HexoJS
 - Parse shortcodes - ([Show all Shortcodes](#shortcodes))
 - Include partials files with html comments
 - Get all images from post body and push them to metadata.photos
 - Auto find meta description when not set
+
+## Pre-Requirements
+- Node v18+
+
+## Installation
+
+from npm registry
+
+```bash
+npm i hexo-post-parser # yarn add hexo-post-parser
+```
+
+from github master branch [see commit history](https://github.com/dimaslanjaka/hexo-shortcodes/commits/master)
+
+```bash
+npm i hexo-post-parser@https://github.com/dimaslanjaka/hexo-post-parser/tarball/COMMIT_HASH
+```
+
+from github pre-release branch [see commit history](https://github.com/dimaslanjaka/hexo-shortcodes/commits/pre-release)
+
+```bash
+npm i hexo-post-parser@https://github.com/dimaslanjaka/hexo-post-parser/raw/COMMIT_HASH/release/hexo-post-parser.tgz
+```
+
+> for **yarn** just replace `npm i` to `yarn add`
 
 ## Configuration needed
 - file `_config.yml`
@@ -97,3 +124,13 @@ deployed to: [www.webmanajemen.com](https://www.webmanajemen.com)
 
 ## Reference Repositories
 - [Static Blog Generator](https://github.com/dimaslanjaka/static-blog-generator)
+
+## Contribute
+build compiled js to `dist` folder
+```bash
+yarn run build
+```
+build tarball in `release` folder
+```bash
+yarn run pack
+```
