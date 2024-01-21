@@ -1,5 +1,11 @@
 # JS Parse FrontMatter Markdown Post
-[![Build](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build.yml)
+
+<div id="shields" align="center">
+  
+[![Build Release](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build-release.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build-release.yml?label=Stars&color=gold&logo=github&logoColor=white&labelColor=464646&style=for-the-badge)
+[![Build Site](https://github.com/dimaslanjaka/static-blog-generator-hexo/actions/workflows/build-site.yml/badge.svg)](https://github.com/dimaslanjaka/static-blog-generator-hexo/actions/workflows/build-site.yml?label=Stars&color=gold&logo=github&logoColor=white&labelColor=464646&style=for-the-badge)
+
+</div>
 
 Parse **FrontMatter Markdown** Posts To Javascript Object
 
