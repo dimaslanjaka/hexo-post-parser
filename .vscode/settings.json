@@ -9,28 +9,28 @@
     "**/node_modules": true
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": false
+    "source.fixAll": "explicit",
+    "source.organizeImports": "never"
   },
   "[markdown]": {
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-      "source.fixAll": false,
-      "source.organizeImports": false
+      "source.fixAll": "never",
+      "source.organizeImports": "never"
     }
   },
   "[typescript]": {
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "source.organizeImports": true
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
     }
   },
   "[javascript]": {
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "source.organizeImports": false
+      "source.fixAll": "explicit",
+      "source.organizeImports": "never"
     }
   },
   "files.eol": "\n",

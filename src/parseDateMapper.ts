@@ -8,13 +8,19 @@ export /**
  */
 function moment(
   date: momentInstance.MomentInput = new Date(),
-  format?: string
+  format?: string //= 'YYYY-MM-DDTHH:mm:ssZ'
 ) {
   try {
-    let parse = momentInstance(date, format);
-    const config = getConfig();
-    if (config.timezone) {
-      parse = parse.tz(config.timezone || 'UTC');
+    let parse: momentInstance.Moment = momentInstance(date, format);
+    // fix ISO date format
+    const isISO = typeof date === 'string' && date.endsWith('Z');
+    if (isISO) {
+      parse = parse.utc();
+    } else {
+      const config = getConfig();
+      if (config.timezone) {
+        parse = parse.tz(config.timezone || 'UTC');
+      }
     }
     return parse;
   } catch {
@@ -28,6 +34,7 @@ function moment(
  */
 export const cmoment = moment;
 export const customMoment = moment;
+export const momentHpp = moment;
 
 /**
  * Moment check date is today
@@ -36,14 +43,14 @@ export const customMoment = moment;
  */
 export const isToday = (date: any) => moment(0, 'HH').diff(date, 'days') == 0;
 
-export type DateMapperInput = moment.MomentInput | parseDateMapper;
+export type DateMapperInput = momentInstance.MomentInput | parseDateMapper;
 
 /**
  * HexoJS date formatter
  * * Playground Test {@link https://codepen.io/dimaslanjaka/pen/LYegjaV}
  */
 export class parseDateMapper {
-  data: moment.Moment;
+  data: momentInstance.Moment;
   constructor(date: DateMapperInput) {
     const config = getConfig();
     if (typeof date == 'string' && date.length > 0) {
