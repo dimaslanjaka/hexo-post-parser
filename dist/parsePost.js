@@ -79,7 +79,7 @@ function parsePost(target, options = {}) {
         const tmpDir = (0, upath_1.join)(process.cwd(), 'tmp/hexo-post-parser');
         if (!_cache) {
             _cache = new sbg_utility_1.persistentCache({
-                base: tmpDir,
+                base: tmpDir, //join(process.cwd(), 'node_modules/.cache/persistent'),
                 name: 'parsePost',
                 duration: 1000 * 3600 * 24 // 24 hours
             });

@@ -9,12 +9,13 @@
 | 1.1.21 | https://github.com/dimaslanjaka/hexo-post-parser/raw/9578a99/release/hexo-post-parser-1.1.21.tgz |
 | 1.1.22 | https://github.com/dimaslanjaka/hexo-post-parser/raw/9578a99/release/hexo-post-parser-1.1.22.tgz |
 | 1.2.10 | https://github.com/dimaslanjaka/hexo-post-parser/raw/1086fa7/release/hexo-post-parser-1.2.10.tgz |
+| 1.2.11 | https://github.com/dimaslanjaka/hexo-post-parser/raw/3f04522/release/hexo-post-parser-1.2.11.tgz |
 | 1.2.6 | https://github.com/dimaslanjaka/hexo-post-parser/raw/1dbd5d0/release/hexo-post-parser-1.2.6.tgz |
 | 1.2.7 | https://github.com/dimaslanjaka/hexo-post-parser/raw/ee9dcce/release/hexo-post-parser-1.2.7.tgz |
 | 1.2.8 | https://github.com/dimaslanjaka/hexo-post-parser/raw/2605619/release/hexo-post-parser-1.2.8.tgz |
 | 1.2.9 | https://github.com/dimaslanjaka/hexo-post-parser/raw/e6023c8/release/hexo-post-parser-1.2.9.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/1086fa7/release/hexo-post-parser.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/pre-release/release/hexo-post-parser.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/3f04522/release/hexo-post-parser.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/missing-tarball/release/hexo-post-parser.tgz |
 
 use this tarball with `resolutions`:
 ```json

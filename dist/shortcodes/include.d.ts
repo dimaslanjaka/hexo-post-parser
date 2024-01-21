@@ -7,5 +7,5 @@
  * @param bodyString
  * @returns
  */
-export declare function parseShortCodeInclude(sourceFile: string, bodyString: string): any;
+export declare function parseShortCodeInclude(sourceFile: string, bodyString: string): string;
 export default parseShortCodeInclude;

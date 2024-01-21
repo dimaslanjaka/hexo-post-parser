@@ -28,7 +28,7 @@ function shortcodeCodeblock(str) {
         const logname = color_1.default.Shamrock('[codeblock]');
         if (!_cache) {
             _cache = new sbg_utility_1.persistentCache({
-                base: (0, upath_1.join)(process.cwd(), 'tmp'),
+                base: (0, upath_1.join)(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),
                 name: 'shortcode/codeblock',
                 duration: 1000 * 3600 * 24 // 24 hours
             });

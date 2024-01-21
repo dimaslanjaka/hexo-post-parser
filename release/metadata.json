@@ -118,12 +118,12 @@
   },
   "/release/hexo-post-parser.tgz": {
     "integrity": {
-      "sha1": "678b0683d1788b311199d337ad7a25f78409d828",
-      "sha256": "R5ACl1rrvE/kyTYBAzJ2fRs0UF51zQtsOjjHkn7YVaI=",
-      "md5": "42fa1327f5af7da98c2c58da7d60b1bc",
-      "sha512": "GrjmrxLRD3XnBOV/eyShgKvDRddIQUKYJ5pSKz6y26EPZHdMvDtWkfFQ3ga8RgcekVUYCz3PTT5gxN12aeFWpg=="
+      "sha1": "c066bc9dede0bfe39573e8070c557e153cd295da",
+      "sha256": "PK4mLzbXkLrinsVNuzeNdjiFkv2dTg+CeOXaQa2lfgA=",
+      "md5": "e6ded0180d38070c9be1d6f211f0ad5f",
+      "sha512": "ZmTwPxCoPXIiykgt0r/01E8rC+XK8zD/MmTu9aJrxwPb7F7RhqwbRrsxANyQizcNk9m0PdXSIo3HwxjXfCdEGw=="
     },
-    "size": "45.43 KB"
+    "size": "45.70 KB"
   },
   "/package-lock.json": {
     "integrity": {
@@ -145,12 +145,12 @@
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "5c7e1d1e832fad65dd0f5c5eedbda70c22c15d7d",
-      "sha256": "qMT3r2ujIzzi16YBBqb50z3qj87DyfCqht0/ZbCWGP8=",
-      "md5": "832c0a901e1117243a002d6cf12c78c8",
-      "sha512": "rL/Nk8SEHY6na6JTvieAtXotd3QheM2eD7SLhbdnaSL/d2D19T50+6Vth7ysOt7IptvlSL5ATJC2rG8k4LRckg=="
+      "sha1": "81972b727ca7f2fc72d1664a0a1348b261d1bd4a",
+      "sha256": "lTQMiOePBhcvFiAbX5T9FOzNzrniu4QV2isWdGCWpiQ=",
+      "md5": "3c026b532b1112510c18f07cc5bcf331",
+      "sha512": "1qqf1GpHs8KfZ+tE4Rxamrp8EXe8MVbkoM1wCU1jF/7PzebjqFTv69ssrMbwOCxSdO/KJSB1zbTF6s6CRIeY0g=="
     },
-    "size": "372.11 KB"
+    "size": "353.56 KB"
   },
   "/release/hexo-post-parser-1.2.10.tgz": {
     "integrity": {
@@ -187,5 +187,14 @@
       "sha512": "GrjmrxLRD3XnBOV/eyShgKvDRddIQUKYJ5pSKz6y26EPZHdMvDtWkfFQ3ga8RgcekVUYCz3PTT5gxN12aeFWpg=="
     },
     "size": "45.43 KB"
+  },
+  "/release/hexo-post-parser-1.2.12.tgz": {
+    "integrity": {
+      "sha1": "c066bc9dede0bfe39573e8070c557e153cd295da",
+      "sha256": "PK4mLzbXkLrinsVNuzeNdjiFkv2dTg+CeOXaQa2lfgA=",
+      "md5": "e6ded0180d38070c9be1d6f211f0ad5f",
+      "sha512": "ZmTwPxCoPXIiykgt0r/01E8rC+XK8zD/MmTu9aJrxwPb7F7RhqwbRrsxANyQizcNk9m0PdXSIo3HwxjXfCdEGw=="
+    },
+    "size": "45.70 KB"
   }
 }
