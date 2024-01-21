@@ -1,7 +1,7 @@
-# hexo-post-parser
+# JS Parse FrontMatter Markdown Post
 [![Build](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build.yml)
 
-Parse Hexo Posts To Object
+Parse **FrontMatter Markdown** Posts To Javascript Object
 
 - [READ FULL EXAMPLE](https://github.com/dimaslanjaka/hexo-post-parser/tree/master/tests)
 - [Typescript Source Code](https://github.com/dimaslanjaka/hexo-post-parser/tree/master/src)
