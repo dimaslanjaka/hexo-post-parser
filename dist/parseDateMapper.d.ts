@@ -5,19 +5,20 @@ export declare function moment(date?: momentInstance.MomentInput, format?: strin
  */
 export declare const cmoment: typeof moment;
 export declare const customMoment: typeof moment;
+export declare const momentHpp: typeof moment;
 /**
  * Moment check date is today
  * @param date
  * @returns
  */
 export declare const isToday: (date: any) => boolean;
-export type DateMapperInput = moment.MomentInput | parseDateMapper;
+export type DateMapperInput = momentInstance.MomentInput | parseDateMapper;
 /**
  * HexoJS date formatter
  * * Playground Test {@link https://codepen.io/dimaslanjaka/pen/LYegjaV}
  */
 export declare class parseDateMapper {
-    data: moment.Moment;
+    data: momentInstance.Moment;
     constructor(date: DateMapperInput);
     format: (pattern: string) => string;
     year: () => string;
