@@ -2,6 +2,9 @@
 yarn.lock
 package-lock.json
 
+# private keys
+.env
+
 # keep all dist files
 !dist
 !dist/*
