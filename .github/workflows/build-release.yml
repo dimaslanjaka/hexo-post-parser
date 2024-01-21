@@ -163,6 +163,7 @@ jobs:
           if [ -f "package-lock.json" ]; then
               npm install --legacy-peer-deps
           else
+              touch yarn.lock
               yarn install
           fi
         id: install-legacy
@@ -180,6 +181,7 @@ jobs:
           if [ -f "$FILE" ]; then
               npm install --verbose
           else
+              touch yarn.lock
               yarn install --verbose
           fi
 
@@ -193,6 +195,7 @@ jobs:
           if [ -f "$FILE" ]; then
               npm install --no-shrinkwrap --update-binary
           else
+              touch yarn.lock
               yarn install
           fi
         continue-on-error: true
