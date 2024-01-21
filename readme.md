@@ -19,6 +19,28 @@ Parse **FrontMatter Markdown** Posts To Javascript Object
 - Get all images from post body and push them to metadata.photos
 - Auto find meta description when not set
 
+## Installation
+
+from npm registry
+
+```bash
+npm i hexo-post-parser # yarn add hexo-post-parser
+```
+
+from github master branch [see commit history](https://github.com/dimaslanjaka/hexo-shortcodes/commits/master)
+
+```bash
+npm i hexo-post-parser@https://github.com/dimaslanjaka/hexo-post-parser/tarball/COMMIT_HASH
+```
+
+from github pre-release branch [see commit history](https://github.com/dimaslanjaka/hexo-shortcodes/commits/pre-release)
+
+```bash
+npm i hexo-post-parser@https://github.com/dimaslanjaka/hexo-post-parser/raw/COMMIT_HASH/release/hexo-post-parser.tgz
+```
+
+> for **yarn** just replace `npm i` to `yarn add`
+
 ## Configuration needed
 - file `_config.yml`
 
