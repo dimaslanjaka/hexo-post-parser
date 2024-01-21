@@ -19,6 +19,9 @@ Parse **FrontMatter Markdown** Posts To Javascript Object
 - Get all images from post body and push them to metadata.photos
 - Auto find meta description when not set
 
+## Pre-Requirements
+- Node v18+
+
 ## Installation
 
 from npm registry
@@ -121,3 +124,13 @@ deployed to: [www.webmanajemen.com](https://www.webmanajemen.com)
 
 ## Reference Repositories
 - [Static Blog Generator](https://github.com/dimaslanjaka/static-blog-generator)
+
+## Contribute
+build compiled js to `dist` folder
+```bash
+yarn run build
+```
+build tarball in `release` folder
+```bash
+yarn run pack
+```
