@@ -11,6 +11,8 @@ Parse Hexo Posts To Object
 ## Features
 - Parsing HexoJS markdown post
 - Parsing Jekyll markdown post
+- Parsing Hugo markdown post
+- Parsing Frontmatter markdown
 - Post Asset Folder Auto Fix for HexoJS
 - Parse shortcodes - ([Show all Shortcodes](#shortcodes))
 - Include partials files with html comments
