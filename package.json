@@ -124,7 +124,7 @@
     "test": "test",
     "lib": "dist"
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@3.7.0",
   "engines": {
     "node": ">=18"
   }
