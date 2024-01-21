@@ -11,7 +11,8 @@ on:
     paths-ignore:
       - '**/*.tgz'
       - '**/*.gz'
-      - '**/release/**'
+      - '**/release*/**'
+      - '**/dist/**'
       - '**garbage-collector**'
       - '**codeql**'
       - '**/.github/workflows/tester.yml'
@@ -19,7 +20,8 @@ on:
     types:
       - closed
     paths-ignore:
-      - '**/release/**'
+      - '**/release*/**'
+      - '**/dist/**'
       - '**/*.tgz'
       - '**/*.gz'
       - '**/test*/**'
