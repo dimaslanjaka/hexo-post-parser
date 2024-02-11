@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# ts-node build.ts
-# node postinstall.js --commit
