@@ -1,7 +1,7 @@
 # JS Parse FrontMatter Markdown Post
 
 <div id="shields" align="center">
-  
+
 [![Build Release](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build-release.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-post-parser/actions/workflows/build-release.yml?label=Stars&color=gold&logo=github&logoColor=white&labelColor=464646&style=for-the-badge)
 [![Build Site](https://github.com/dimaslanjaka/static-blog-generator-hexo/actions/workflows/build-site.yml/badge.svg)](https://github.com/dimaslanjaka/static-blog-generator-hexo/actions/workflows/build-site.yml?label=Stars&color=gold&logo=github&logoColor=white&labelColor=464646&style=for-the-badge)
 [![](https://img.shields.io/github/commit-activity/m/dimaslanjaka/hexo-post-parser?label=Commits&logo=github&logoColor=white&labelColor=464646&style=for-the-badge)](https://github.com/kudoai/chatgpt.js/commits/main)
@@ -66,6 +66,7 @@ generator:
 ```
 
 parse post overriden options
+
 ```typescript
 const { parsePost } = require('hexo-post-parser');
 const filePath = '/path/to/file.md';
@@ -90,9 +91,12 @@ parsePost(filePath, {
   },
   formatDate: true,
   fix: true,
-  sourceFile: filePath
+  sourceFile: filePath,
+  defaultThumb: "https://rawcdn.githack.com/dimaslanjaka/public-source/6a0117ddb2ea327c80dbcc7327cceca1e1b7794e/images/no-image-svgrepo-com.svg"
 })
 ```
+
+> read [parse options description](https://github.com/dimaslanjaka/hexo-post-parser/blob/master/src/types/parseOptions.ts)
 
 ## Shortcodes
 

@@ -79,7 +79,7 @@ function parsePost(target, options = {}) {
         const tmpDir = (0, upath_1.join)(process.cwd(), 'tmp/hexo-post-parser');
         if (!_cache) {
             _cache = new sbg_utility_1.persistentCache({
-                base: tmpDir,
+                base: tmpDir, //join(process.cwd(), 'node_modules/.cache/persistent'),
                 name: 'parsePost',
                 duration: 1000 * 3600 * 24 // 24 hours
             });
@@ -99,7 +99,8 @@ function parsePost(target, options = {}) {
             formatDate: false,
             config: (0, _config_1.getConfig)(),
             cache: false,
-            fix: false
+            fix: false,
+            defaultThumb: 'https://rawcdn.githack.com/dimaslanjaka/public-source/6a0117ddb2ea327c80dbcc7327cceca1e1b7794e/images/no-image-svgrepo-com.svg'
         };
         options = Object.assign(default_options, options);
         const siteConfig = options.config ? (0, _config_1.setConfig)(options.config) : (0, _config_1.getConfig)();
@@ -248,7 +249,7 @@ function parsePost(target, options = {}) {
                 meta.tags.push(options.config.default_tag);
             // @todo fix thumbnail
             if (options.fix) {
-                const thumbnail = meta.cover || meta.thumbnail;
+                const thumbnail = meta.cover || meta.thumbnail || options.defaultThumb;
                 if (typeof thumbnail === 'string' && thumbnail.trim().length > 0) {
                     if (!meta.thumbnail)
                         meta.thumbnail = thumbnail;
