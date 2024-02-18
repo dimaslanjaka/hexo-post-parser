@@ -309,6 +309,7 @@ async function addReadMe() {
     // skip index tarball which ignored by .gitignore
 
     if (argv['commit']) {
+      // do commit
       const checkIgnore = await git.isIgnored(relativeTarball, {
         cwd: __dirname
       });
