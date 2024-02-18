@@ -1,6 +1,7 @@
 import { getConfig } from './_config';
 
 export interface ParseOptions {
+  /** process shortcodes? */
   shortcodes?: {
     /**
      * Transform shortcode `<!-- css path/to/file.css -->`
@@ -34,6 +35,7 @@ export interface ParseOptions {
     now: boolean;
     codeblock: boolean;
   };
+  /** use cache? */
   cache?: boolean;
   /**
    * Source File, keep empty when first parameter (text) is file
@@ -55,4 +57,6 @@ export interface ParseOptions {
    * run auto fixer such as thumbnail, excerpt, etc
    */
   fix?: boolean;
+  /** default thumbnail */
+  defaultThumb?: string;
 }

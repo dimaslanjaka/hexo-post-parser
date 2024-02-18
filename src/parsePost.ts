@@ -72,7 +72,9 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     formatDate: false,
     config: getConfig(),
     cache: false,
-    fix: false
+    fix: false,
+    defaultThumb:
+      'https://rawcdn.githack.com/dimaslanjaka/public-source/6a0117ddb2ea327c80dbcc7327cceca1e1b7794e/images/no-image-svgrepo-com.svg'
   };
 
   options = Object.assign(default_options, options);
@@ -233,7 +235,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
 
     // @todo fix thumbnail
     if (options.fix) {
-      const thumbnail = meta.cover || meta.thumbnail;
+      const thumbnail = meta.cover || meta.thumbnail || options.defaultThumb;
       if (typeof thumbnail === 'string' && thumbnail.trim().length > 0) {
         if (!meta.thumbnail) meta.thumbnail = thumbnail;
         if (!meta.cover) meta.cover = thumbnail;

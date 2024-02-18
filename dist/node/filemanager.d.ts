@@ -1,7 +1,5 @@
-/// <reference types="node" />
-/// <reference types="node" />
-/// <reference types="node" />
-/// <reference types="node" />
+/// <reference types="node/url" />
+/// <reference types="fs-extra/node_modules/@types/node/url" />
 import Bluebird from 'bluebird';
 import * as fs from 'fs-extra';
 import upath from 'upath';
