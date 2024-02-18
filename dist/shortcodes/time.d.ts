@@ -1,5 +1,4 @@
-/// <reference types="node/fs" />
-/// <reference types="fs-extra/node_modules/@types/node/fs" />
+/// <reference types="node" />
 import fs from 'fs';
 /**
  * Current date time

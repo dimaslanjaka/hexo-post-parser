@@ -1,5 +1,4 @@
-/// <reference types="node/events" />
-/// <reference types="fs-extra/node_modules/@types/node/events" />
+/// <reference types="node" />
 import { default as events } from 'events';
 import { postMap } from '../types/postMap';
 /**
