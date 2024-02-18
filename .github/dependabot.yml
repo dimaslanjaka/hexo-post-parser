@@ -5,24 +5,27 @@
 
 version: 2
 updates:
-- package-ecosystem: "npm"
-  directory: "/"
-  target-branch: "pre-release"
-  schedule:
-    interval: "monthly"
-  ignore:
-      - dependency-name: "chalk"
-        versions: ["5.x"]
-      - dependency-name: "deepmerge-ts"
-        versions: ["5.x"]
-      - dependency-name: "codemirror"
-        versions: ["6.x"]
-- package-ecosystem: "github-actions"
-  directory: "/"
-  target-branch: "pre-release"
-  schedule:
-    interval: "monthly"
-- package-ecosystem: "gitsubmodule"
-  schedule:
-      interval: "monthly"
-  directory: /
+  - package-ecosystem: 'npm'
+    directory: '/'
+    target-branch: 'pre-release'
+    schedule:
+      interval: 'monthly'
+    ignore:
+      - dependency-name: 'husky'
+      - dependency-name: 'eslint'
+      - dependency-name: 'lint-staged'
+      - dependency-name: 'chalk'
+        versions: ['5.x']
+      - dependency-name: 'deepmerge-ts'
+        versions: ['5.x']
+      - dependency-name: 'codemirror'
+        versions: ['6.x']
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    target-branch: 'pre-release'
+    schedule:
+      interval: 'monthly'
+  - package-ecosystem: 'gitsubmodule'
+    schedule:
+      interval: 'monthly'
+    directory: /
