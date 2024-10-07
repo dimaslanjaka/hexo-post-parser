@@ -1,10 +1,24 @@
 const prettier = require('./.prettierrc.json');
 
 /**
- * @type {import('eslint').ESLint.ConfigData}
+ * @type {import("eslint").ESLint.Options}
  */
 const config = {
-  root: true, // Specifies your current project has own eslint rules without extends parent folder eslint rules
+  // Specifies your current project has own eslint rules without extends parent folder eslint rules
+  root: true,
+  // .eslintignore migration
+  ignorePatterns: [
+    '*.md',
+    '**/tmp/**',
+    '*.html',
+    '*.py',
+    '*.txt',
+    '**/app/**',
+    '**/dist/**',
+    '!.*.{js,cjs,mjs}'
+  ],
+  noInlineConfig: false,
+  reportUnusedDisableDirectives: true,
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   env: {
     browser: true, // add support for browser js (window,document,location,etc)
@@ -24,9 +38,10 @@ const config = {
   // override rules for js files
   overrides: [
     {
-      files: ['*.js'],
+      files: ['*.js', '*.cjs'],
       rules: {
-        '@typescript-eslint/no-var-requires': 'off' // disable require warning on js files
+        '@typescript-eslint/no-var-requires': 'off', // disable require warning on js files
+        '@typescript-eslint/no-require-imports': 'off' // disable require warning on js files
       }
     }
   ],
@@ -55,6 +70,11 @@ const config = {
     // "arrow-body-style" and "prefer-arrow-callback" are two ESLint core rules that can cause issues with prettier/prettier plugin, so turn them off.
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off'
+  },
+  globals: {
+    $: 'readonly', // jQuery is assigned to $
+    jQuery: 'readonly', // jQuery is also available as jQuery
+    adsbygoogle: 'writable'
   }
 };
 
