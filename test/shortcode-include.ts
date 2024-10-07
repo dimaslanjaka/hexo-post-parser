@@ -6,4 +6,4 @@ import { getConfig } from '../src';
 import { startParse } from './startParse';
 
 const post = join(__dirname, 'src-posts/shortcode-include.md');
-startParse(post, getConfig());
+startParse(post, getConfig()).then(console.log);
