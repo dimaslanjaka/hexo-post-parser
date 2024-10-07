@@ -30,7 +30,7 @@ export function shortcodeCss(file: string, str: string) {
     };
     for (const key in dirs) {
       if (Object.prototype.hasOwnProperty.call(dirs, key)) {
-        const filepath = dirs[key];
+        const filepath = (dirs as Record<string, any>)[key] as string;
         if (existsSync(filepath)) {
           if (config.generator.verbose) {
             console.log(...log, chalk.greenBright(`[${key}]`), file);

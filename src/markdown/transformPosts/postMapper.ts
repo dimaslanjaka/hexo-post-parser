@@ -105,10 +105,11 @@ export function postChunksMapper<T extends any[][]>(chunks: T): T {
 }
 
 export function array_wrap<T extends any[]>(arr: T): T {
-  arr['each'] = arr.forEach;
+  (arr as any)['each'] = arr.forEach;
   return arr;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 export interface DumperType extends Object {
   [key: string]: any;
   next: any;

@@ -6,7 +6,10 @@
     "rootDir": "./src",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "declaration": true
+    "declaration": true,
+    "strict": false,
+    "allowJs": true,
+    "checkJs": false
   },
   "include": ["./src/index.ts"],
   "exclude": ["**/node_modules", "**/test*", "**/*.spec*.ts", "**/*.test*.ts"]

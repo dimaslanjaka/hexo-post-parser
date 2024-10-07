@@ -31,7 +31,6 @@ exports.normalize = normalize;
 exports.readDirectoryRecursive = readDirectoryRecursive;
 exports.removeMultiSlashes = removeMultiSlashes;
 exports.read = read;
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 const bluebird_1 = __importDefault(require("bluebird"));
 const fs = __importStar(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
@@ -64,7 +63,6 @@ const modPath = path_1.default;
  * @param dir
  * @param done
  */
-// eslint-disable-next-line no-unused-vars
 const walk = function (dir, done) {
     let results = [];
     fs.readdir(dir, function (err, list) {

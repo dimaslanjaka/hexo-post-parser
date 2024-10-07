@@ -117,7 +117,6 @@ class RenderMarkdownBody extends events.EventEmitter {
   }
 
   restoreCodeBlock() {
-    // eslint-disable-next-line prefer-const
     let { body } = this.options;
     this.codeBlocks.forEach((s, i) => {
       const regex = new RegExp(`<codeblock${i}/>`, 'gm');

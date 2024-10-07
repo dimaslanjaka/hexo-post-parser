@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shortcodeScript = shortcodeScript;
-/* eslint-disable no-useless-escape */
 const chalk_1 = __importDefault(require("chalk"));
 const fs_1 = require("fs");
 const upath_1 = require("upath");

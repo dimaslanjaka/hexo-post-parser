@@ -1,25 +1,23 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 // https://github.com/sindresorhus/slugify
 import escapeStringRegexp from '../escape-string-regexp';
 import transliterate from '../transliterate/index';
 import builtinOverridableReplacements from './replacements';
 
-const decamelize = (string) => {
+const decamelize = (str: string) => {
   return (
-    string
+    str
       // Separate capitalized words.
       .replace(/([A-Z]{2,})(\d+)/g, '$1 $2')
       .replace(/([a-z\d]+)([A-Z]{2,})/g, '$1 $2')
-
       .replace(/([a-z\d])([A-Z])/g, '$1 $2')
       .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1 $2')
   );
 };
 
-const removeMootSeparators = (string, separator) => {
+const removeMootSeparators = (str: string, separator: any) => {
   const escapedSeparator = escapeStringRegexp(separator);
 
-  return string
+  return str
     .replace(new RegExp(`${escapedSeparator}{2,}`, 'g'), separator)
     .replace(new RegExp(`^${escapedSeparator}|${escapedSeparator}$`, 'g'), '');
 };
@@ -28,7 +26,7 @@ const defOpt = {
   separator: '-',
   lowercase: true,
   decamelize: true,
-  customReplacements: [],
+  customReplacements: [] as string[],
   preserveLeadingUnderscore: false,
   preserveTrailingDash: false
 };
@@ -88,24 +86,24 @@ export default function slugify(string: string, options: SlugifyOpt = {}) {
 export function slugifyWithCounter() {
   const occurrences = new Map();
 
-  const countable = (string, options) => {
-    string = slugify(string, options);
+  const countable = (str: string, options: SlugifyOpt) => {
+    str = slugify(str, options);
 
-    if (!string) {
+    if (!str) {
       return '';
     }
 
-    const stringLower = string.toLowerCase();
+    const stringLower = str.toLowerCase();
     const numberless =
       occurrences.get(stringLower.replace(/(?:-\d+?)+?$/, '')) || 0;
     const counter = occurrences.get(stringLower);
     occurrences.set(stringLower, typeof counter === 'number' ? counter + 1 : 1);
     const newCounter = occurrences.get(stringLower) || 2;
     if (newCounter >= 2 || numberless > 2) {
-      string = `${string}-${newCounter}`;
+      str = `${str}-${newCounter}`;
     }
 
-    return string;
+    return str;
   };
 
   countable.reset = () => {

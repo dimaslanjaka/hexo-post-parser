@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import chalk from 'chalk';
 import { existsSync, readFileSync } from 'fs';
 import { dirname, join, toUnix } from 'upath';
@@ -32,7 +31,7 @@ export function shortcodeScript(file: string, str: string) {
     };
     for (const key in dirs) {
       if (Object.prototype.hasOwnProperty.call(dirs, key)) {
-        const filepath = dirs[key];
+        const filepath = (dirs as Record<string, any>)[key] as string;
         if (existsSync(filepath)) {
           log[0] += chalk.greenBright(`[${key}]`);
           if (verbose) console.log(...log, file);

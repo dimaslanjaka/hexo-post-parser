@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = transliterate;
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 // https://github.com/sindresorhus/transliterate
 const lodash_deburr_1 = __importDefault(require("lodash.deburr"));
 const escape_string_regexp_1 = __importDefault(require("../escape-string-regexp"));

@@ -176,7 +176,6 @@ class Translator {
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36'
     );
 
-    // eslint-disable-next-line no-unused-vars
     curl.on('end', (statusCode, data, headers, curlInstance) => {
       /*
       console.info(statusCode);
@@ -194,7 +193,7 @@ class Translator {
     });
 
     // Error will be a JS error, errorCode will be the raw error code (as int) returned from libcurl
-    // eslint-disable-next-line no-unused-vars
+
     curl.on('error', (_error, _errorCode) => {
       curl.close();
     });

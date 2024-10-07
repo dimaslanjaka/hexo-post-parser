@@ -63,7 +63,6 @@ function loopDir(destDir, debug = false) {
     }
     return result;
 }
-// eslint-disable-next-line no-unused-vars
 function copyDir(source, dest, callback = function (err) {
     if (err) {
         console.error(err);

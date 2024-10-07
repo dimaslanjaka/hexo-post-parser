@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import Bluebird from 'bluebird';
 import * as fs from 'fs-extra';
 import { default as nodePath } from 'path';
@@ -40,7 +39,7 @@ const modPath = nodePath as Mutable<typeof nodePath>;
  * @param dir
  * @param done
  */
-// eslint-disable-next-line no-unused-vars
+
 const walk = function (
   dir: fs.PathLike,
   done: (err: ErrnoException | null, results?: string[]) => any

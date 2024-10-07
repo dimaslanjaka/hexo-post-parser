@@ -33,7 +33,6 @@ export function loopDir(destDir: fs.PathLike | string, debug = false) {
   return result;
 }
 
-// eslint-disable-next-line no-unused-vars
 export function copyDir(
   source: string,
   dest: string,

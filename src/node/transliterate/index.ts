@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 // https://github.com/sindresorhus/transliterate
 import deburr from 'lodash.deburr';
 import escapeStringRegexp from '../escape-string-regexp';
@@ -10,7 +9,10 @@ const doCustomReplacements = (
 ) => {
   for (const [key, value] of replacements) {
     // TODO: Use `String#replaceAll()` when targeting Node.js 16.
-    string = string.replace(new RegExp(escapeStringRegexp(key), 'g'), value);
+    string = string.replace(
+      new RegExp(escapeStringRegexp(key as any), 'g'),
+      value
+    );
   }
 
   return string;

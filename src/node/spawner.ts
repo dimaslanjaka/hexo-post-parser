@@ -19,7 +19,7 @@ class spawner {
    * @param args ['index.js']
    * @param callback callback for children process
    */
-  // eslint-disable-next-line no-unused-vars
+
   static spawn(
     command: string,
     args?: string[],

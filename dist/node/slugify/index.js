@@ -5,22 +5,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = slugify;
 exports.slugifyWithCounter = slugifyWithCounter;
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 // https://github.com/sindresorhus/slugify
 const escape_string_regexp_1 = __importDefault(require("../escape-string-regexp"));
 const index_1 = __importDefault(require("../transliterate/index"));
 const replacements_1 = __importDefault(require("./replacements"));
-const decamelize = (string) => {
-    return (string
+const decamelize = (str) => {
+    return (str
         // Separate capitalized words.
         .replace(/([A-Z]{2,})(\d+)/g, '$1 $2')
         .replace(/([a-z\d]+)([A-Z]{2,})/g, '$1 $2')
         .replace(/([a-z\d])([A-Z])/g, '$1 $2')
         .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1 $2'));
 };
-const removeMootSeparators = (string, separator) => {
+const removeMootSeparators = (str, separator) => {
     const escapedSeparator = (0, escape_string_regexp_1.default)(separator);
-    return string
+    return str
         .replace(new RegExp(`${escapedSeparator}{2,}`, 'g'), separator)
         .replace(new RegExp(`^${escapedSeparator}|${escapedSeparator}$`, 'g'), '');
 };
@@ -67,20 +66,20 @@ function slugify(string, options = {}) {
 }
 function slugifyWithCounter() {
     const occurrences = new Map();
-    const countable = (string, options) => {
-        string = slugify(string, options);
-        if (!string) {
+    const countable = (str, options) => {
+        str = slugify(str, options);
+        if (!str) {
             return '';
         }
-        const stringLower = string.toLowerCase();
+        const stringLower = str.toLowerCase();
         const numberless = occurrences.get(stringLower.replace(/(?:-\d+?)+?$/, '')) || 0;
         const counter = occurrences.get(stringLower);
         occurrences.set(stringLower, typeof counter === 'number' ? counter + 1 : 1);
         const newCounter = occurrences.get(stringLower) || 2;
         if (newCounter >= 2 || numberless > 2) {
-            string = `${string}-${newCounter}`;
+            str = `${str}-${newCounter}`;
         }
-        return string;
+        return str;
     };
     countable.reset = () => {
         occurrences.clear();

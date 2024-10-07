@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import yaml from 'yaml';
 import color from '../node/color';
 import {

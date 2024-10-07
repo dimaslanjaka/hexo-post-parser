@@ -81,7 +81,7 @@ class process {
       }
     };
     process.lockProcess(lockfile);
-    // eslint-disable-next-line no-unused-vars
+
     const load = new Promise((resolve, _reject) => {
       doCall();
       resolve(true);
