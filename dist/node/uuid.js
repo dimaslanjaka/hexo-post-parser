@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.makeid = void 0;
+exports.default = uuidv4;
 const md5_file_1 = require("./md5-file");
 /**
  * Persistent UUID V4 Generator based on inputted string
@@ -41,7 +42,6 @@ function uuidv4(fromString) {
         }
     });
 }
-exports.default = uuidv4;
 /**
  * generate random id
  * @param n

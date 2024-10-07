@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseDateMapper = exports.isToday = exports.momentHpp = exports.customMoment = exports.cmoment = exports.moment = void 0;
+exports.parseDateMapper = exports.isToday = exports.momentHpp = exports.customMoment = exports.cmoment = void 0;
+exports.moment = moment;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const _config_1 = require("./types/_config");
 function moment(date = new Date(), format //= 'YYYY-MM-DDTHH:mm:ssZ'
@@ -28,7 +29,6 @@ function moment(date = new Date(), format //= 'YYYY-MM-DDTHH:mm:ssZ'
         return (0, moment_timezone_1.default)();
     }
 }
-exports.moment = moment;
 /**
  * custom moment
  */

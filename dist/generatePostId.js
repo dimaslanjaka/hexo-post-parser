@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generatePostId = void 0;
+exports.generatePostId = generatePostId;
 const uuid_1 = __importDefault(require("./node/uuid"));
 /**
  * generate post id using uuid v4
@@ -34,4 +34,3 @@ function generatePostId(meta) {
     }
     return (0, uuid_1.default)(id);
 }
-exports.generatePostId = generatePostId;

@@ -7,7 +7,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.slugifySanitizeFilename = void 0;
+exports.default = sanitizeFilename;
+exports.slugifySanitizeFilename = slugifySanitizeFilename;
 /**
  * Replaces characters in strings that are illegal/unsafe for filenames.
  * Unsafe characters are either removed or replaced by a substitute set
@@ -65,7 +66,6 @@ function sanitizeFilename(input, replacement = '') {
     }
     return sanitize(output, '');
 }
-exports.default = sanitizeFilename;
 /**
  * transform path to slugify version
  * @param str
@@ -77,4 +77,3 @@ function slugifySanitizeFilename(str) {
         .filter((str) => str.trim().length > 0)
         .join('-');
 }
-exports.slugifySanitizeFilename = slugifySanitizeFilename;

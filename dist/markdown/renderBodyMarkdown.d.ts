@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { default as events } from 'events';
 import { postMap } from '../types/postMap';
 /**

@@ -3,7 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.post_source_dir = exports.post_generated_dir = exports.verbose = exports.nocache = exports.setConfig = exports.getConfig = exports.findConfig = void 0;
+exports.post_source_dir = exports.post_generated_dir = exports.verbose = exports.nocache = void 0;
+exports.findConfig = findConfig;
+exports.getConfig = getConfig;
+exports.setConfig = setConfig;
 const fs_extra_1 = require("fs-extra");
 const process_1 = require("process");
 const upath_1 = require("upath");
@@ -131,7 +134,6 @@ function findConfig(file) {
         });
     }
 }
-exports.findConfig = findConfig;
 // run at first import
 findConfig();
 /**
@@ -141,7 +143,6 @@ findConfig();
 function getConfig() {
     return settledOptions;
 }
-exports.getConfig = getConfig;
 /**
  * assign new option
  * @param obj
@@ -151,7 +152,6 @@ function setConfig(obj) {
     settledOptions = Object.assign(settledOptions, obj);
     return settledOptions;
 }
-exports.setConfig = setConfig;
 /**
  * Hexo Generated Dir
  */

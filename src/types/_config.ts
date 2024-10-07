@@ -3,6 +3,7 @@ import { cwd } from 'process';
 import { join } from 'upath';
 import yaml from 'yaml';
 import yargs from 'yargs';
+import { DeepPartial } from './globals';
 
 const argv = yargs(process.argv.slice(2)).argv as Record<string, any> & {
   _: any[];
@@ -10,7 +11,7 @@ const argv = yargs(process.argv.slice(2)).argv as Record<string, any> & {
 const nocache = argv['nocache'];
 const verbose = argv['verbose'];
 
-const defaultSiteOptions: import('hexo')['config'] = {
+const defaultSiteOptions: DeepPartial<import('hexo')['config']> = {
   // Site
   title: 'Hexo',
   subtitle: '',

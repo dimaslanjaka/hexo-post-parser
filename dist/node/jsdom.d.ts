@@ -1,4 +1,3 @@
-/// <reference types="jsdom/base" />
 import { JSDOM } from 'jsdom';
 declare class jdom {
     instances: {

@@ -1,6 +1,7 @@
+import { DeepPartial } from './globals';
 declare const nocache: any;
 declare const verbose: any;
-declare const defaultSiteOptions: import('hexo')['config'];
+declare const defaultSiteOptions: DeepPartial<import('hexo')['config']>;
 export type SiteConfig = typeof defaultSiteOptions & Record<string, any>;
 /**
  * find `_config.yml` and set to config

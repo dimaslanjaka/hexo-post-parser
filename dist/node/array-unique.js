@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uniqueStringArray = exports.uniqueArray = void 0;
+exports.uniqueArray = uniqueArray;
+exports.uniqueStringArray = uniqueStringArray;
 function uniqueArray(array) {
     for (let i = 0; i < array.length; i++) {
         for (let j = i + 1; j < array.length; j++) {
@@ -11,7 +12,6 @@ function uniqueArray(array) {
     }
     return array;
 }
-exports.uniqueArray = uniqueArray;
 /**
  * Unique Array Of Strings
  * @description Lowercase all string and filter duplicated from them
@@ -31,5 +31,4 @@ function uniqueStringArray(arr) {
         return a.indexOf(x) === i;
     });
 }
-exports.uniqueStringArray = uniqueStringArray;
 exports.default = uniqueArray;

@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import fs from 'fs';
 /**
  * Loop dir recursive
@@ -27,4 +26,4 @@ export declare const isEmpty: (data: any) => boolean;
  * @param str
  * @returns
  */
-export declare function isValidHttpUrl(str: string): any;
+export declare function isValidHttpUrl(str: string): boolean;

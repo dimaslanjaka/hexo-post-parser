@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderMarkdownIt = exports.converterOpt = void 0;
+exports.converterOpt = void 0;
+exports.default = renderShowdown;
+exports.renderMarkdownIt = renderMarkdownIt;
 const markdown_it_1 = __importDefault(require("markdown-it"));
 const markdown_it_abbr_1 = __importDefault(require("markdown-it-abbr"));
 const markdown_it_anchor_1 = __importDefault(require("markdown-it-anchor"));
@@ -28,7 +30,6 @@ function renderShowdown(str) {
     const converter = new showdown_1.default.Converter(exports.converterOpt);
     return converter.makeHtml(str);
 }
-exports.default = renderShowdown;
 const md = new markdown_it_1.default({
     html: true,
     // Autoconvert URL-like text to links
@@ -71,4 +72,3 @@ md.renderer.rules.footnote_block_open = () => '<h4 class="mt-3">Footnotes</h4>\n
 function renderMarkdownIt(str) {
     return md.render(str);
 }
-exports.renderMarkdownIt = renderMarkdownIt;

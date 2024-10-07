@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.shortcodeNow = exports.now = void 0;
+exports.now = now;
+exports.shortcodeNow = shortcodeNow;
 const _config_1 = require("../types/_config");
 /**
  * Current date time
@@ -15,7 +16,6 @@ function now() {
         .replace(/T/, ' ') // replace T with a space
         .replace(/\..+/, '')); // delete the dot and everything after
 }
-exports.now = now;
 /**
  * Transform `now shortcode` to current formatted time
  * ```html
@@ -33,5 +33,4 @@ function shortcodeNow(file, read) {
     }
     return read;
 }
-exports.shortcodeNow = shortcodeNow;
 exports.default = shortcodeNow;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.shortcodeScript = void 0;
+exports.shortcodeScript = shortcodeScript;
 /* eslint-disable no-useless-escape */
 const chalk_1 = __importDefault(require("chalk"));
 const fs_1 = require("fs");
@@ -52,4 +52,3 @@ function shortcodeScript(file, str) {
     });
     return str;
 }
-exports.shortcodeScript = shortcodeScript;

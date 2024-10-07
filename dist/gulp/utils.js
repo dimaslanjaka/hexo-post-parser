@@ -26,7 +26,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isValidHttpUrl = exports.isEmpty = exports.slash = exports.copyDir = exports.loopDir = void 0;
+exports.isEmpty = void 0;
+exports.loopDir = loopDir;
+exports.copyDir = copyDir;
+exports.slash = slash;
+exports.isValidHttpUrl = isValidHttpUrl;
 const fs_1 = __importDefault(require("fs"));
 const fse = __importStar(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
@@ -59,7 +63,6 @@ function loopDir(destDir, debug = false) {
     }
     return result;
 }
-exports.loopDir = loopDir;
 // eslint-disable-next-line no-unused-vars
 function copyDir(source, dest, callback = function (err) {
     if (err) {
@@ -72,7 +75,6 @@ function copyDir(source, dest, callback = function (err) {
 }) {
     return fse.copy(source, dest, callback);
 }
-exports.copyDir = copyDir;
 /**
  * slash alternative
  * ```bash
@@ -89,7 +91,6 @@ function slash(path) {
     }
     return path.replace(/\\/g, '/');
 }
-exports.slash = slash;
 /**
  * check variable is empty, null, undefined, object/array length 0, number is 0
  * @param data
@@ -140,4 +141,3 @@ function isValidHttpUrl(str) {
     }
     return validate;
 }
-exports.isValidHttpUrl = isValidHttpUrl;

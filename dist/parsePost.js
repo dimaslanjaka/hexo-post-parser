@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parsePost = void 0;
+exports.parsePost = parsePost;
 const fs_extra_1 = require("fs-extra");
 const jsdom_1 = require("jsdom");
 const sbg_utility_1 = require("sbg-utility");
@@ -72,8 +72,8 @@ let _cache;
  * @param options options parser
  * * {@link ParseOptions.sourceFile} used for cache key when `target` is file contents
  */
-function parsePost(target, options = {}) {
-    return __awaiter(this, void 0, void 0, function* () {
+function parsePost(target_1) {
+    return __awaiter(this, arguments, void 0, function* (target, options = {}) {
         if (!target)
             return null;
         const tmpDir = (0, upath_1.join)(process.cwd(), 'tmp/hexo-post-parser');
@@ -683,5 +683,4 @@ function parsePost(target, options = {}) {
         return null;
     });
 }
-exports.parsePost = parsePost;
 exports.default = parsePost;

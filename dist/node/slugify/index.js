@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.slugifyWithCounter = void 0;
+exports.default = slugify;
+exports.slugifyWithCounter = slugifyWithCounter;
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 // https://github.com/sindresorhus/slugify
 const escape_string_regexp_1 = __importDefault(require("../escape-string-regexp"));
@@ -64,7 +65,6 @@ function slugify(string, options = {}) {
     }
     return string;
 }
-exports.default = slugify;
 function slugifyWithCounter() {
     const occurrences = new Map();
     const countable = (string, options) => {
@@ -87,4 +87,3 @@ function slugifyWithCounter() {
     };
     return countable;
 }
-exports.slugifyWithCounter = slugifyWithCounter;

@@ -1,8 +1,8 @@
 process.cwd = () => __dirname;
 
 import { join } from 'path';
-import config from '../src/types/_config';
+import { getConfig } from '../src/types/_config';
 import { startParse } from './startParse';
 
 const post = join(__dirname, 'src-posts/without-description.md');
-startParse(post, config);
+startParse(post, getConfig());

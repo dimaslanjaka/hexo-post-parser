@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.shortcodeCss = void 0;
+exports.shortcodeCss = shortcodeCss;
 const chalk_1 = __importDefault(require("chalk"));
 const fs_1 = require("fs");
 const upath_1 = require("upath");
@@ -50,4 +50,3 @@ function shortcodeCss(file, str) {
     });
     return str;
 }
-exports.shortcodeCss = shortcodeCss;

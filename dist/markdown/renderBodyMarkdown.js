@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RenderMarkdownBody = exports.re_style_tag = exports.re_script_tag = exports.re_inline_code_block = exports.re_code_block = void 0;
+exports.default = renderBodyMarkdown;
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 const events_1 = __importDefault(require("events"));
 const filemanager_1 = require("../node/filemanager");
@@ -171,4 +172,3 @@ function renderBodyMarkdown(options) {
         (0, filemanager_1.write)((0, filemanager_1.join)(process.cwd(), 'tmp/restored.md'), rendered);
     return rendered;
 }
-exports.default = renderBodyMarkdown;

@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import fs from 'fs';
 /**
  * Current date time

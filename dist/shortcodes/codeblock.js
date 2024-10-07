@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.shortcodeCodeblock = void 0;
+exports.shortcodeCodeblock = shortcodeCodeblock;
 const axios_1 = __importDefault(require("axios"));
 const sbg_utility_1 = require("sbg-utility");
 const upath_1 = require("upath");
@@ -140,4 +140,3 @@ function shortcodeCodeblock(str) {
         return str;
     });
 }
-exports.shortcodeCodeblock = shortcodeCodeblock;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.shortcodeYoutube = void 0;
+exports.shortcodeYoutube = shortcodeYoutube;
 const color_1 = __importDefault(require("../node/color"));
 const _config_1 = require("../types/_config");
 /* eslint-disable no-useless-escape */
@@ -72,4 +72,3 @@ layout="responsive"
     }
     return content;
 }
-exports.shortcodeYoutube = shortcodeYoutube;

@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.extractText = void 0;
+exports.extractText = extractText;
 const chalk_1 = __importDefault(require("chalk"));
 const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -66,5 +66,4 @@ function extractText(file, str) {
     }
     return str;
 }
-exports.extractText = extractText;
 exports.default = extractText;

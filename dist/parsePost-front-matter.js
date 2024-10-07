@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parsePostFM = void 0;
+exports.parsePostFM = parsePostFM;
 const front_matter_1 = __importDefault(require("front-matter"));
 const fs_1 = __importDefault(require("fs"));
 /**
@@ -20,4 +20,3 @@ function parsePostFM(source) {
         allowUnsafe: true
     });
 }
-exports.parsePostFM = parsePostFM;

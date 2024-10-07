@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parsePermalink = void 0;
+exports.parsePermalink = parsePermalink;
 const upath_1 = __importDefault(require("upath"));
 const parseDateMapper_1 = require("./parseDateMapper");
 const _config_1 = require("./types/_config");
@@ -56,4 +56,3 @@ function parsePermalink(post, config) {
     // debug('permalink').extend('result')(result);
     return result;
 }
-exports.parsePermalink = parsePermalink;

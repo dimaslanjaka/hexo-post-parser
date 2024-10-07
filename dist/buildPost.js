@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildPost = void 0;
+exports.buildPost = buildPost;
 const yaml = __importStar(require("yaml"));
 const parsePost_1 = require("./parsePost");
 const object_1 = require("./utils/object");
@@ -56,7 +56,6 @@ function buildPost(parsed) {
     }
     return parsed.body;
 }
-exports.buildPost = buildPost;
 function _dummy() {
     return { parsePost: parsePost_1.parsePost };
 }

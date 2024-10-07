@@ -26,7 +26,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.md5 = exports.md5FileSync = void 0;
+exports.md5FileSync = md5FileSync;
+exports.md5 = md5;
+exports.default = md5File;
 const crypto_1 = __importDefault(require("crypto"));
 const fs = __importStar(require("fs"));
 /**
@@ -44,7 +46,6 @@ function md5FileSync(path) {
     hashSum.update(fileBuffer);
     return hashSum.digest('hex');
 }
-exports.md5FileSync = md5FileSync;
 /**
  * PHP MD5 Equivalent
  * @param data
@@ -53,7 +54,6 @@ exports.md5FileSync = md5FileSync;
 function md5(data) {
     return crypto_1.default.createHash('md5').update(data).digest('hex');
 }
-exports.md5 = md5;
 function md5File(path) {
     return new Promise((resolve, reject) => {
         const output = crypto_1.default.createHash('md5');
@@ -67,4 +67,3 @@ function md5File(path) {
         input.pipe(output);
     });
 }
-exports.default = md5File;

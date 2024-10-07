@@ -26,7 +26,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PATH_SEPARATOR = exports.extname = exports.relative = exports.basename = exports.statSync = exports.appendFileSync = exports.readFileSync = exports.existsSync = exports.fsreadDirSync = exports.mkdirSync = exports.rm = exports.rmdirSync = exports.write = exports.join = exports.read = exports.resolve = exports.dirname = exports.cwd = exports.writeFileSync = exports.globSrc = exports.removeMultiSlashes = exports.readDirectoryRecursive = exports.cacheDir = exports.normalize = void 0;
+exports.PATH_SEPARATOR = exports.extname = exports.relative = exports.basename = exports.statSync = exports.appendFileSync = exports.readFileSync = exports.existsSync = exports.fsreadDirSync = exports.mkdirSync = exports.rm = exports.rmdirSync = exports.write = exports.join = exports.resolve = exports.dirname = exports.cwd = exports.writeFileSync = exports.globSrc = exports.cacheDir = void 0;
+exports.normalize = normalize;
+exports.readDirectoryRecursive = readDirectoryRecursive;
+exports.removeMultiSlashes = removeMultiSlashes;
+exports.read = read;
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 const bluebird_1 = __importDefault(require("bluebird"));
 const fs = __importStar(require("fs-extra"));
@@ -47,7 +51,6 @@ function normalize(path) {
         return (0, upath_1.toUnix)((0, true_case_path_1.trueCasePathSync)(path));
     return (0, upath_1.toUnix)(path);
 }
-exports.normalize = normalize;
 /**
  * node_modules/.cache/${name}
  */
@@ -104,7 +107,6 @@ function readDirectoryRecursive(dirPath, callback) {
     }
     return walk(dirPath, callback);
 }
-exports.readDirectoryRecursive = readDirectoryRecursive;
 const filemanager = {
     readdirSync: readDirectoryRecursive,
     /**
@@ -175,7 +177,6 @@ const filemanager = {
 function removeMultiSlashes(str) {
     return str.replace(/(\/)+/g, '$1');
 }
-exports.removeMultiSlashes = removeMultiSlashes;
 const globSrc = function (pattern, opts = {}) {
     return new bluebird_1.default((resolve, reject) => {
         const opt = Object.assign({ cwd: (0, exports.cwd)(), dot: true, matchBase: true }, opts);
@@ -224,7 +225,6 @@ function read(path, opt) {
         return (0, exports.readFileSync)(path, opt);
     return null;
 }
-exports.read = read;
 /**
  * smart join to unix path
  * * removes empty/null/undefined

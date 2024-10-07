@@ -1,7 +1,3 @@
-/// <reference types="node" />
-/// <reference types="node" />
-/// <reference types="node" />
-/// <reference types="node" />
 import Bluebird from 'bluebird';
 import * as fs from 'fs-extra';
 import upath from 'upath';

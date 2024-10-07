@@ -5,13 +5,14 @@
  * @returns
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.replaceArr = exports.cleanString = exports.cleanWhiteSpace = void 0;
+exports.cleanWhiteSpace = cleanWhiteSpace;
+exports.cleanString = cleanString;
+exports.replaceArr = replaceArr;
 function cleanWhiteSpace(text) {
     if (typeof text == 'string')
         return text.replace(/\s+/gm, ' ');
     return text;
 }
-exports.cleanWhiteSpace = cleanWhiteSpace;
 /**
  * clean string with exception char
  * @param text
@@ -22,7 +23,6 @@ function cleanString(text, exception = '.,-_ ') {
         return text.replace(new RegExp('[^a-zA-Z0-9' + exception + ']', 'gm'), '');
     return text;
 }
-exports.cleanString = cleanString;
 /**
  * Replace string by array pattern
  * @param array
@@ -43,4 +43,3 @@ function replaceArr(str, array, replacement) {
     });
     return ori;
 }
-exports.replaceArr = replaceArr;
