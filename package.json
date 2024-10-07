@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "clean": "rm -rf dist && tsc -b --clean",
     "build": "tsc --build tsconfig.build.json",
     "build-clean": "yarn clean && yarn build",
