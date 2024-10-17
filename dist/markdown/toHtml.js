@@ -30,7 +30,7 @@ function renderShowdown(str) {
     const converter = new showdown_1.default.Converter(exports.converterOpt);
     return converter.makeHtml(str);
 }
-const md = new markdown_it_1.default({
+const md = new markdown_it_1.default('default', {
     html: true,
     // Autoconvert URL-like text to links
     linkify: false,
@@ -70,5 +70,5 @@ md.renderer.rules.footnote_block_open = () => '<h4 class="mt-3">Footnotes</h4>\n
  * @returns
  */
 function renderMarkdownIt(str) {
-    return md.render(str);
+    return md.render(str, {});
 }

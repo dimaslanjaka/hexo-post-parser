@@ -25,7 +25,7 @@ export default function renderShowdown(str: string) {
   return converter.makeHtml(str);
 }
 
-const md = new MarkdownIt({
+const md = new MarkdownIt('default', {
   html: true,
   // Autoconvert URL-like text to links
   linkify: false,
@@ -46,7 +46,7 @@ md.use(MarkdownItSup)
   })
   .use(MarkdownItAnchor, {
     permalink: MarkdownItAnchor.permalink.headerLink(),
-    slugify: (s) => slugify(s)
+    slugify: (s: string) => slugify(s)
   });
 md.renderer.rules.footnote_block_open = () =>
   '<h4 class="mt-3">Footnotes</h4>\n' +
@@ -67,5 +67,5 @@ md.renderer.rules.footnote_block_open = () =>
  * @returns
  */
 export function renderMarkdownIt(str: string) {
-  return md.render(str);
+  return md.render(str, {});
 }
