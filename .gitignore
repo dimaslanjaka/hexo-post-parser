@@ -1,10 +1,13 @@
 **/node_modules
 yarn.lock
 package-lock.json
-/dist
 
 # private keys
 .env
+
+# ignore dist files
+/dist
+*.tsbuildinfo
 
 # yarn v2
 .yarn/**/*.tgz
@@ -13,6 +16,8 @@ package-lock.json
 .yarn/version*
 .yarn/unplugged
 .yarn/cache
+!.yarn/release*
+yarn.lock
 
 # Logs
 logs
@@ -31,8 +36,3 @@ tmp
 
 # es2016
 /src-old
-
-# ignore yarn config in pre-release
-/.yarn*
-
-*.tsbuildinfo
