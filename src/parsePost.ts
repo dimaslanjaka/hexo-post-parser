@@ -90,11 +90,11 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     ? md5FileSync(fileTarget)
     : md5(fileTarget);
   if (options.cache) {
-    //console.log('use cache');
+    // console.log('use cache');
     const getCache = _cache.getSync<postMap>(cacheKey);
     if (getCache) return getCache;
   } else {
-    //console.log('rewrite cache');
+    // console.log('fresh cache');
   }
 
   /**
@@ -102,6 +102,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
    */
   let originalFile = target;
   const isFile = existsSync(target) && statSync(target).isFile();
+  // console.log(target, 'is file', isFile);
   if (isFile) {
     target = String(readFileSync(target, 'utf-8'));
     if (options.sourceFile) originalFile = options.sourceFile;

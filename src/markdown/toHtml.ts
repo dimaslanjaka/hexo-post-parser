@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import MarkdownIt from 'markdown-it';
 import MarkdownItAbbr from 'markdown-it-abbr';
 import MarkdownItAnchor from 'markdown-it-anchor';
@@ -6,6 +7,8 @@ import MarkdownItFootnote from 'markdown-it-footnote';
 import MarkdownItMark from 'markdown-it-mark';
 import MarkdownItSub from 'markdown-it-sub';
 import MarkdownItSup from 'markdown-it-sup';
+import path from 'path';
+import { md5 } from 'sbg-utility';
 import showdown from 'showdown';
 import slugify from '../node/slugify/index';
 
@@ -67,5 +70,18 @@ md.renderer.rules.footnote_block_open = () =>
  * @returns
  */
 export function renderMarkdownIt(str: string) {
-  return md.render(str, {});
+  const cacheId = md5(str);
+  const cachePath = path.join(
+    process.cwd(),
+    'tmp/hexo-post-parser',
+    'renderMarkdownIt',
+    cacheId + 'json'
+  );
+  if (fs.existsSync(cachePath)) {
+    return fs.readFileSync(cachePath).toString();
+  }
+  const result = md.render(str, {});
+  fs.ensureDirSync(path.dirname(cachePath));
+  fs.writeFileSync(cachePath, result);
+  return result;
 }
