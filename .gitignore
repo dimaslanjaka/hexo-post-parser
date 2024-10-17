@@ -1,15 +1,10 @@
 **/node_modules
 yarn.lock
 package-lock.json
+/dist
 
 # private keys
 .env
-
-# keep all dist files
-!dist
-!dist/*
-!dist/**/*
-dist/**/*.json
 
 # yarn v2
 .yarn/**/*.tgz
