@@ -1,3 +1,4 @@
+import { deepmerge } from 'deepmerge-ts';
 import {
   existsSync,
   mkdirpSync,
@@ -76,8 +77,11 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     defaultThumb:
       'https://rawcdn.githack.com/dimaslanjaka/public-source/6a0117ddb2ea327c80dbcc7327cceca1e1b7794e/images/no-image-svgrepo-com.svg'
   };
-
+  if (options.config) {
+    options.config = deepmerge(default_options.config, options.config);
+  }
   options = Object.assign(default_options, options);
+
   const siteConfig = options.config ? setConfig(options.config) : getConfig();
   if (!options.sourceFile && existsSync(target)) options.sourceFile = target;
 
