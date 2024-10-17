@@ -372,11 +372,14 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         if (!publicFile) return sourcePath;
         // replace extended title from source
         sourcePath = sourcePath.replace(/['"](.*)['"]/gim, '').trim();
-        // return base64 image
-        if (sourcePath.startsWith('data:image')) return sourcePath;
+        // return original source path for http(s) url
+        if (/^https?:\/\//.test(sourcePath)) return sourcePath;
+        // return original source path for specific patterns
+        if (/^(\$|#|data:image)/.test(sourcePath)) return sourcePath;
         if (sourcePath.startsWith('//')) sourcePath = 'http:' + sourcePath;
-        if (sourcePath.includes('%20'))
+        if (sourcePath.includes('%20')) {
           sourcePath = decodeURIComponent(sourcePath);
+        }
         if (!isValidHttpUrl(sourcePath) && !sourcePath.startsWith('/')) {
           let result: string | null = null;
           /** search from same directory */
