@@ -1,14 +1,11 @@
-/* eslint-disable prefer-rest-params */
-
-//const original = console;
 const logger = {
   /**
    * false to deactivate logger
    */
   active: true,
-  assert: function () {
+  assert: function (...args: any[]) {
     if (logger.active && logger.doAssert) {
-      console.assert.apply(null, arguments);
+      console.assert(...args);
     }
   },
   clear: function () {
@@ -16,89 +13,89 @@ const logger = {
       console.clear();
     }
   },
-  count: function () {
+  count: function (...args: any[]) {
     if (logger.active && logger.doCount) {
-      console.count.apply(null, arguments);
+      console.count(...args);
     }
   },
-  countReset: function () {
+  countReset: function (...args: any[]) {
     if (logger.active && logger.doCountReset) {
-      console.countReset.apply(null, arguments);
+      console.countReset(...args);
     }
   },
-  debug: function () {
+  debug: function (...args: any[]) {
     if (logger.active && logger.doDebug) {
-      console.debug.apply(null, arguments);
+      console.debug(...args);
     }
   },
-  dir: function () {
+  dir: function (...args: any[]) {
     if (logger.active && logger.doDir) {
-      console.dir.apply(null, arguments);
+      console.dir(...args);
     }
   },
-  dirxml: function () {
+  dirxml: function (...args: any[]) {
     if (logger.active && logger.doDirxml) {
-      console.dirxml.apply(null, arguments);
+      console.dirxml(...args);
     }
   },
-  error: function () {
+  error: function (...args: any[]) {
     if (logger.active && logger.doError) {
-      console.error.apply(null, arguments);
+      console.error(...args);
     }
   },
-  group: function () {
+  group: function (...args: any[]) {
     if (logger.active && logger.doGroup) {
-      console.group.apply(null, arguments);
+      console.group(...args);
     }
   },
-  groupCollapsed: function () {
+  groupCollapsed: function (...args: any[]) {
     if (logger.active && logger.doGroup) {
-      console.groupCollapsed.apply(null, arguments);
+      console.groupCollapsed(...args);
     }
   },
   groupEnd: function () {
     if (logger.active && logger.doGroup) {
-      console.groupEnd.apply(null, arguments);
+      console.groupEnd();
     }
   },
-  info: function () {
+  info: function (...args: any[]) {
     if (logger.active && logger.doInfo) {
-      console.info.apply(null, arguments);
+      console.info(...args);
     }
   },
-  log: function () {
+  log: function (...args: any[]) {
     if (logger.active && logger.doLog) {
-      console.log.apply(null, arguments);
+      console.log(...args);
     }
   },
-  table: function () {
+  table: function (...args: any[]) {
     if (logger.active && logger.doTable) {
-      console.table.apply(null, arguments);
+      console.table(...args);
     }
   },
-  time: function () {
+  time: function (...args: any[]) {
     if (logger.active && logger.doTime) {
-      console.time.apply(null, arguments);
+      console.time(...args);
     }
   },
-  timeEnd: function () {
+  timeEnd: function (...args: any[]) {
     if (logger.active && logger.doTime) {
-      console.timeEnd.apply(null, arguments);
+      console.timeEnd(...args);
     }
   },
-  timeLog: function () {
+  timeLog: function (...args: any[]) {
     if (logger.active && logger.doTime) {
-      console.timeLog.apply(null, arguments);
+      console.timeLog(...args);
     }
   },
-  trace: function () {
+  trace: function (...args: any[]) {
     if (logger.active && logger.doTrace) {
-      console.trace.apply(null, arguments);
+      console.trace(...args);
     }
   },
-  warn: function () {
+  warn: function (...args: any[]) {
     if (logger.active && logger.doWarn) {
-      console.warn.apply(null, arguments);
+      console.warn(...args);
     }
   },
   doAssert: true,
@@ -127,8 +124,10 @@ const logger = {
     return console.profileEnd(label);
   }
 };
+
 type newConsole = typeof logger &
   Console & {
     [key: string]: any;
   };
+
 export default logger as newConsole;
