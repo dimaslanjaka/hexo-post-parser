@@ -3,7 +3,9 @@ import { deepmerge } from 'deepmerge-ts';
 import { existsSync, readFileSync, statSync } from 'fs-extra';
 import { JSDOM } from 'jsdom';
 import {
+  array_unique,
   jsonStringifyWithCircularRefs,
+  normalizePathUnix,
   persistentCache,
   writefile
 } from 'sbg-utility';
@@ -402,13 +404,25 @@ export async function parsePost(
         }
 
         // Handle invalid HTTP URLs and non-root paths
-        if (!isValidHttpUrl(sourcePath) && !sourcePath.startsWith('/')) {
-          const potentialPaths = [
-            join(dirname(publicFile), sourcePath), // Same directory
-            join(dirname(dirname(publicFile)), sourcePath), // Parent directory
-            join(process.cwd(), sourcePath), // Root directory
-            join(post_generated_dir, sourcePath) // Custom directory
-          ];
+        if (!isValidHttpUrl(sourcePath)) {
+          // Skip file exist in folder _config.yml.source_dir
+          if (
+            existsSync(
+              normalizePathUnix(
+                process.cwd(),
+                options.config.source_dir,
+                sourcePath
+              )
+            )
+          ) {
+            return sourcePath;
+          }
+          const potentialPaths = array_unique([
+            normalizePathUnix(dirname(publicFile), sourcePath), // Same directory
+            normalizePathUnix(dirname(dirname(publicFile)), sourcePath), // Parent directory
+            normalizePathUnix(process.cwd(), sourcePath), // Root directory
+            normalizePathUnix(post_generated_dir, sourcePath) // Custom directory
+          ]);
 
           const result = potentialPaths.find((src) => existsSync(src)) || null;
 
