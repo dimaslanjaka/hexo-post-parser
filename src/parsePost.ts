@@ -705,7 +705,9 @@ export async function parsePost(
 
   // test opening metadata tag
   const regexPost = /^---([\s\S]*?)---[\n\s\S]\n([\n\s\S]*)/g;
-  const testPost = Array.from(target.matchAll(regexPost)).map(mapper)[0];
+  const testPost = (await Promise.all(
+    Array.from(target.matchAll(regexPost)).map(mapper)
+  )[0]) as Nullable<postMap>;
   if (typeof testPost === 'object' && testPost !== null) {
     log('test 1 passed');
     return testPost;
@@ -713,16 +715,18 @@ export async function parsePost(
 
   // test non-opening metadata tag
   const regexPostNoOpening = /^([\s\S]*?)---[\n\s\S]\n([\n\s\S]*)/g;
-  const testPost2 = Array.from(target.matchAll(regexPostNoOpening)).map(
-    mapper
-  )[0];
+  const testPost2 = (await Promise.all(
+    Array.from(target.matchAll(regexPostNoOpening)).map(mapper)
+  )[0]) as Nullable<postMap>;
   if (typeof testPost2 === 'object' && testPost2 !== null) {
     log('test 2 passed');
     return testPost2;
   }
 
   const regexPage = /^---([\s\S]*?)---[\n\s\S]([\n\s\S]*)/gm;
-  const testPage = Array.from(target.matchAll(regexPage)).map(mapper)[0];
+  const testPage = (await Promise.all(
+    Array.from(target.matchAll(regexPage)).map(mapper)
+  )[0]) as Nullable<postMap>;
   if (typeof testPage === 'object' && testPage !== null) return testPage;
 
   const parseFM = parsePostFM(target);
