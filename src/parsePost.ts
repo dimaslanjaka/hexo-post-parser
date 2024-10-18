@@ -46,10 +46,7 @@ let _cache: persistentCache;
  * @param options options parser
  * * {@link ParseOptions.sourceFile} used for cache key when `target` is file contents
  */
-export async function parsePost(
-  target: string,
-  options: ParseOptions = {}
-): Promise<Nullable<postMap>> {
+export async function parsePost(target: string, options: ParseOptions = {}) {
   if (!target) return null;
   const tmpDir = join(process.cwd(), 'tmp/hexo-post-parser');
   if (!_cache) {
@@ -109,10 +106,10 @@ export async function parsePost(
     if (options.sourceFile) originalFile = options.sourceFile;
   }
 
-  const mapper = async (m: RegExpMatchArray | postMeta) => {
-    if (!m) {
-      throw new Error(originalFile + ' cannot be mapped');
-    }
+  const processParsed = async (
+    body: Nullable<string>,
+    metadata: Record<string, any>
+  ) => {
     let meta: postMap['metadata'] = {
       title: '',
       subtitle: '',
@@ -120,35 +117,7 @@ export async function parsePost(
       tags: [],
       categories: []
     };
-
-    let body = '';
-
-    if (Array.isArray(m)) {
-      body = m[2];
-      try {
-        meta = yaml.parse(m[1]) || meta;
-      } catch (error: any) {
-        error.sourceFile = options.sourceFile;
-        const w = writefile(
-          join(
-            tmpDir,
-            'errors',
-            sanitizeFilename(basename(options.sourceFile).trim(), '-') + '.json'
-          ),
-          jsonStringifyWithCircularRefs(error)
-        );
-        console.error('metadata error written', w.file);
-        return null;
-      }
-    } else {
-      meta = Object.assign(meta, m);
-    }
-
-    if (typeof meta !== 'object') {
-      //writeFileSync(join(cwd(), 'tmp/dump.json'), JSON.stringify(m, null, 2));
-      //log('meta required object');
-      return null;
-    }
+    meta = Object.assign(meta, metadata);
 
     const rawbody = body; // raw body
 
@@ -721,6 +690,68 @@ export async function parsePost(
     return result;
   };
 
+  const mapper = async (m: Nullable<RegExpMatchArray | postMeta>) => {
+    if (!m) {
+      throw new Error(originalFile + ' cannot be mapped');
+    }
+
+    let body = '';
+    let meta = {};
+
+    if (Array.isArray(m)) {
+      body = m[2];
+      try {
+        meta = yaml.parse(m[1]) || meta;
+      } catch (error: any) {
+        error.sourceFile = options.sourceFile;
+        const w = writefile(
+          join(
+            tmpDir,
+            'errors',
+            sanitizeFilename(basename(options.sourceFile).trim(), '-') + '.json'
+          ),
+          jsonStringifyWithCircularRefs(error)
+        );
+        console.error('metadata error written', w.file);
+        return null;
+      }
+    } else {
+      meta = Object.assign(meta, m);
+    }
+
+    if (typeof meta !== 'object') {
+      //writeFileSync(join(cwd(), 'tmp/dump.json'), JSON.stringify(m, null, 2));
+      //log('meta required object');
+      return null;
+    }
+
+    return await processParsed(body, meta);
+  };
+
+  const countTripleHypens = target.split('---').length - 1;
+  log('triple hypens', countTripleHypens);
+
+  // markdown-it sometimes has multiple triple hypens
+  if (countTripleHypens > 2) {
+    // Regex pattern to match the frontmatter and capture the body
+    const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
+    const match = target.match(frontmatterRegex);
+    if (match) {
+      const frontmatter = match[1].trim();
+      const body = match[2].trim();
+
+      // Parse the frontmatter into an object
+      const metadata = frontmatter.split('\n').reduce((acc, line) => {
+        const [key, ...value] = line.split(':');
+        acc[key.trim()] = value.join(':').trim().startsWith('[')
+          ? JSON.parse(value.join(':').trim())
+          : value.join(':').trim();
+        return acc;
+      }, {});
+      return await processParsed(body, metadata);
+    }
+  }
+
   // test opening metadata tag
   const regexPost = /^---([\s\S]*?)---[\n\s\S]\n([\n\s\S]*)/g;
   const testPost = (await Promise.all(
@@ -748,10 +779,11 @@ export async function parsePost(
   if (typeof testPage === 'object' && testPage !== null) return testPage;
 
   const parseFM = parsePostFM(target);
-  const mapFM = mapper(parseFM.attributes);
-  if (typeof mapFM === 'object' && mapFM !== null) return mapFM;
-
-  return null;
+  const mapFM = await mapper(parseFM.attributes);
+  mapFM.rawbody = parseFM.body;
+  if (typeof mapFM === 'object' && mapFM !== null) {
+    return mapFM;
+  }
 }
 
 export default parsePost;

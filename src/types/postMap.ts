@@ -1,7 +1,7 @@
-import { postMeta } from './postMeta';
 import { getConfig } from './_config';
+import { postMeta } from './postMeta';
 
-export interface postMap extends Object {
+export interface postMap {
   [key: string]: any;
   /**
    * Article metadata as string
