@@ -5,7 +5,7 @@ const chalk = require('chalk');
  * @param {import("../packages/hexo-blogger-xml/src/types/post-header").PostHeader} headers
  * @returns {string}
  */
-module.exports = function (content, headers) {
+function post_callback(content, headers) {
   console.log('Process callback article', chalk.magenta(headers.title));
 
   //https://cdn.rawgit.com/dimaslanjaka/Web-Manajemen/master/Animasi/text-animasi.html
@@ -15,4 +15,7 @@ module.exports = function (content, headers) {
     'https://www.webmanajemen.com/'
   );
   return content;
-};
+}
+
+module.exports = post_callback;
+module.exports.post_callback = post_callback;
