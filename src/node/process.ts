@@ -1,8 +1,8 @@
 import fs from 'fs';
-import upath from 'upath';
 import coreProcess from 'process';
-import spawner from './spawner';
+import upath from 'upath';
 import { md5FileSync } from './md5-file';
+import spawner from './spawner';
 import { makeid } from './uuid';
 
 const tempFolder = coreProcess.cwd() + '/tmp/compiler';

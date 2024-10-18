@@ -16,7 +16,7 @@ import { basename, dirname, join, toUnix } from 'upath';
 import yaml from 'yaml';
 import { generatePostId } from './generatePostId';
 import { isValidHttpUrl } from './gulp/utils';
-import { renderMarkdownIt } from './markdown/toHtml';
+import { renderMarked } from './markdown/toHtml';
 import uniqueArray, { uniqueStringArray } from './node/array-unique';
 import color from './node/color';
 import { normalize } from './node/filemanager';
@@ -159,9 +159,6 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     // add custom body
     if (!body) body = 'no content ' + (meta.title || '');
 
-    const bodyHtml = renderMarkdownIt(body);
-    const dom = new JSDOM(bodyHtml);
-
     if (!meta.id) {
       // assign post id
       meta.id = generatePostId(meta);
@@ -285,6 +282,9 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       meta.description = meta.excerpt;
       meta.subtitle = meta.excerpt;
     } else {
+      // const bodyHtml = renderMarkdownIt(body);
+      const bodyHtml = renderMarked(body);
+      const dom = new JSDOM(bodyHtml);
       // @todo fix no meta description
       const tags = Array.from(
         dom.window.document.body.getElementsByTagName('*')
@@ -297,6 +297,20 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       meta.description = newExcerpt;
       meta.subtitle = newExcerpt;
       meta.excerpt = newExcerpt;
+
+      // @todo count words when wordcount is 0
+      if (
+        meta.wordcount === 0 &&
+        typeof body === 'string' &&
+        body.trim().length > 0
+      ) {
+        const words = Array.from(
+          dom.window.document.querySelectorAll('*:not(script,style,meta,link)')
+        )
+          .map((e) => e.textContent)
+          .join('\n');
+        meta.wordcount = countWords(words);
+      }
     }
 
     // @todo fix description
@@ -645,20 +659,6 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
           if (shortcodes.codeblock) body = await shortcodeCodeblock(body);
         }
       }
-    }
-
-    // @todo count words when wordcount is 0
-    if (
-      meta.wordcount === 0 &&
-      typeof body === 'string' &&
-      body.trim().length > 0
-    ) {
-      const words = Array.from(
-        dom.window.document.querySelectorAll('*:not(script,style,meta,link)')
-      )
-        .map((e) => e.textContent)
-        .join('\n');
-      meta.wordcount = countWords(words);
     }
 
     // sort metadata

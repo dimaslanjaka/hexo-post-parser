@@ -14,7 +14,7 @@ export const re_inline_code_block = /`([^`\n\r]+)`/gm;
 export const re_script_tag = /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gim;
 export const re_style_tag = /<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gim;
 
-interface RenderBodyOptions extends Partial<postMap> {
+export interface RenderBodyOptions extends Partial<postMap> {
   /**
    * enable dump
    */
@@ -25,13 +25,13 @@ interface RenderBodyOptions extends Partial<postMap> {
   body: string;
 }
 
-interface ClassEvents {
+export interface ClassEvents {
   beforeRender: (body: string) => void;
   afterRender: (body: string) => void;
   // beforeExtractCodeblock: (codeblock: string) => string;
 }
 
-interface RenderMarkdownBody {
+export interface RenderMarkdownBody {
   on<U extends keyof ClassEvents>(event: U, listener: ClassEvents[U]): this;
 
   emit<U extends keyof ClassEvents>(
@@ -40,7 +40,7 @@ interface RenderMarkdownBody {
   ): boolean;
 }
 
-class RenderMarkdownBody extends events.EventEmitter {
+export class RenderMarkdownBody extends events.EventEmitter {
   private options: RenderBodyOptions;
   private codeBlocks: string[] = [];
   private styleScriptBlocks = {
@@ -177,8 +177,6 @@ class RenderMarkdownBody extends events.EventEmitter {
     return this;
   }
 }
-
-export { RenderMarkdownBody };
 
 /**
  * Fixable render markdown mixed with html

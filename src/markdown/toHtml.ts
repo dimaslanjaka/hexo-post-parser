@@ -7,6 +7,7 @@ import MarkdownItFootnote from 'markdown-it-footnote';
 import MarkdownItMark from 'markdown-it-mark';
 import MarkdownItSub from 'markdown-it-sub';
 import MarkdownItSup from 'markdown-it-sup';
+import marked from 'marked';
 import path from 'path';
 import { md5 } from 'sbg-utility';
 import showdown from 'showdown';
@@ -38,6 +39,7 @@ const md = new MarkdownIt('default', {
   breaks: false,
   langPrefix: 'language-' // CSS language prefix for fenced blocks. Can be useful for external highlighters.
 });
+
 //md.linkify.set({ fuzzyEmail: false }); // disables converting email to link
 md.use(MarkdownItSup)
   .use(MarkdownItSub)
@@ -83,5 +85,37 @@ export function renderMarkdownIt(str: string) {
   const result = md.render(str, {});
   fs.ensureDirSync(path.dirname(cachePath));
   fs.writeFileSync(cachePath, result);
+  return result;
+}
+
+/**
+ * Renders a markdown string using Marked.js, with optional caching.
+ *
+ * @param str - The markdown string to render.
+ * @param cache - If true, caches the result in a temporary file.
+ * @returns The rendered HTML content.
+ */
+export function renderMarked(str: string, cache: boolean = false): string {
+  let cachePath = '';
+
+  if (cache) {
+    const cacheId = md5(str);
+    cachePath = path.join(
+      process.cwd(),
+      'tmp/hexo-post-parser',
+      'renderMarkdownIt',
+      `${cacheId}.json`
+    );
+    if (fs.existsSync(cachePath)) {
+      return fs.readFileSync(cachePath, 'utf8');
+    }
+  }
+
+  const result = marked.parse(str, { async: false });
+  if (cache) {
+    fs.ensureDirSync(path.dirname(cachePath));
+    fs.writeFileSync(cachePath, result);
+  }
+
   return result;
 }

@@ -1,13 +1,12 @@
 import Bluebird from 'bluebird';
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
+import glob from 'glob';
 import { default as nodePath } from 'path';
 import { cwd as nodeCwd } from 'process';
 import utility from 'sbg-utility';
 import { trueCasePathSync } from 'true-case-path';
 import upath, { toUnix } from 'upath';
 import ErrnoException = NodeJS.ErrnoException;
-
-import glob = require('glob');
 
 /**
  * cross-platform normalize path to fixed-case windows drive letters
