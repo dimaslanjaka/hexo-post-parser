@@ -34,7 +34,7 @@ import { parseShortCodeInclude } from './shortcodes/include';
 import { shortcodeScript } from './shortcodes/script';
 import { shortcodeNow } from './shortcodes/time';
 import { shortcodeYoutube } from './shortcodes/youtube';
-import { ParseOptions, postMap, postMeta } from './types';
+import { Nullable, ParseOptions, postMap, postMeta } from './types';
 import { getConfig, post_generated_dir, setConfig } from './types/_config';
 import { sortObjectByKeys } from './utils/object';
 import { countWords, removeDoubleSlashes } from './utils/string';
@@ -50,7 +50,10 @@ let _cache: persistentCache;
  * @param options options parser
  * * {@link ParseOptions.sourceFile} used for cache key when `target` is file contents
  */
-export async function parsePost(target: string, options: ParseOptions = {}) {
+export async function parsePost(
+  target: string,
+  options: ParseOptions = {}
+): Promise<Nullable<postMap>> {
   if (!target) return null;
   const tmpDir = join(process.cwd(), 'tmp/hexo-post-parser');
   if (!_cache) {
