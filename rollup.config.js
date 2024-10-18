@@ -4,9 +4,53 @@ const commonjs = require('@rollup/plugin-commonjs').default;
 const resolve = require('@rollup/plugin-node-resolve').default;
 const typescript = require('@rollup/plugin-typescript').default;
 const pkg = require('./package.json');
-const deps = Object.keys(pkg.dependencies).concat(
+
+const deps = [
+  ...Object.keys(pkg.dependencies),
   ...Object.keys(pkg.devDependencies)
-);
+];
+const external = deps.concat('events');
+
+/**
+ * @type {import('rollup').RollupOptions}
+ */
+const onefile = {
+  input: './src/index.ts',
+  output: [
+    {
+      file: './dist/index.js',
+      format: 'esm',
+      exports: 'named',
+      sourcemap: false,
+      inlineDynamicImports: true
+    },
+    {
+      file: './dist/index.cjs',
+      format: 'cjs',
+      exports: 'named',
+      sourcemap: false,
+      inlineDynamicImports: true
+    }
+  ],
+  external: external.filter((pkgName) => !['markdown-it'].includes(pkgName)),
+  plugins: [
+    typescript({
+      tsconfig: 'tsconfig.json',
+      outDir: './dist',
+      include: ['./src/**/*'],
+      exclude: [
+        '**/*.spec.*',
+        '**/*.test.*',
+        '**/*.builder.*',
+        '**/*.runner.*'
+      ],
+      declaration: false
+    }),
+    resolve(),
+    commonjs(),
+    babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' })
+  ]
+};
 
 /**
  * @type {import('rollup').RollupOptions}
@@ -18,47 +62,7 @@ const declaration = {
     { file: 'dist/index.d.mts', format: 'es', exports: 'named' }
   ],
   plugins: [dts()],
-  external: ['events']
-};
-
-/**
- * @type {import('rollup').RollupOptions}
- */
-const onefile = {
-  input: './src/index.ts',
-  output: [
-    {
-      file: './dist/index.js',
-      format: 'esm',
-      exports: 'named'
-    },
-    {
-      file: './dist/index.cjs',
-      format: 'cjs',
-      exports: 'named'
-    }
-  ],
-  external: deps.concat('events'),
-  plugins: [
-    typescript({
-      tsconfig: 'tsconfig.json',
-      outDir: './dist',
-      include: ['./src/**/*'],
-      exclude: [
-        '**/*.spec*.*',
-        '**/*.test.*',
-        '**/*.builder.*',
-        '**/*.runner.*'
-      ],
-      declaration: false
-    }),
-    resolve(), // Resolve node_modules
-    commonjs(), // Convert CommonJS modules to ES6
-    babel({
-      babelHelpers: 'bundled',
-      exclude: 'node_modules/**' // Exclude node_modules from transpilation
-    })
-  ]
+  external
 };
 
 module.exports = [declaration, onefile];
