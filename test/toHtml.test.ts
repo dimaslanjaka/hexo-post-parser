@@ -1,4 +1,4 @@
-import { renderBodyMarkdown } from '../src/markdown/toHtml';
+import { renderBodyMarkdown } from '../src/markdown/markdownRenderers';
 import { parsePost } from '../src/markdown/transformPosts';
 import { join } from '../src/node/filemanager';
 

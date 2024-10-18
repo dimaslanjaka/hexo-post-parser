@@ -1,9 +1,6 @@
 import gulp from 'gulp';
 import { scheduler } from 'sbg-utility';
 import { TaskCallback } from 'undertaker';
-import './gulp/tasks/copy';
-import './gulp/tasks/deploy';
-import './gulp/tasks/generate';
 import { dbFolder } from './node/cache';
 import { join, rm } from './node/filemanager';
 import { getConfig } from './types/_config';

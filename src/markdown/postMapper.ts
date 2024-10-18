@@ -1,22 +1,6 @@
-import { parseDateMapper } from '../../parseDateMapper';
-import { postMap } from '../../types/postMap';
-
-/**
- * Partializing properties
- * @see {@link https://stackoverflow.com/a/40076355/6404439}
- */
-export type Partial<T> = {
-  [P in keyof T]?: T[P];
-};
-/**
- * Partializing properties deeper
- * @see {@link https://stackoverflow.com/a/40076355/6404439}
- */
-export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends Record<string, unknown>
-    ? DeepPartial<T[P]>
-    : T[P];
-};
+import { parseDateMapper } from '../parseDateMapper';
+import { DeepPartial } from '../types';
+import { postMap } from '../types/postMap';
 
 /**
  * mapped type

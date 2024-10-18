@@ -2,7 +2,7 @@ process.cwd = () => __dirname;
 
 import { join } from 'upath';
 import { buildPost, getConfig, parsePost } from '../src';
-import { simplifyDump } from '../src/markdown/transformPosts/postMapper';
+import { simplifyDump } from '../src/markdown/postMapper';
 import color from '../src/node/color';
 import debug from '../src/node/debug';
 import { write } from '../src/node/filemanager';

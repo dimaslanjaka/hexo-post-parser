@@ -1,4 +1,4 @@
-import { mergedPostMap } from '../markdown/transformPosts/postMapper';
+import { mergedPostMap } from '../markdown/postMapper';
 import CacheFile from './cache';
 
 export type postResult = mergedPostMap;

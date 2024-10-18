@@ -1,7 +1,7 @@
 import { existsSync, rmSync } from 'fs';
 import { join } from 'upath';
 import buildPost from '../src/buildPost';
-import { simplifyDump } from '../src/markdown/transformPosts/postMapper';
+import { simplifyDump } from '../src/markdown/postMapper';
 import color from '../src/node/color';
 import { write } from '../src/node/filemanager';
 import { slugifySanitizeFilename } from '../src/node/sanitize-filename';

@@ -5,7 +5,6 @@ import utility, { scheduler } from 'sbg-utility';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import upath from 'upath';
 import { DynamicObject } from '../types';
-import './cache-serialize';
 import {
   cacheDir,
   existsSync,

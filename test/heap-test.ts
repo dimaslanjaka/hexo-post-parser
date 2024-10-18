@@ -4,7 +4,7 @@ import './config';
 
 import { writefile } from 'sbg-utility';
 import { buildPost, getConfig, parsePost } from '../src';
-import { renderMarked } from '../src/markdown/toHtml';
+import { renderMarked } from '../src/markdown/markdownRenderers';
 import { join } from '../src/node/filemanager';
 
 const file = join(__dirname, 'src-posts/table.md');

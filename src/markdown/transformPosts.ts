@@ -1,4 +1,4 @@
-import yaml from 'yaml';
+import buildPost from '../buildPost';
 import color from '../node/color';
 import {
   dirname,
@@ -16,15 +16,6 @@ import { postMap } from '../types';
 export function saveParsedPost(parsed: postMap, file: string) {
   if (!existsSync(dirname(file))) mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, buildPost(parsed));
-}
-
-/**
- * Rebuild {@link parsePost} result to markdown post back
- * @param parsed parsed post return {@link parsePost}
- * @returns
- */
-export function buildPost(parsed: postMap) {
-  return `---\n${yaml.stringify(parsed.metadata)}---\n\n${parsed.body}`;
 }
 
 /**

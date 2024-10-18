@@ -14,7 +14,7 @@ import upath from 'upath';
 import yaml from 'yaml';
 import { generatePostId } from './generatePostId';
 import { isValidHttpUrl } from './gulp/utils';
-import { renderMarked } from './markdown/toHtml';
+import { renderMarked } from './markdown/markdownRenderers';
 import uniqueArray, { uniqueStringArray } from './node/array-unique';
 import color from './node/color';
 import { md5, md5FileSync } from './node/md5-file';

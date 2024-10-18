@@ -5,11 +5,10 @@ const resolve = require('@rollup/plugin-node-resolve').default;
 const typescript = require('@rollup/plugin-typescript').default;
 const pkg = require('./package.json');
 
-const deps = [
+const external = [
   ...Object.keys(pkg.dependencies),
   ...Object.keys(pkg.devDependencies)
 ];
-const external = deps.concat('events');
 
 const baseBanner = `// ${pkg.name} ${pkg.version} by ${pkg.author}`.trim();
 
@@ -67,7 +66,7 @@ const onefile = {
       ],
       declaration: false
     }),
-    resolve(),
+    resolve({ preferBuiltins: true }),
     commonjs(),
     babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' })
   ]
@@ -82,7 +81,7 @@ const declaration = {
     { file: 'dist/index.d.ts', format: 'es', exports: 'named' },
     { file: 'dist/index.d.mts', format: 'es', exports: 'named' }
   ],
-  plugins: [dts()],
+  plugins: [resolve({ preferBuiltins: true }), dts()],
   external
 };
 

@@ -5,7 +5,7 @@ import { default as nodePath } from 'path';
 import { cwd as nodeCwd } from 'process';
 import utility from 'sbg-utility';
 import upath from 'upath';
-import ErrnoException = NodeJS.ErrnoException;
+type ErrnoException = NodeJS.ErrnoException;
 
 /**
  * node_modules/.cache/${name}

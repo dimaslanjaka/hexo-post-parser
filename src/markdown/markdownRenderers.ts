@@ -24,39 +24,10 @@ export const converterOpt = {
  * @package showdown
  * @param str
  */
-export default function renderShowdown(str: string) {
+export function renderShowdown(str: string) {
   const converter = new showdown.Converter(converterOpt);
   return converter.makeHtml(str);
 }
-
-const md = new MarkdownIt('default', {
-  html: true,
-  // Autoconvert URL-like text to links
-  linkify: false,
-  // Enable some language-neutral replacement + quotes beautification
-  // For the full list of replacements, see https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.js
-  typographer: true,
-  breaks: false,
-  langPrefix: 'language-' // CSS language prefix for fenced blocks. Can be useful for external highlighters.
-});
-
-//md.linkify.set({ fuzzyEmail: false }); // disables converting email to link
-md.use(MarkdownItSup)
-  .use(MarkdownItSub)
-  .use(MarkdownItMark)
-  .use(MarkdownItAbbr)
-  .use(MarkdownItFootnote)
-  .use(MarkdownItAttrs, {
-    allowedAttributes: ['id', 'class', /^regex.*$/]
-  })
-  .use(MarkdownItAnchor, {
-    permalink: MarkdownItAnchor.permalink.headerLink(),
-    slugify: (s: string) => slugify(s)
-  });
-md.renderer.rules.footnote_block_open = () =>
-  '<h4 class="mt-3">Footnotes</h4>\n' +
-  '<section class="footnotes">\n' +
-  '<ol class="footnotes-list">\n';
 
 /**
  * Render markdown to html using `markdown-it`, `markdown-it-attrs`, `markdown-it-anchors`, `markdown-it-sup`, `markdown-it-sub`, `markdown-it-mark`, `markdown-it-footnote`, `markdown-it-abbr`
@@ -82,6 +53,35 @@ export function renderMarkdownIt(str: string) {
   if (fs.existsSync(cachePath)) {
     return fs.readFileSync(cachePath).toString();
   }
+  const md = new MarkdownIt('default', {
+    html: true,
+    // Autoconvert URL-like text to links
+    linkify: false,
+    // Enable some language-neutral replacement + quotes beautification
+    // For the full list of replacements, see https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.js
+    typographer: true,
+    breaks: false,
+    langPrefix: 'language-' // CSS language prefix for fenced blocks. Can be useful for external highlighters.
+  });
+
+  //md.linkify.set({ fuzzyEmail: false }); // disables converting email to link
+  md.use(MarkdownItSup)
+    .use(MarkdownItSub)
+    .use(MarkdownItMark)
+    .use(MarkdownItAbbr)
+    .use(MarkdownItFootnote)
+    .use(MarkdownItAttrs, {
+      allowedAttributes: ['id', 'class', /^regex.*$/]
+    })
+    .use(MarkdownItAnchor, {
+      permalink: MarkdownItAnchor.permalink.headerLink(),
+      slugify: (s: string) => slugify(s)
+    });
+  md.renderer.rules.footnote_block_open = () =>
+    '<h4 class="mt-3">Footnotes</h4>\n' +
+    '<section class="footnotes">\n' +
+    '<ol class="footnotes-list">\n';
+
   const result = md.render(str, {});
   fs.ensureDirSync(path.dirname(cachePath));
   fs.writeFileSync(cachePath, result);

@@ -1,5 +1,4 @@
 import * as yaml from 'yaml';
-import { parsePost } from './parsePost';
 import { postMap } from './types/postMap';
 import { sortObjectByKeys } from './utils/object';
 
@@ -36,7 +35,4 @@ export function buildPost(parsed: Partial<postMap>) {
   return parsed.body;
 }
 
-function _dummy() {
-  return { parsePost };
-}
 export default buildPost;

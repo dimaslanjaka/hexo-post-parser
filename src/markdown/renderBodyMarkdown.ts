@@ -2,7 +2,7 @@
 import { default as events } from 'events';
 import { join, write } from '../node/filemanager';
 import { postMap } from '../types/postMap';
-import { renderMarkdownIt } from './toHtml';
+import { renderMarkdownIt } from './markdownRenderers';
 
 /**
  * * group 0 = whole codeblock
@@ -185,7 +185,7 @@ export class RenderMarkdownBody extends events.EventEmitter {
  * @param options
  * @returns
  */
-export default function renderBodyMarkdown(options: RenderBodyOptions) {
+export function renderBodyMarkdown(options: RenderBodyOptions) {
   if (!options) throw new Error('cannot render markdown of undefined');
 
   const c = new RenderMarkdownBody(options);
