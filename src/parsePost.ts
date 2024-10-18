@@ -1,3 +1,4 @@
+import debug from 'debug';
 import { deepmerge } from 'deepmerge-ts';
 import {
   existsSync,
@@ -38,6 +39,7 @@ import { getConfig, post_generated_dir, setConfig } from './types/_config';
 import { sortObjectByKeys } from './utils/object';
 import { countWords, removeDoubleSlashes } from './utils/string';
 
+const log = debug('hexo-post-parser').extend('parsePost');
 let _cache: persistentCache;
 
 /**
@@ -90,11 +92,11 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     ? md5FileSync(fileTarget)
     : md5(fileTarget);
   if (options.cache) {
-    // console.log('use cache');
+    // log('use cache');
     const getCache = _cache.getSync<postMap>(cacheKey);
     if (getCache) return getCache;
   } else {
-    // console.log('fresh cache');
+    // log('fresh cache');
   }
 
   /**
@@ -102,7 +104,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
    */
   let originalFile = target;
   const isFile = existsSync(target) && statSync(target).isFile();
-  // console.log(target, 'is file', isFile);
+  // log(target, 'is file', isFile);
   if (isFile) {
     target = String(readFileSync(target, 'utf-8'));
     if (options.sourceFile) originalFile = options.sourceFile;
@@ -127,11 +129,6 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       try {
         meta = yaml.parse(m[1]) || meta;
       } catch (error: any) {
-        // if (error instanceof Error) {
-        //   console.log('metadata', error.message);
-        // } else {
-        //   console.log('metadata', error);
-        // }
         error.sourceFile = options.sourceFile;
         const w = writefile(
           join(
@@ -150,7 +147,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
 
     if (typeof meta !== 'object') {
       //writeFileSync(join(cwd(), 'tmp/dump.json'), JSON.stringify(m, null, 2));
-      //console.log('meta required object');
+      //log('meta required object');
       return null;
     }
 
@@ -434,7 +431,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
                 2
               )
             );
-            console.log(logname, color.redBright('[fail]'), {
+            log(logname, color.redBright('[fail]'), {
               str: sourcePath,
               log: logfile
             });
@@ -454,7 +451,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
             result = removeDoubleSlashes(result);
 
             if (options.config && options.config['verbose'])
-              console.log(logname, '[success]', result);
+              log(logname, '[success]', result);
 
             return result;
           }
@@ -475,10 +472,10 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         // add property photos by default
         if (!meta.photos) meta.photos = [];
 
-        if (body && isFile) {
+        if (typeof body === 'string' && isFile) {
           // get all images from post body
           const imagefinderreplacement = function (whole: string, m1: string) {
-            //console.log('get all images', m1);
+            //log('get all images', m1);
             const regex = /(?:".*")/;
             let replacementResult: string;
             let img: string;
@@ -506,7 +503,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
               });
             }
           } catch {
-            console.log('cannot find image html from', meta.title);
+            log('cannot find image html from', meta.title);
           }
         }
 
@@ -528,7 +525,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
 
       /*
       if (!meta.permalink) {
-        // console.log('permalink empty', publicFile);
+        // log('permalink empty', publicFile);
         const homepage = siteConfig.url;
         const srcPostDir = normalize(
           join(process.cwd(), siteConfig.post_dir || 'src-posts')
@@ -540,7 +537,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         const pathnamePerm = normalize(publicFile)
           .replace(srcPostDir, '')
           .replace(genPostDir, '');
-        console.log({ publicFile, pathnamePerm });
+        log({ publicFile, pathnamePerm });
         const parsePerm = parsePermalink(pathnamePerm, {
           url: homepage,
           title: meta.title,
@@ -707,7 +704,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
   const regexPost = /^---([\s\S]*?)---[\n\s\S]\n([\n\s\S]*)/g;
   const testPost = Array.from(target.matchAll(regexPost)).map(mapper)[0];
   if (typeof testPost === 'object' && testPost !== null) {
-    //console.log('test 1 passed');
+    log('test 1 passed');
     return testPost;
   }
 
@@ -717,7 +714,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     mapper
   )[0];
   if (typeof testPost2 === 'object' && testPost2 !== null) {
-    // console.log('test 2 passed');
+    log('test 2 passed');
     return testPost2;
   }
 

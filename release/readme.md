@@ -18,7 +18,6 @@
 | 1.2.7 | https://github.com/dimaslanjaka/hexo-post-parser/raw/ee9dcce/release/hexo-post-parser-1.2.7.tgz |
 | 1.2.8 | https://github.com/dimaslanjaka/hexo-post-parser/raw/2605619/release/hexo-post-parser-1.2.8.tgz |
 | 1.2.9 | https://github.com/dimaslanjaka/hexo-post-parser/raw/e6023c8/release/hexo-post-parser-1.2.9.tgz |
-| 1.3.0 | https://github.com/dimaslanjaka/hexo-post-parser/raw/7ae13a0/release/hexo-post-parser-1.3.0.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/7ae13a0/release/hexo-post-parser.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/pre-release/release/hexo-post-parser.tgz |
 

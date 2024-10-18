@@ -2,20 +2,35 @@ process.env.DEBUG = '*';
 process.cwd = () => __dirname;
 import './config';
 
-import { join } from 'path';
-import { getConfig, parsePostFM } from '../src';
+import { writefile } from 'sbg-utility';
+import { buildPost, getConfig, parsePost } from '../src';
 import { renderMarked } from '../src/markdown/toHtml';
-import { startParse } from './startParse';
+import { join } from '../src/node/filemanager';
 
-const post = join(__dirname, 'src-posts/table.md');
-const fm = () => parsePostFM(post);
-const hpp = () => startParse(post, getConfig());
+const file = join(__dirname, 'src-posts/table.md');
 
 async function main() {
-  const result = fm();
+  const result = await parsePost(file, {
+    formatDate: true,
+    shortcodes: {
+      youtube: true,
+      include: true,
+      css: true,
+      script: true,
+      link: true,
+      text: true,
+      now: true,
+      codeblock: true
+    },
+    cache: false,
+    fix: true,
+    sourceFile: file,
+    config: getConfig()
+  });
   const { body } = result;
   const bodyHtml = renderMarked(body);
-  console.log(bodyHtml);
+  writefile(join(__dirname, 'tmp/test/heap-test.md'), buildPost(result));
+  writefile(join(__dirname, 'tmp/test/heap-test.html'), bodyHtml);
 }
 
 main();
