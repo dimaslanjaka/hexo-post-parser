@@ -1,0 +1,4 @@
+[submodule "packages/markdown-it"]
+	path = packages/markdown-it
+	url = https://github.com/dimaslanjaka/markdown-it.git
+	branch = master
