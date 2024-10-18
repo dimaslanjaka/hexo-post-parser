@@ -7,7 +7,7 @@ import MarkdownItFootnote from 'markdown-it-footnote';
 import MarkdownItMark from 'markdown-it-mark';
 import MarkdownItSub from 'markdown-it-sub';
 import MarkdownItSup from 'markdown-it-sup';
-import marked from 'marked';
+import * as marked from 'marked';
 import path from 'path';
 import { md5 } from 'sbg-utility';
 import showdown from 'showdown';
