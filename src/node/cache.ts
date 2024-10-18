@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { rm } from 'fs';
 import lodash from 'lodash';
-import utility from 'sbg-utility';
+import utility, { scheduler } from 'sbg-utility';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { toUnix } from 'upath';
 import { DynamicObject } from '../types';
@@ -18,7 +18,6 @@ import {
 import logger from './logger';
 import { md5, md5FileSync } from './md5-file';
 import memoizer from './memoize-fs';
-import scheduler from './scheduler';
 
 /**
  * default folder to save databases
@@ -107,7 +106,7 @@ export default class CacheFile extends TypedEmitter<CacheFileEvent> {
     if (typeof db == 'string') {
       try {
         db = JSON.parse(db.toString());
-      } catch (e) {
+      } catch (_e) {
         logger.log('cache database lost');
         //logger.log(e);
       }
@@ -295,7 +294,7 @@ export default class CacheFile extends TypedEmitter<CacheFileEvent> {
         this.md5Cache[path0 + '-hash'] = pathMd5;
       }
       return result;
-    } catch (e) {
+    } catch (_e) {
       return true;
     }
   }

@@ -7,7 +7,7 @@ import {
   SpawnOptions
 } from 'child_process';
 import process from 'process';
-import scheduler from './scheduler';
+import { scheduler } from 'sbg-utility';
 
 class spawner {
   static children: ChildProcessWithoutNullStreams[] = [];
