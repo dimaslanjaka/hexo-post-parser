@@ -1,12 +1,6 @@
 import debug from 'debug';
 import { deepmerge } from 'deepmerge-ts';
-import {
-  existsSync,
-  mkdirpSync,
-  readFileSync,
-  statSync,
-  writeFileSync
-} from 'fs-extra';
+import { existsSync, readFileSync, statSync } from 'fs-extra';
 import { JSDOM } from 'jsdom';
 import {
   jsonStringifyWithCircularRefs,
@@ -382,64 +376,71 @@ export async function parsePost(
        * @param sourcePath
        * @returns
        */
-      const post_assets_fixer = (sourcePath: string) => {
+      const post_assets_fixer = (sourcePath: string): string => {
         const logname = color.Blue('[PAF]');
         if (!publicFile) return sourcePath;
-        // replace extended title from source
+
+        // Replace extended title from source
         sourcePath = sourcePath.replace(/['"](.*)['"]/gim, '').trim();
-        // return original source path for http(s) url
-        if (/^https?:\/\//.test(sourcePath)) return sourcePath;
-        // return original source path for specific patterns
-        if (/^(\$|#|data:image)/.test(sourcePath)) return sourcePath;
-        if (sourcePath.startsWith('//')) sourcePath = 'http:' + sourcePath;
+
+        // Return original source path for http(s) URLs or specific patterns
+        if (
+          /^https?:\/\//.test(sourcePath) ||
+          /^(\$|#|data:image)/.test(sourcePath)
+        ) {
+          return sourcePath;
+        }
+
+        // Prepend http for protocol-relative URLs
+        if (sourcePath.startsWith('//')) {
+          sourcePath = 'http:' + sourcePath;
+        }
+
+        // Decode URL if it contains encoded spaces
         if (sourcePath.includes('%20')) {
           sourcePath = decodeURIComponent(sourcePath);
         }
-        if (!isValidHttpUrl(sourcePath) && !sourcePath.startsWith('/')) {
-          let result: string | null = null;
-          /** search from same directory */
-          const find1st = join(dirname(publicFile), sourcePath);
-          /** search from parent directory */
-          const find2nd = join(dirname(dirname(publicFile)), sourcePath);
-          /** search from root directory */
-          const find3rd = join(process.cwd(), sourcePath);
-          const find4th = join(post_generated_dir, sourcePath);
-          [find1st, find2nd, find3rd, find4th].forEach((src) => {
-            if (result !== null) return;
-            if (existsSync(src) && !result) result = src;
-          });
 
-          if (result === null) {
+        // Handle invalid HTTP URLs and non-root paths
+        if (!isValidHttpUrl(sourcePath) && !sourcePath.startsWith('/')) {
+          const potentialPaths = [
+            join(dirname(publicFile), sourcePath), // Same directory
+            join(dirname(dirname(publicFile)), sourcePath), // Parent directory
+            join(process.cwd(), sourcePath), // Root directory
+            join(post_generated_dir, sourcePath) // Custom directory
+          ];
+
+          const result = potentialPaths.find((src) => existsSync(src)) || null;
+
+          if (!result) {
             const tempFolder = join(process.cwd(), 'tmp');
             const logfile = join(
               tempFolder,
-              'hexo-post-parser/errors/post-asset-folder/' +
-                sanitizeFilename(basename(sourcePath).trim(), '-') +
-                '.log'
+              'hexo-post-parser/errors/post-asset-folder/',
+              sanitizeFilename(basename(sourcePath).trim(), '-') + '.log'
             );
-            if (!existsSync(dirname(logfile))) {
-              mkdirpSync(dirname(logfile));
-            }
-            writeFileSync(
+
+            writefile(
               logfile,
               JSON.stringify(
                 {
                   str: sourcePath,
-                  f1: find1st,
-                  f2: find2nd,
-                  f3: find3rd,
-                  f4: find4th
+                  f1: potentialPaths[0],
+                  f2: potentialPaths[1],
+                  f3: potentialPaths[2],
+                  f4: potentialPaths[3]
                 },
                 null,
                 2
               )
             );
+
             log(logname, color.redBright('[fail]'), {
               str: sourcePath,
               log: logfile
             });
           } else {
-            result = replaceArr(
+            const normalizedResult = replaceArr(
               result,
               [
                 toUnix(process.cwd()),
@@ -449,16 +450,19 @@ export async function parsePost(
               ],
               '/'
             );
-            result = encodeURI((options.config?.root || '') + result);
 
-            result = removeDoubleSlashes(result);
+            const finalResult = removeDoubleSlashes(
+              encodeURI((options.config?.root || '') + normalizedResult)
+            );
 
-            if (options.config && options.config['verbose'])
-              log(logname, '[success]', result);
+            if (options.config?.verbose) {
+              log(logname, '[success]', finalResult);
+            }
 
-            return result;
+            return finalResult;
           }
         }
+
         return sourcePath;
       };
 
