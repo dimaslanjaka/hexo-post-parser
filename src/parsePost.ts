@@ -297,20 +297,16 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       meta.description = newExcerpt;
       meta.subtitle = newExcerpt;
       meta.excerpt = newExcerpt;
+    }
 
-      // @todo count words when wordcount is 0
-      if (
-        meta.wordcount === 0 &&
-        typeof body === 'string' &&
-        body.trim().length > 0
-      ) {
-        const words = Array.from(
-          dom.window.document.querySelectorAll('*:not(script,style,meta,link)')
-        )
-          .map((e) => e.textContent)
-          .join('\n');
-        meta.wordcount = countWords(words);
-      }
+    // @todo count words when wordcount is 0
+    if (
+      meta.wordcount === 0 &&
+      typeof body === 'string' &&
+      body.trim().length > 0
+    ) {
+      const words = body;
+      meta.wordcount = countWords(words);
     }
 
     // @todo fix description
