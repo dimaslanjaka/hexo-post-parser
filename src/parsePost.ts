@@ -1,7 +1,8 @@
 import debug from 'debug';
 import { deepmerge } from 'deepmerge-ts';
-import { existsSync, readFileSync, statSync } from 'fs-extra';
+import fs from 'fs-extra';
 import { JSDOM } from 'jsdom';
+import path from 'path';
 import {
   array_unique,
   jsonStringifyWithCircularRefs,
@@ -9,14 +10,13 @@ import {
   persistentCache,
   writefile
 } from 'sbg-utility';
-import { basename, dirname, join, toUnix } from 'upath';
+import upath from 'upath';
 import yaml from 'yaml';
 import { generatePostId } from './generatePostId';
 import { isValidHttpUrl } from './gulp/utils';
 import { renderMarked } from './markdown/toHtml';
 import uniqueArray, { uniqueStringArray } from './node/array-unique';
 import color from './node/color';
-import { normalize } from './node/filemanager';
 import { md5, md5FileSync } from './node/md5-file';
 import sanitizeFilename from './node/sanitize-filename';
 import { cleanString, cleanWhiteSpace, replaceArr } from './node/utils';
@@ -48,7 +48,7 @@ let _cache: persistentCache;
  */
 export async function parsePost(target: string, options: ParseOptions = {}) {
   if (!target) return null;
-  const tmpDir = join(process.cwd(), 'tmp/hexo-post-parser');
+  const tmpDir = upath.join(process.cwd(), 'tmp/hexo-post-parser');
   if (!_cache) {
     _cache = new persistentCache({
       base: tmpDir, //join(process.cwd(), 'node_modules/.cache/persistent'),
@@ -81,10 +81,10 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
   options = Object.assign(default_options, options);
 
   const siteConfig = options.config ? setConfig(options.config) : getConfig();
-  if (!options.sourceFile && existsSync(target)) options.sourceFile = target;
+  if (!options.sourceFile && fs.existsSync(target)) options.sourceFile = target;
 
   const fileTarget = options.sourceFile || target;
-  const cacheKey = existsSync(fileTarget)
+  const cacheKey = fs.existsSync(fileTarget)
     ? md5FileSync(fileTarget)
     : md5(fileTarget);
   if (options.cache) {
@@ -99,10 +99,10 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
    * source file if variable `text` is file
    */
   let originalFile = target;
-  const isFile = existsSync(target) && statSync(target).isFile();
+  const isFile = fs.existsSync(target) && fs.statSync(target).isFile();
   // log(target, 'is file', isFile);
   if (isFile) {
-    target = String(readFileSync(target, 'utf-8'));
+    target = String(fs.readFileSync(target, 'utf-8'));
     if (options.sourceFile) originalFile = options.sourceFile;
   }
 
@@ -278,7 +278,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     if (options.fix) {
       // fix empty title
       if (typeof meta.title !== 'string' || meta.title.trim().length === 0) {
-        meta.title = basename(options.sourceFile);
+        meta.title = path.basename(options.sourceFile);
       }
       // fix special char in metadata
       meta.title = cleanString(meta.title);
@@ -336,9 +336,9 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     if (isFile || options.sourceFile) {
       let publicFile: string;
       if (isFile) {
-        publicFile = normalize(originalFile);
+        publicFile = normalizePathUnix(originalFile);
       } else if (options.sourceFile) {
-        publicFile = normalize(options.sourceFile);
+        publicFile = normalizePathUnix(options.sourceFile);
       } else {
         throw new Error('cannot find public file of ' + meta.title);
       }
@@ -376,7 +376,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
         if (!isValidHttpUrl(sourcePath)) {
           // Skip file exist in folder _config.yml.source_dir
           if (
-            existsSync(
+            fs.existsSync(
               normalizePathUnix(
                 process.cwd(),
                 options.config.source_dir,
@@ -387,20 +387,24 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
             return sourcePath;
           }
           const potentialPaths = array_unique([
-            normalizePathUnix(dirname(publicFile), sourcePath), // Same directory
-            normalizePathUnix(dirname(dirname(publicFile)), sourcePath), // Parent directory
+            normalizePathUnix(path.dirname(publicFile), sourcePath), // Same directory
+            normalizePathUnix(
+              path.dirname(path.dirname(publicFile)),
+              sourcePath
+            ), // Parent directory
             normalizePathUnix(process.cwd(), sourcePath), // Root directory
             normalizePathUnix(post_generated_dir, sourcePath) // Custom directory
           ]);
 
-          const result = potentialPaths.find((src) => existsSync(src)) || null;
+          const result =
+            potentialPaths.find((src) => fs.existsSync(src)) || null;
 
           if (!result) {
-            const tempFolder = join(process.cwd(), 'tmp');
-            const logfile = join(
+            const tempFolder = path.join(process.cwd(), 'tmp');
+            const logfile = path.join(
               tempFolder,
               'hexo-post-parser/errors/post-asset-folder/',
-              sanitizeFilename(basename(sourcePath).trim(), '-') + '.log'
+              sanitizeFilename(path.basename(sourcePath).trim(), '-') + '.log'
             );
 
             writefile(
@@ -426,7 +430,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
             const normalizedResult = replaceArr(
               result,
               [
-                toUnix(process.cwd()),
+                upath.toUnix(process.cwd()),
                 'source/',
                 '_posts',
                 `${siteConfig.post_dir || 'src-posts'}`
@@ -623,7 +627,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
             );
           sourceFile = options.sourceFile;
         } else {
-          sourceFile = toUnix(originalFile);
+          sourceFile = upath.toUnix(originalFile);
         }
 
         if (body) {
@@ -674,14 +678,13 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     if (isFile) {
       result.fileTree = {
         source: replaceArr(
-          toUnix(originalFile),
+          upath.toUnix(originalFile),
           ['source/_posts/', '_posts/'],
           'src-posts/'
         ),
-        public: toUnix(originalFile).replace(
-          `/${siteConfig.post_dir || 'src-posts'}/`,
-          '/source/_posts/'
-        )
+        public: upath
+          .toUnix(originalFile)
+          .replace(`/${siteConfig.post_dir || 'src-posts'}/`, '/source/_posts/')
       };
     }
 
@@ -705,10 +708,11 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       } catch (error: any) {
         error.sourceFile = options.sourceFile;
         const w = writefile(
-          join(
+          path.join(
             tmpDir,
             'errors',
-            sanitizeFilename(basename(options.sourceFile).trim(), '-') + '.json'
+            sanitizeFilename(path.basename(options.sourceFile).trim(), '-') +
+              '.json'
           ),
           jsonStringifyWithCircularRefs(error)
         );

@@ -1,9 +1,9 @@
 import chalk from 'chalk';
-import { existsSync, readFileSync } from 'fs-extra';
-import { dirname, join, toUnix } from 'upath';
+import fs from 'fs-extra';
+import upath from 'upath';
 import { getConfig } from '../types/_config';
 
-const root = toUnix(process.cwd());
+const root = upath.toUnix(process.cwd());
 const logname = chalk.blue('[include]');
 
 /**
@@ -28,20 +28,26 @@ export function parseShortCodeInclude(sourceFile: string, bodyString: string) {
       const htmlTag = match[0];
       const includefile = match[1];
       const dirs: Record<string, string> = {
-        directFile: join(dirname(sourceFile.toString()), includefile),
+        directFile: upath.join(
+          upath.dirname(sourceFile.toString()),
+          includefile
+        ),
         //cwdFile: join(cwd(), includefile),
-        rootFile: join(root, includefile)
+        rootFile: upath.join(root, includefile)
       };
-      dirs.assetFolder = join(sourceFile.replace(/.md$/, ''), includefile);
+      dirs.assetFolder = upath.join(
+        sourceFile.replace(/.md$/, ''),
+        includefile
+      );
 
       for (const key in dirs) {
         if (Object.prototype.hasOwnProperty.call(dirs, key)) {
           const filepath = dirs[key];
-          if (existsSync(filepath)) {
+          if (fs.existsSync(filepath)) {
             if (verbose) {
               console.log(logname + chalk.greenBright(`[${key}]`), sourceFile);
             }
-            const read = readFileSync(filepath).toString();
+            const read = fs.readFileSync(filepath).toString();
             bodyString = bodyString.replace(htmlTag, () => read);
             execs = Array.from(bodyString.matchAll(regex));
             modified = true;

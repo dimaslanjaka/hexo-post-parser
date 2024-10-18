@@ -4,21 +4,8 @@ import glob from 'glob';
 import { default as nodePath } from 'path';
 import { cwd as nodeCwd } from 'process';
 import utility from 'sbg-utility';
-import { trueCasePathSync } from 'true-case-path';
-import upath, { toUnix } from 'upath';
+import upath from 'upath';
 import ErrnoException = NodeJS.ErrnoException;
-
-/**
- * cross-platform normalize path to fixed-case windows drive letters
- * @link https://www.npmjs.com/package/true-case-path
- * @param path
- * @returns unix-style path separator
- */
-export function normalize(path: string) {
-  if (existsSync(path) && process.platform === 'win32')
-    return toUnix(trueCasePathSync(path));
-  return toUnix(path);
-}
 
 /**
  * node_modules/.cache/${name}

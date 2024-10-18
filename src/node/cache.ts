@@ -1,9 +1,9 @@
 import chalk from 'chalk';
-import { rm } from 'fs-extra';
+import fs from 'fs-extra';
 import lodash from 'lodash';
 import utility, { scheduler } from 'sbg-utility';
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { toUnix } from 'upath';
+import upath from 'upath';
 import { DynamicObject } from '../types';
 import './cache-serialize';
 import {
@@ -22,7 +22,7 @@ import memoizer from './memoize-fs';
 /**
  * default folder to save databases
  */
-export const dbFolder = toUnix(resolve(cacheDir));
+export const dbFolder = upath.toUnix(resolve(cacheDir));
 
 export interface CacheOpt {
   /**
@@ -124,9 +124,9 @@ export default class CacheFile extends TypedEmitter<CacheFileEvent> {
     return new Promise((resolve: (arg: Array<Error>) => any) => {
       const opt = { recursive: true, retryDelay: 3000, maxRetries: 3 };
       // delete current hash folders
-      rm(join(CacheFile.options.folder, this.currentHash), opt, (e) => {
+      fs.rm(join(CacheFile.options.folder, this.currentHash), opt, (e) => {
         // delete current hash db
-        rm(this.dbFile, opt, (ee) => {
+        fs.rm(this.dbFile, opt, (ee) => {
           resolve([e, ee]);
         });
       });

@@ -1,6 +1,6 @@
-import { existsSync, readFileSync } from 'fs-extra';
-import { cwd } from 'process';
-import { join } from 'upath';
+import fs from 'fs-extra';
+import path from 'path';
+import upath from 'upath';
 import yaml from 'yaml';
 import yargs from 'yargs';
 import { DeepPartial } from './globals';
@@ -116,15 +116,15 @@ let settledOptions: SiteConfig = defaultSiteOptions;
 export function findConfig(file?: string) {
   // find _config.yml
   if (!file) {
-    file = join(process.cwd(), '_config.yml');
+    file = path.join(process.cwd(), '_config.yml');
   } else {
     if (!file.endsWith('.yml')) {
-      file = join(file, '_config.yml');
+      file = path.join(file, '_config.yml');
     }
   }
   // console.log('finding', file);
-  if (existsSync(file)) {
-    const readConfig = readFileSync(file, 'utf-8');
+  if (fs.existsSync(file)) {
+    const readConfig = fs.readFileSync(file, 'utf-8');
     const parse = yaml.parse(readConfig);
     settledOptions = Object.assign(settledOptions, parse, {
       verbose,
@@ -175,8 +175,11 @@ export interface ProjectConfig extends HC {
 /**
  * Hexo Generated Dir
  */
-export const post_generated_dir = join(cwd(), getConfig().public_dir);
+export const post_generated_dir = upath.join(
+  process.cwd(),
+  getConfig().public_dir
+);
 /**
  * SBG Source Post Dir
  */
-export const post_source_dir = join(cwd(), 'src-posts');
+export const post_source_dir = upath.join(process.cwd(), 'src-posts');

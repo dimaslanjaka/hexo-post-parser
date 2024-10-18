@@ -11,6 +11,17 @@ const deps = [
 ];
 const external = deps.concat('events');
 
+const baseBanner = `// ${pkg.name} ${pkg.version} by ${pkg.author}`.trim();
+
+const esmBanner = `
+${baseBanner}
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+`.trim();
+
 /**
  * @type {import('rollup').RollupOptions}
  */
@@ -22,14 +33,24 @@ const onefile = {
       format: 'esm',
       exports: 'named',
       sourcemap: false,
-      inlineDynamicImports: true
+      inlineDynamicImports: true,
+      banner: esmBanner
+    },
+    {
+      file: './dist/index.mjs',
+      format: 'esm',
+      exports: 'named',
+      sourcemap: false,
+      inlineDynamicImports: true,
+      banner: esmBanner
     },
     {
       file: './dist/index.cjs',
       format: 'cjs',
       exports: 'named',
       sourcemap: false,
-      inlineDynamicImports: true
+      inlineDynamicImports: true,
+      banner: baseBanner
     }
   ],
   external: external.filter((pkgName) => !['markdown-it'].includes(pkgName)),

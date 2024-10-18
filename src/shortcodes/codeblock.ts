@@ -1,6 +1,6 @@
 import axios from 'axios';
+import path from 'path';
 import { persistentCache } from 'sbg-utility';
-import { join } from 'upath';
 import color from '../node/color';
 import jdom from '../node/jsdom';
 import { md5 } from '../node/md5-file';
@@ -14,7 +14,7 @@ export async function shortcodeCodeblock(str: string) {
   const logname = color.Shamrock('[codeblock]');
   if (!_cache) {
     _cache = new persistentCache({
-      base: join(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),
+      base: path.join(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),
       name: 'shortcode/codeblock',
       duration: 1000 * 3600 * 24 // 24 hours
     });
@@ -63,7 +63,7 @@ export async function shortcodeCodeblock(str: string) {
           try {
             new URL(s);
             return s.match(/^(https|ftps|ssh|git*)?:\/\//);
-          } catch (error) {
+          } catch (_e) {
             return false;
           }
         })

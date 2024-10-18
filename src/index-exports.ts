@@ -1,17 +1,17 @@
 /// special exports
-import { existsSync, mkdirSync, writeFileSync } from 'fs-extra';
-import { dirname, join } from 'path';
+import fs from 'fs-extra';
+import path from 'path';
 
 // [task] generate empty config if not exists
 [
-  join(__dirname, 'types/_config_project.json'),
-  join(__dirname, 'types/_config_theme.json'),
-  join(__dirname, 'types/_config_hashes.json')
-].forEach((path) => {
-  if (!existsSync(path)) {
-    if (!existsSync(dirname(path)))
-      mkdirSync(dirname(path), { recursive: true });
-    writeFileSync(path, '{}');
+  path.join(__dirname, 'types/_config_project.json'),
+  path.join(__dirname, 'types/_config_theme.json'),
+  path.join(__dirname, 'types/_config_hashes.json')
+].forEach((fpath) => {
+  if (!fs.existsSync(fpath)) {
+    if (!fs.existsSync(path.dirname(fpath)))
+      fs.mkdirSync(path.dirname(fpath), { recursive: true });
+    fs.writeFileSync(fpath, '{}');
   }
 });
 

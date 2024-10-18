@@ -1,4 +1,4 @@
-import path from 'upath';
+import upath from 'upath';
 import { moment } from './parseDateMapper';
 import { getConfig } from './types/_config';
 
@@ -44,7 +44,7 @@ export function parsePermalink(
     // Filename (without pathname)
     ':title': cleanPathname,
     // Filename (relative to “source/_posts/“ folder)
-    ':name': path.basename(cleanPathname),
+    ':name': upath.basename(cleanPathname),
     ':post_title': config.title
   };
 
@@ -53,7 +53,7 @@ export function parsePermalink(
   // @todo [permalink] follow directory path
   /*if (pattern.startsWith(':title')) {
     const bname = pattern.replace(':title', replacer[':title']);
-    const perm = path.join(path.dirname(String(url)), bname);
+    const perm = upath.join(upath.dirname(String(url)), bname);
     debug('permalink')(perm);
     return perm;
   }*/

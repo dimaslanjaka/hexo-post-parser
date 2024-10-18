@@ -1,4 +1,4 @@
-import fs, * as fse from 'fs-extra';
+import fs from 'fs-extra';
 import path from 'path';
 import { DynamicObject } from '../types';
 
@@ -44,7 +44,7 @@ export function copyDir(
     }
   }
 ) {
-  return fse.copy(source, dest, callback);
+  return fs.copy(source, dest, callback);
 }
 
 /**

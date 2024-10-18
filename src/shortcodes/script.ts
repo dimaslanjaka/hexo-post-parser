@@ -1,9 +1,9 @@
 import chalk from 'chalk';
-import { existsSync, readFileSync } from 'fs-extra';
-import { dirname, join, toUnix } from 'upath';
+import fs from 'fs-extra';
+import upath from 'upath';
 import { getConfig } from '../types/_config';
 
-const root = toUnix(process.cwd());
+const root = upath.toUnix(process.cwd());
 const logname = chalk.blue('[script]');
 
 /**
@@ -25,17 +25,17 @@ export function shortcodeScript(file: string, str: string) {
     const htmlTag = m[0];
     const includefile = m[1];
     const dirs = {
-      directFile: join(dirname(file.toString()), includefile),
+      directFile: upath.join(upath.dirname(file.toString()), includefile),
       //cwdFile: join(cwd(), includefile),
-      rootFile: join(root, includefile)
+      rootFile: upath.join(root, includefile)
     };
     for (const key in dirs) {
       if (Object.prototype.hasOwnProperty.call(dirs, key)) {
         const filepath = (dirs as Record<string, any>)[key] as string;
-        if (existsSync(filepath)) {
+        if (fs.existsSync(filepath)) {
           log[0] += chalk.greenBright(`[${key}]`);
           if (verbose) console.log(...log, file);
-          const read = readFileSync(filepath, 'utf-8');
+          const read = fs.readFileSync(filepath, 'utf-8');
           str = str.replace(htmlTag, () => `<script>${read}</script>`);
           //console.log('match tag', str.match(new RegExp(htmlTag, 'm'))[0]);
           //write(tmp('shortcode', 'script.txt'), mod).then(console.log);
