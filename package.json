@@ -135,7 +135,7 @@
     "fs-extra": "^11.2.0",
     "glob": "^11.0.0",
     "highlight.js": "^11.10.0",
-    "jsdom": "~21.1.2",
+    "jsdom": "^25.0.1",
     "lodash": "^4.17.21",
     "lodash.deburr": "^4.1.0",
     "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/95599a5a20b2f162a776abaa3a0b7f8aaac2f6e1/release/markdown-it.tgz",
