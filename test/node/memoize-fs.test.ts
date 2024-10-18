@@ -1,4 +1,4 @@
-import { default as mem } from './memoize-fs';
+import { default as mem } from '../../src/node/memoize-fs';
 
 const memoizer = new mem();
 memoizer.verbose = true;

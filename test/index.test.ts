@@ -7,9 +7,9 @@ import {
 } from 'fs';
 import { minimatch } from 'minimatch';
 import { basename, join } from 'upath';
-import { parsePost } from '.';
-import buildPost from './buildPost';
-import { getConfig, SiteConfig } from './types/_config';
+import { parsePost } from '../src';
+import buildPost from '../src/buildPost';
+import { getConfig, SiteConfig } from '../src/types/_config';
 
 // dump posts to tmp/test
 

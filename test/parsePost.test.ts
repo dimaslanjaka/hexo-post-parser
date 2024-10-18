@@ -1,12 +1,12 @@
 import { existsSync, rmSync } from 'fs';
 import { join } from 'upath';
-import buildPost from './buildPost';
-import { simplifyDump } from './markdown/transformPosts/postMapper';
-import color from './node/color';
-import { write } from './node/filemanager';
-import { slugifySanitizeFilename } from './node/sanitize-filename';
-import parsePost from './parsePost';
-import { getConfig } from './types/_config';
+import buildPost from '../src/buildPost';
+import { simplifyDump } from '../src/markdown/transformPosts/postMapper';
+import color from '../src/node/color';
+import { write } from '../src/node/filemanager';
+import { slugifySanitizeFilename } from '../src/node/sanitize-filename';
+import parsePost from '../src/parsePost';
+import { getConfig } from '../src/types/_config';
 
 const config = getConfig();
 const tmpDir = join(__dirname, '../tmp');

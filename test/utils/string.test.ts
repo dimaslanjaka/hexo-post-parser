@@ -1,4 +1,4 @@
-import { removeDoubleSlashes } from './string';
+import { removeDoubleSlashes } from '../../src/utils/string';
 
 console.log(
   removeDoubleSlashes(
