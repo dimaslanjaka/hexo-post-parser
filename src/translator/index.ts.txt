@@ -176,8 +176,15 @@ class Translator {
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36'
     );
 
-    curl.on('end', (statusCode, data, headers, curlInstance) => {
-      /*
+    curl.on(
+      'end',
+      (
+        statusCode: number,
+        data: string | Buffer,
+        headers: Buffer | HeaderInfo[],
+        curlInstance: any
+      ) => {
+        /*
       console.info(statusCode);
       console.info("---");
       console.info(data.length);
@@ -186,15 +193,16 @@ class Translator {
       console.info("---");
       console.info(headers);
       */
-      if (typeof responseCallback == 'function') {
-        responseCallback(statusCode, data, headers, curlInstance);
+        if (typeof responseCallback == 'function') {
+          responseCallback(statusCode, data, headers, curlInstance);
+        }
+        curl.close();
       }
-      curl.close();
-    });
+    );
 
     // Error will be a JS error, errorCode will be the raw error code (as int) returned from libcurl
 
-    curl.on('error', (_error, _errorCode) => {
+    curl.on('error', (_error: any, _errorCode: any) => {
       curl.close();
     });
 
