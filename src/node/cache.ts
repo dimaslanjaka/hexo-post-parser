@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { rm } from 'fs';
+import { rm } from 'fs-extra';
 import lodash from 'lodash';
 import utility, { scheduler } from 'sbg-utility';
 import { TypedEmitter } from 'tiny-typed-emitter';

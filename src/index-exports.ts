@@ -1,5 +1,5 @@
 /// special exports
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import { dirname, join } from 'path';
 
 // [task] generate empty config if not exists

@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs-extra';
 import { dirname, join, toUnix } from 'upath';
 import { getConfig } from '../types/_config';
 

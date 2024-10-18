@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import coreProcess from 'process';
 import upath from 'upath';
 import { md5FileSync } from './md5-file';

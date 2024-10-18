@@ -2,7 +2,7 @@
  * Get information date of files
  */
 
-import * as fs from 'fs';
+import fs from 'fs-extra';
 
 /**
  * get modified date of file

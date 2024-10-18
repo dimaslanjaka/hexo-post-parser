@@ -1,5 +1,5 @@
 import fm from 'front-matter';
-import fs from 'fs';
+import fs from 'fs-extra';
 import { postMeta } from './types';
 
 /**

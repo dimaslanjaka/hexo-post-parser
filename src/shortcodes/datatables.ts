@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import * as fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 
 const logname = chalk.bgMagenta.whiteBright('[extract-text]');

@@ -1,5 +1,4 @@
-import fs from 'fs';
-import * as fse from 'fs-extra';
+import fs, * as fse from 'fs-extra';
 import path from 'path';
 import { DynamicObject } from '../types';
 

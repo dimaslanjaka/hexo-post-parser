@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import * as fs from 'fs';
+import fs from 'fs-extra';
 
 /**
  * MD5 file synchronously
