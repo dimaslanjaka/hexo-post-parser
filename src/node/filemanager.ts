@@ -1,8 +1,7 @@
 import Bluebird from 'bluebird';
 import fs from 'fs-extra';
-import glob from 'glob';
+import * as glob from 'glob';
 import { default as nodePath } from 'path';
-import { cwd as nodeCwd } from 'process';
 import utility from 'sbg-utility';
 import upath from 'upath';
 type ErrnoException = NodeJS.ErrnoException;
@@ -164,7 +163,7 @@ export const globSrc = function (
 ) {
   return new Bluebird((resolve: (arg: string[]) => any, reject) => {
     const opt: glob.GlobOptionsWithFileTypesUnset = Object.assign(
-      { cwd: cwd(), dot: true, matchBase: true },
+      { cwd: process.cwd(), dot: true, matchBase: true },
       opts
     );
     glob
@@ -177,10 +176,7 @@ export const globSrc = function (
 };
 
 export default filemanager;
-export const writeFileSync = filemanager.write;
-export const cwd = () => upath.toUnix(nodeCwd());
-export const dirname = (str: string) =>
-  removeMultiSlashes(upath.toUnix(upath.dirname(str)));
+
 interface ResolveOpt {
   [key: string]: any;
   /**
