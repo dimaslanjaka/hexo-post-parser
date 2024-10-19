@@ -3,20 +3,35 @@ import fs from 'fs-extra';
 import * as glob from 'glob';
 import path from 'path';
 import { normalizePathUnix } from 'sbg-utility';
+import { fileURLToPath } from 'url';
 
 // index.ts exports builder
 // this only for development and excluded from build config
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // create export
 glob
   .glob('**/*.{ts,js,jsx,tsx,cjs,mjs}', {
-    ignore: ['**/*.builder.*', '**/*.test.*', '**/*.spec.*', '**/*.runner.*'],
+    ignore: [
+      '**/*.builder.*',
+      '**/*.test.*',
+      '**/*.spec*.*',
+      '**/*.runner.*',
+      '**/_*test'
+    ],
     cwd: __dirname,
     absolute: true
   })
   .then((files) => {
     const contents = files
-      .filter((file) => fs.statSync(file).isFile())
+      .map((f) => normalizePathUnix(f))
+      .filter((file) => {
+        const isFile = fs.statSync(file).isFile();
+        const currentIndex = normalizePathUnix(__dirname, 'index.ts');
+        return isFile && file !== currentIndex;
+      })
       .map((file) =>
         normalizePathUnix(file).replace(normalizePathUnix(__dirname), '')
       )

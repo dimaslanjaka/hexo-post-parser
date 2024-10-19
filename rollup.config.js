@@ -1,24 +1,26 @@
-const { dts } = require('rollup-plugin-dts');
-const babel = require('@rollup/plugin-babel').default;
-const commonjs = require('@rollup/plugin-commonjs').default;
-const resolve = require('@rollup/plugin-node-resolve').default;
-const typescript = require('@rollup/plugin-typescript').default;
-const pkg = require('./package.json');
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import { dts } from 'rollup-plugin-dts';
+import packageJson from './package.json' assert { type: 'json' };
+
+const { author, dependencies, devDependencies, name, version } = packageJson;
 
 const external = [
-  ...Object.keys(pkg.dependencies),
-  ...Object.keys(pkg.devDependencies)
+  ...Object.keys(dependencies),
+  ...Object.keys(devDependencies)
 ];
 
-const baseBanner = `// ${pkg.name} ${pkg.version} by ${pkg.author}`.trim();
+const baseBanner = `// ${name} ${version} by ${author}`.trim();
 
 const esmBanner = `
 ${baseBanner}
 
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// import { fileURLToPath } from 'url';
+// import path from 'path';
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 `.trim();
 
 /**
@@ -52,7 +54,7 @@ const onefile = {
       banner: baseBanner
     }
   ],
-  external: external.filter((pkgName) => !['markdown-it'].includes(pkgName)),
+  external: external, //.filter((pkgName) => !['markdown-it'].includes(pkgName)),
   plugins: [
     typescript({
       tsconfig: 'tsconfig.json',
@@ -79,10 +81,11 @@ const declaration = {
   input: './tmp/dist/index.d.ts',
   output: [
     { file: 'dist/index.d.ts', format: 'es', exports: 'named' },
-    { file: 'dist/index.d.mts', format: 'es', exports: 'named' }
+    { file: 'dist/index.d.mts', format: 'es', exports: 'named' },
+    { file: 'dist/index.d.cts', format: 'es', exports: 'named' }
   ],
   plugins: [resolve({ preferBuiltins: true }), dts()],
   external
 };
 
-module.exports = [declaration, onefile];
+export default [declaration, onefile];

@@ -35,6 +35,7 @@ function moment(
 export const cmoment = moment;
 export const customMoment = moment;
 export const momentHpp = moment;
+export const momentHexoPostParser = moment;
 
 /**
  * Moment check date is today
@@ -63,7 +64,7 @@ export class parseDateMapper {
             date,
             `${config.date_format} ${config.time_format}`
           );
-        } catch (error) {
+        } catch (_e) {
           // format with default pattern
           this.data = moment(date, 'YYYY-MM-DD HH:mm:ss');
         }

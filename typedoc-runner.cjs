@@ -1,7 +1,13 @@
 const { join } = require('upath');
 const typedocModule = require('typedoc');
 const semver = require('semver');
-const { mkdirSync, existsSync, writeFileSync, readdirSync, statSync } = require('fs');
+const {
+  mkdirSync,
+  existsSync,
+  writeFileSync,
+  readdirSync,
+  statSync
+} = require('fs');
 const localTypedocOptions = require('./typedoc.config');
 const pkgjson = require('./package.json');
 const { EOL } = require('os');
@@ -10,7 +16,10 @@ const axios = require('axios');
 const { writeFile } = require('fs/promises');
 const fs = require('fs');
 const path = require('path');
-const git = pkgjson.name === 'git-command-helper' ? require('./dist').default : require('git-command-helper').default;
+const git =
+  pkgjson.name === 'git-command-helper'
+    ? require('./dist').default
+    : require('git-command-helper').default;
 
 // required : upath semver typedoc git-command-helper gulp cross-spawn
 // update   : curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/typedoc-runner.js > typedoc-runner.js
@@ -38,7 +47,8 @@ const compile = async function (options = {}, callback = null) {
   }
 
   // create directory when not exist
-  if (!existsSync(projectDocsDir)) mkdirSync(projectDocsDir, { recursive: true });
+  if (!existsSync(projectDocsDir))
+    mkdirSync(projectDocsDir, { recursive: true });
 
   // disable delete dir while running twice
   if (compiled > 0) setTypedocOptions({ cleanOutputDir: false });
@@ -47,7 +57,8 @@ const compile = async function (options = {}, callback = null) {
   // Application.bootstrap also exists, which will not load plugins
   // Also accepts an array of option readers if you want to disable
   // TypeDoc's tsconfig.json/package.json/typedoc.json option readers
-  const app = await typedocModule.Application.bootstrapWithPlugins(getTypedocOptions());
+  const app =
+    await typedocModule.Application.bootstrapWithPlugins(getTypedocOptions());
   if (semver.gte(typedocModule.Application.VERSION, '0.16.1')) {
     app.options.addReader(new typedocModule.TSConfigReader());
     app.options.addReader(new typedocModule.TypeDocReader());
@@ -69,7 +80,10 @@ const compile = async function (options = {}, callback = null) {
   // call standalone callback
   const callback_script = join(__dirname, 'typedoc-callback.js');
   if (existsSync(callback_script)) {
-    await spawnAsync('node', [callback_script], { cwd: __dirname, stdio: 'inherit' });
+    await spawnAsync('node', [callback_script], {
+      cwd: __dirname,
+      stdio: 'inherit'
+    });
   }
   await createIndex();
 };
@@ -86,7 +100,11 @@ const publish = async function (options = {}, callback = null) {
   if (!existsSync(join(outDir))) {
     console.log('cloning', REPO_URL);
     await new git(__dirname)
-      .spawn('git', ['clone', REPO_URL, 'docs', '-b', 'master', '--single-branch'], { cwd: __dirname })
+      .spawn(
+        'git',
+        ['clone', REPO_URL, 'docs', '-b', 'master', '--single-branch'],
+        { cwd: __dirname }
+      )
       .catch(() => console.log('fail clone to /docs'));
   }
 
@@ -102,7 +120,9 @@ const publish = async function (options = {}, callback = null) {
     .catch(() => console.log('fail set EOL LF'));
 
   for (let i = 0; i < 2; i++) {
-    await compile(options, callback).catch(() => console.log('publish fail to compile'));
+    await compile(options, callback).catch(() =>
+      console.log('publish fail to compile')
+    );
   }
 
   const response = await axios.default.get(
@@ -119,7 +139,9 @@ const publish = async function (options = {}, callback = null) {
   try {
     const currentGit = new git(__dirname);
     const commit = await currentGit.latestCommit().catch(noop);
-    const remote = (await currentGit.getremote().catch(noop)).push.url.replace(/.git$/, '').trim();
+    const remote = (await currentGit.getremote().catch(noop)).push.url
+      .replace(/.git$/, '')
+      .trim();
     if (remote.length > 0) {
       console.log('current git project', remote);
       await github.add(pkgjson.name).catch(noop);
@@ -162,7 +184,10 @@ function getTypedocOptions() {
 function setTypedocOptions(newOpt) {
   opt = Object.assign(opt, newOpt || {});
   opt['$schema'] = 'https://typedoc.org/schema.json';
-  writefile(join(__dirname, 'tmp/typedoc/options.json'), JSON.stringify(opt, null, 2));
+  writefile(
+    join(__dirname, 'tmp/typedoc/options.json'),
+    JSON.stringify(opt, null, 2)
+  );
   return opt;
 }
 
@@ -214,7 +239,8 @@ async function createIndex() {
  * @param {any} data
  */
 function writefile(dest, data) {
-  if (!fs.existsSync(path.dirname(dest))) fs.mkdirSync(path.dirname(dest), { recursive: true });
+  if (!fs.existsSync(path.dirname(dest)))
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
   if (fs.existsSync(dest)) {
     if (fs.statSync(dest).isDirectory()) throw dest + ' is directory';
   }

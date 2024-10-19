@@ -1,8 +1,23 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "outDir": "./tmp/dist",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strictNullChecks": false,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": false,
+    "declaration": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "downlevelIteration": true,
+    "noImplicitAny": false,
+    "lib": ["ES6", "DOM", "ES2020", "ESNext"],
+    "typeRoots": ["typings"],
     "strict": true
   },
-  "include": ["./src/**/*", "./test/**/*"],
   "exclude": ["**/node_modules", "**/tmp", "**/dist"]
 }

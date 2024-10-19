@@ -1,9 +1,9 @@
+import ansiColors from 'ansi-colors';
 import fs from 'fs';
 import path from 'upath';
 import { fileURLToPath } from 'url';
 import buildPost from '../src/buildPost';
 import { simplifyDump } from '../src/markdown/postMapper';
-import color from '../src/node/color';
 import { write } from '../src/node/filemanager';
 import { slugifySanitizeFilename } from '../src/node/sanitize-filename';
 import parsePost from '../src/parsePost';
@@ -16,17 +16,8 @@ const tmpDir = path.join(__dirname, '../tmp');
 if (fs.existsSync(tmpDir)) fs.rmSync(tmpDir, { recursive: true, force: true });
 
 const files = [
-  //path.join(__dirname, 'src-posts/with-description.md'),
-  //path.join(__dirname, 'src-posts/Tests/codeblock.md'),
-  //path.join(__dirname, 'src-posts/Tests/unit/hello-world.md'),
-  //path.join(__dirname, 'src-posts/Tests/unit/elements.md'),
-  //path.join(__dirname, 'src-posts/Tests/unit/markdown.md'),
-  //path.join(__dirname, 'src-posts/folder with space/file post with space.md'),
-  //path.join(__dirname, 'src-posts/without-updated.md'),
-  //path.join(__dirname, 'src-posts/without-date.md'),
   path.join(__dirname, 'src-posts/post-assets-folder/asset-folder.md'),
   path.join(__dirname, 'src-posts/with-custom-permalink.md')
-  //'D:/Repositories/static-blog-generator/tests/src-posts/Tests/post-assets.md'
 ];
 
 files.forEach(async (file) => {
@@ -85,8 +76,8 @@ async function startParse(file: string, config: Record<string, any>) {
       simplifyDump(parse)
     );
 
-    console.log(color.green('success parse'), [jsonFile, mdFile]);
+    console.log(ansiColors.green('success parse'), [jsonFile, mdFile]);
   } else {
-    console.log(color.redBright('fail parse'), file);
+    console.log(ansiColors.redBright('fail parse'), file);
   }
 }

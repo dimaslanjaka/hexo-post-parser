@@ -1,49 +1,19 @@
-import { existsSync, rmSync } from 'fs';
-import { join } from 'upath';
-import buildPost from '../src/buildPost';
-import { simplifyDump } from '../src/markdown/postMapper';
-import color from '../src/node/color';
-import { write } from '../src/node/filemanager';
-import { slugifySanitizeFilename } from '../src/node/sanitize-filename';
-import parsePost from '../src/parsePost';
-import { getConfig } from '../src/types/_config';
+process.env.DEBUG = '*';
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import { describe, expect, it } from '@jest/globals';
+import { normalizePathUnix, writefile } from 'sbg-utility';
+import { buildPost, getConfig, parsePost } from '../src';
 
 const config = getConfig();
-const tmpDir = join(__dirname, '../tmp');
-if (existsSync(tmpDir)) rmSync(tmpDir, { recursive: true, force: true });
 
-const files = [
-  //join(__dirname, '../src-posts/with-description.md'),
-  //join(__dirname, '../src-posts/Tests/codeblock.md'),
-  //join(__dirname, '../src-posts/Tests/unit/hello-world.md'),
-  //join(__dirname, '../src-posts/Tests/unit/elements.md'),
-  //join(__dirname, '../src-posts/Tests/unit/markdown.md'),
-  //join(__dirname, '../src-posts/folder with space/file post with space.md'),
-  //join(__dirname, '../src-posts/without-updated.md'),
-  //join(__dirname, '../src-posts/without-date.md'),
-  join(__dirname, '../src-posts/post-assets-folder/asset-folder.md'),
-  join(__dirname, '../src-posts/with-custom-permalink.md')
-  //'D:/Repositories/static-blog-generator/tests/src-posts/Tests/post-assets.md'
-];
-
-files.forEach(async (file) => {
-  if (existsSync(file)) {
-    await startParse(file, config);
-    // test within subfolder
-    await startParse(
-      file,
-      Object.assign({}, config, {
-        url: 'https://www.webmanajemen.com/chimeraland',
-        root: '/chimeraland/'
-      })
-    );
-  } else {
-    console.log(`${file} not found`);
-  }
-});
-
-async function startParse(file: string, config: Record<string, any>) {
-  const parse = await parsePost(file, {
+const parse = (file: string) =>
+  parsePost(file, {
     formatDate: true,
     shortcodes: {
       youtube: true,
@@ -58,32 +28,35 @@ async function startParse(file: string, config: Record<string, any>) {
     cache: false,
     fix: true,
     sourceFile: file,
-    config: <any>config
+    config: config
   });
-  if (parse && parse.metadata) {
-    const filename = parse.metadata.title;
-    const mdFile = await write(
-      join(
-        __dirname,
-        '../tmp/test/parsePost',
-        config.root,
-        slugifySanitizeFilename(filename) + '.md'
-      ),
-      buildPost(parse)
-    );
 
-    const jsonFile = await write(
-      join(
-        __dirname,
-        '../tmp/test/parsePost',
-        config.root,
-        slugifySanitizeFilename(filename) + '.json'
-      ),
-      simplifyDump(parse)
+const doTest = (file: string) => {
+  const relative = normalizePathUnix(file).replace(
+    normalizePathUnix(__dirname),
+    ''
+  );
+  it(relative, async () => {
+    const result = await parse(file);
+    writefile(
+      path.join(__dirname, 'tmp/test/parsePost/', path.basename(file)),
+      buildPost(result)
     );
+    expect(typeof result.metadata).toBe('object');
+    expect(typeof result.metadata.title).toBe('string');
+    expect(result.body.length).toBeGreaterThan(100);
+    expect(result.metadata.tags).toBeInstanceOf(Array);
+    expect(result.metadata.categories).toBeInstanceOf(Array);
+    expect(result.metadata.photos).toBeInstanceOf(Array);
+  });
+};
 
-    console.log(color.green('success parse'), [jsonFile, mdFile]);
-  } else {
-    console.log(color.redBright('fail parse'), file);
-  }
-}
+const files = [
+  path.join(__dirname, 'src-posts/post-assets-folder/asset-folder.md'),
+  path.join(__dirname, 'src-posts/with-custom-permalink.md'),
+  path.join(__dirname, 'src-posts/markdown-it.md')
+];
+
+describe('parsePost()', () => {
+  files.map(doTest);
+});

@@ -1,8 +1,6 @@
 export * from './buildPost';
 export * from './generatePostId';
-export * from './generator';
 export * from './gulp/utils';
-export * from './index';
 export * from './init';
 export * from './markdown/error-markdown';
 export * from './markdown/markdownRenderers';
@@ -15,7 +13,6 @@ export * from './node/array-iterator';
 export * from './node/array-unique';
 export * from './node/cache-post';
 export * from './node/cache';
-export * from './node/color';
 export * from './node/console';
 export * from './node/dateFile';
 export * from './node/debug';

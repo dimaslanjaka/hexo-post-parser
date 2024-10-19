@@ -1,12 +1,20 @@
-import { renderBodyMarkdown } from '../src/markdown/markdownRenderers';
-import { parsePost } from '../src/markdown/transformPosts';
-import { join } from '../src/node/filemanager';
+import { describe, expect, it } from '@jest/globals';
+import path from 'path';
+import { normalizePath } from 'sbg-utility';
+import { fileURLToPath } from 'url';
+import { parsePost, renderBodyMarkdown } from '../src/index';
 
-const postPath = join(
-  __dirname,
-  'src-posts',
-  '/2022/05/fully-lazy-loaded-adsense.md'
-);
-const parse = parsePost(postPath, postPath, false);
-const render = renderBodyMarkdown(parse, true);
-export { parse, postPath, render };
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const postPath = normalizePath(__dirname, 'src-posts', 'markdown-it.md');
+
+describe('Test Render', () => {
+  // the tests container
+  it('checking render markdown result', async () => {
+    const parse = await parsePost(postPath);
+    expect(typeof parse).toBe('object');
+
+    const render = renderBodyMarkdown(parse as any);
+    expect(typeof render).toBe('string');
+  });
+});
