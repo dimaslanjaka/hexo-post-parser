@@ -1,7 +1,7 @@
+import color from 'ansi-colors';
 import axios from 'axios';
 import path from 'path';
 import { persistentCache } from 'sbg-utility';
-import color from '../node/color';
 import jdom from '../node/jsdom';
 import { md5 } from '../node/md5-file';
 import { replaceArr } from '../node/utils';
@@ -11,7 +11,7 @@ let _cache: persistentCache;
 
 export async function shortcodeCodeblock(str: string) {
   const dom = new jdom();
-  const logname = color.Shamrock('[codeblock]');
+  const logname = color.magentaBright('[codeblock]');
   if (!_cache) {
     _cache = new persistentCache({
       base: path.join(process.cwd(), 'tmp'), //join(process.cwd(), 'node_modules/.cache/persistent'),

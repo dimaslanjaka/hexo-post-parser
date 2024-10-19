@@ -1,5 +1,5 @@
+import color from 'ansi-colors';
 import { resolve } from 'path';
-import color from './color';
 import {
   cacheDir,
   existsSync,
@@ -28,7 +28,7 @@ class memoizer {
         if (this.verbose) console.log(color.greenBright('Fetching from cache'));
         return read.content;
       } else {
-        if (this.verbose) console.log(color.Red('Calculating result'));
+        if (this.verbose) console.log(color.redBright('Calculating result'));
         const result = fn(...args);
         const content: ObjectCached = {
           type: self.determineType(result),

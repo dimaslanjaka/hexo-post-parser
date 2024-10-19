@@ -48,8 +48,11 @@ export interface archiveMap extends mergedPostMap {
  * @returns
  */
 export default function postMapper(post: postMap): archiveMap {
-  post.metadata.date = new parseDateMapper(<string>post.metadata.date);
-  return Object.assign(post, post.metadata);
+  if (post.metadata) {
+    post.metadata.date = new parseDateMapper(<string>post.metadata.date);
+    return Object.assign(post, post.metadata);
+  }
+  return post;
 }
 
 /**

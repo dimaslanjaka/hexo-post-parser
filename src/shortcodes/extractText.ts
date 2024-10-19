@@ -1,9 +1,9 @@
-import chalk from 'chalk';
+import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import path from 'path';
 import { getConfig } from '../types/_config';
 
-const logname = chalk.bgMagenta.whiteBright('[extract-text]');
+const logname = ansiColors.bgMagenta.whiteBright('[extract-text]');
 
 export function extractText(file: string, str: string) {
   const config = getConfig();

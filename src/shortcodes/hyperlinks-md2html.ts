@@ -1,9 +1,9 @@
-import color from '../node/color';
+import ansiColors from 'ansi-colors';
 import { getConfig } from '../types/_config';
 // fix all hyperlinks endsWith .md
 // [test](test.md) -> [test](test.html)
 const regex = /\[([^\]]+)\]\(([^)]+(.md))\)/gim;
-const logname = color['Blizzard Blue']('[replaceMD2HTML]');
+const logname = ansiColors.blueBright('[replaceMD2HTML]');
 
 /**
  * Replace hyperlinks endswith .md with .html
@@ -24,9 +24,9 @@ export function replaceMD2HTML(content: string) {
         if (verbose)
           console.log(
             logname,
-            color.redBright(toReplace),
+            ansiColors.redBright(toReplace),
             '->',
-            color.greenBright(replacement)
+            ansiColors.greenBright(replacement)
           );
         //return wholeMatch.replace(index3, '.html');
         return wholeMatch.replace(toReplace, replacement);

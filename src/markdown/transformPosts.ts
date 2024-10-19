@@ -1,11 +1,9 @@
+import ansiColors from 'ansi-colors';
+import fs from 'fs-extra';
+import path from 'path';
+import { writefile } from 'sbg-utility';
 import buildPost from '../buildPost';
-import color from '../node/color';
-import {
-  dirname,
-  existsSync,
-  mkdirSync,
-  writeFileSync
-} from '../node/filemanager';
+import { existsSync } from '../node/filemanager';
 import { postMap } from '../types';
 
 /**
@@ -14,8 +12,8 @@ import { postMap } from '../types';
  * @param file file path to save
  */
 export function saveParsedPost(parsed: postMap, file: string) {
-  if (!existsSync(dirname(file))) mkdirSync(dirname(file), { recursive: true });
-  writeFileSync(file, buildPost(parsed));
+  if (!existsSync(path.dirname(file))) fs.ensureDirSync(path.dirname(file));
+  writefile(file, buildPost(parsed));
 }
 
 /**
@@ -27,7 +25,7 @@ export const validateParsed = (parse: postMap) => {
   if (parse === null) return false;
   if (typeof parse === 'undefined') return false;
   if (parse && !parse.body) {
-    console.log(color['Red Orange']('body of null:'));
+    console.log(ansiColors['Red Orange']('body of null:'));
     return false;
   }
   return true;

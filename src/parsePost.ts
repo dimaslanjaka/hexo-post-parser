@@ -1,3 +1,4 @@
+import color from 'ansi-colors';
 import debug from 'debug';
 import { deepmerge } from 'deepmerge-ts';
 import fs from 'fs-extra';
@@ -16,7 +17,6 @@ import { generatePostId } from './generatePostId';
 import { isValidHttpUrl } from './gulp/utils';
 import { renderMarked } from './markdown/markdownRenderers';
 import uniqueArray, { uniqueStringArray } from './node/array-unique';
-import color from './node/color';
 import { md5, md5FileSync } from './node/md5-file';
 import sanitizeFilename from './node/sanitize-filename';
 import { cleanString, cleanWhiteSpace, replaceArr } from './node/utils';
@@ -348,7 +348,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
        * @returns
        */
       const post_assets_fixer = (sourcePath: string): string => {
-        const logname = color.Blue('[PAF]');
+        const logname = color.blueBright('[PAF]');
         if (!publicFile) return sourcePath;
 
         // Replace extended title from source

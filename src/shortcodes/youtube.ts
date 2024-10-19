@@ -1,9 +1,9 @@
-import color from '../node/color';
+import ansiColors from 'ansi-colors';
 import { getConfig } from '../types/_config';
 
 /* eslint-disable no-useless-escape */
 const regex = /\{\%\s+youtube\s+(.*)\s+\%\}/gm;
-const logname = color['Vivid Tangerine']('[youtube]');
+const logname = ansiColors.cyanBright('[youtube]');
 
 /**
  * Parse shortcode youtube

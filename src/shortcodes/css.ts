@@ -1,10 +1,10 @@
-import chalk from 'chalk';
+import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import upath from 'upath';
 import { getConfig } from '../types/_config';
 
 const root = upath.toUnix(process.cwd());
-const logname = chalk.blue('[css]');
+const logname = ansiColors.blue('[css]');
 
 /**
  * Parse shortcode css
@@ -33,7 +33,7 @@ export function shortcodeCss(file: string, str: string) {
         const filepath = (dirs as Record<string, any>)[key] as string;
         if (fs.existsSync(filepath)) {
           if (config.generator.verbose) {
-            console.log(...log, chalk.greenBright(`[${key}]`), file);
+            console.log(...log, ansiColors.greenBright(`[${key}]`), file);
           }
           const read = fs.readFileSync(filepath, 'utf-8');
           str = str.replace(htmlTag, () => `<style>${read}</style>`);

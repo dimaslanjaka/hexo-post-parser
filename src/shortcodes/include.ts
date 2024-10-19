@@ -1,10 +1,10 @@
-import chalk from 'chalk';
+import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import upath from 'upath';
 import { getConfig } from '../types/_config';
 
 const root = upath.toUnix(process.cwd());
-const logname = chalk.blue('[include]');
+const logname = ansiColors.blue('[include]');
 
 /**
  * Process `shortcode include` to included in file, shortcode below:
@@ -45,7 +45,10 @@ export function parseShortCodeInclude(sourceFile: string, bodyString: string) {
           const filepath = dirs[key];
           if (fs.existsSync(filepath)) {
             if (verbose) {
-              console.log(logname + chalk.greenBright(`[${key}]`), sourceFile);
+              console.log(
+                logname + ansiColors.greenBright(`[${key}]`),
+                sourceFile
+              );
             }
             const read = fs.readFileSync(filepath).toString();
             bodyString = bodyString.replace(htmlTag, () => read);

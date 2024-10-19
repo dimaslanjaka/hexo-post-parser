@@ -1,10 +1,10 @@
-import chalk from 'chalk';
+import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import upath from 'upath';
 import { getConfig } from '../types/_config';
 
 const root = upath.toUnix(process.cwd());
-const logname = chalk.blue('[script]');
+const logname = ansiColors.blue('[script]');
 
 /**
  * Parse shortcode script
@@ -33,7 +33,7 @@ export function shortcodeScript(file: string, str: string) {
       if (Object.prototype.hasOwnProperty.call(dirs, key)) {
         const filepath = (dirs as Record<string, any>)[key] as string;
         if (fs.existsSync(filepath)) {
-          log[0] += chalk.greenBright(`[${key}]`);
+          log[0] += ansiColors.greenBright(`[${key}]`);
           if (verbose) console.log(...log, file);
           const read = fs.readFileSync(filepath, 'utf-8');
           str = str.replace(htmlTag, () => `<script>${read}</script>`);

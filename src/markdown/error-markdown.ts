@@ -1,4 +1,4 @@
-import { join, toUnix } from 'upath';
+import path from 'upath';
 import { write } from '../node/filemanager';
 import { md5 } from '../node/md5-file';
 
@@ -27,8 +27,12 @@ export default class ErrorMarkdown {
     //const lineNumber = frame.split(':').reverse()[1];
     //const functionName = frame.split(' ')[5];
     this.filelog =
-      join(process.cwd(), 'tmp', 'errors', md5(hash ? hash : toUnix(frame))) +
-      '.md';
+      path.join(
+        process.cwd(),
+        'tmp',
+        'errors',
+        md5(hash ? hash : path.toUnix(frame))
+      ) + '.md';
     this.message = 'error messages log at ' + this.filelog;
 
     if (typeof obj == 'object') {

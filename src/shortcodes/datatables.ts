@@ -1,8 +1,8 @@
-import chalk from 'chalk';
+import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import path from 'path';
 
-const logname = chalk.bgMagenta.whiteBright('[extract-text]');
+const logname = ansiColors.bgMagenta.whiteBright('[extract-text]');
 
 export function datatables(file: string, str: string) {
   const regex = /<!--\s+?datatables\s+?(.+?)\s+?-->/gim;

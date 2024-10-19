@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import lodash from 'lodash';
 import utility, { scheduler } from 'sbg-utility';
@@ -185,7 +185,7 @@ export default class CacheFile extends TypedEmitter<CacheFileEvent> {
     // save cache on process exit
     scheduler.add('writeCacheFile-' + this.currentHash, () => {
       logger.log(
-        chalk.magentaBright(self.currentHash),
+        ansiColors.magentaBright(self.currentHash),
         'saved cache',
         self.dbFile
       );
