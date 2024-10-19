@@ -136,21 +136,21 @@
   },
   "/release/hexo-post-parser.tgz": {
     "integrity": {
-      "sha1": "6a09ba5f4cdb4545fedc8674d2b94325f861083a",
-      "sha256": "MA3RxBk6bffsmVf6wMzwMA0enjuaT3VjBGdekFA1V48=",
-      "md5": "d479a84adf78348a3190b83965911ac7",
-      "sha512": "tG+s9OYtdcX8lW8xD2N9s8utF9OdebwZbohzwwnagsQW5zocX4qgFFq7yeEr2DG5MjlDayGJ2j1FNytytz5zjQ=="
+      "sha1": "fe8ccc710e9998d111a08420e59cf58953fd033d",
+      "sha256": "HPzNaBGUrN9egI9Xqmx3lKUAfOlJqvdtB/g1DrVTFVU=",
+      "md5": "10aa83d8b37b6ba361be9d7fbd2902ed",
+      "sha512": "H3drseIWMaySEuxZh7ppwOKNj38vEA7yG5q/dFyDjAy+Qe1JOlULXmjoHRh+u6AQke/I2n8ycczh/0T3LhpTZw=="
     },
-    "size": "156.27 KB"
+    "size": "175.14 KB"
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "cf914c346673d7682aa9fd7e3662f2c02243f52d",
-      "sha256": "oQs9Ay16YDJ9UPWkyk/isxr4ywsLB9Sh2ogj+dXaWQs=",
-      "md5": "10c6800242b8ad29496482c59307a8c5",
-      "sha512": "8PcL0oj/P+3p9dsHwH944je7Y7cbh8fKASkR/Ryu7YXQJGz5yp/TmNtKynlFgcFbW8y6/2iEj/Uw5t62cw2UoQ=="
+      "sha1": "3552933f1545d3b66f335aa93b3825a69fa40e87",
+      "sha256": "hJVrfFr2Kl2QyP2Ac4XXAKdv//a7QBZhyAXZd1y0Z+M=",
+      "md5": "c9a7360659c7bbb20f289d302d1ba53b",
+      "sha512": "ahkn2nnHD2/kIgowuBnQPT+QxhF9BCyIDdPj5td+4X/gvg3PFCggGw1ogviH0A+/wtELEusaaSSdgQ5JTUfG1w=="
     },
-    "size": "544.08 KB"
+    "size": "544.02 KB"
   },
   "/release/hexo-post-parser-1.2.15.tgz": {
     "integrity": {
@@ -208,11 +208,11 @@
   },
   "/release/hexo-post-parser-3.0.0.tgz": {
     "integrity": {
-      "sha1": "6a09ba5f4cdb4545fedc8674d2b94325f861083a",
-      "sha256": "MA3RxBk6bffsmVf6wMzwMA0enjuaT3VjBGdekFA1V48=",
-      "md5": "d479a84adf78348a3190b83965911ac7",
-      "sha512": "tG+s9OYtdcX8lW8xD2N9s8utF9OdebwZbohzwwnagsQW5zocX4qgFFq7yeEr2DG5MjlDayGJ2j1FNytytz5zjQ=="
+      "sha1": "fe8ccc710e9998d111a08420e59cf58953fd033d",
+      "sha256": "HPzNaBGUrN9egI9Xqmx3lKUAfOlJqvdtB/g1DrVTFVU=",
+      "md5": "10aa83d8b37b6ba361be9d7fbd2902ed",
+      "sha512": "H3drseIWMaySEuxZh7ppwOKNj38vEA7yG5q/dFyDjAy+Qe1JOlULXmjoHRh+u6AQke/I2n8ycczh/0T3LhpTZw=="
     },
-    "size": "156.27 KB"
+    "size": "175.14 KB"
   }
 }
