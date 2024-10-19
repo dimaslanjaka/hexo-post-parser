@@ -4,6 +4,6 @@ export { postAuthor } from './postAuthor';
 export { postMap } from './postMap';
 export { postMeta } from './postMeta';
 
-export interface DynamicObject extends Object {
+export interface DynamicObject {
   [keys: string]: any;
 }

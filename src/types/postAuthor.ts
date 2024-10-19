@@ -1,7 +1,7 @@
 /**
  * Post author object type
  */
-export interface postAuthor extends Object {
+export interface postAuthor {
   [key: string]: any;
   /**
    * Author name
