@@ -732,17 +732,19 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     return await processParsed(body, meta);
   };
 
-  const countTripleHypens = target.split('---').length - 1;
-  log('triple hypens', countTripleHypens);
+  // const countTripleHypens = target.split('---').length - 1;
+  // log('triple hypens', countTripleHypens);
 
-  // markdown-it sometimes has multiple triple hypens
-  if (countTripleHypens > 2) {
+  try {
+    // markdown-it sometimes has multiple triple hypens
     // Regex pattern to match the frontmatter and capture the body
     const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
     const match = target.match(frontmatterRegex);
-    if (match) {
+    // if (match) log('match.length', match.length);
+    if (match && match.length === 3) {
       const frontmatter = match[1].trim();
       const body = match[2].trim();
+      log('new parser test passed', isFile ? `for ${originalFile}` : '');
 
       // Parse the frontmatter into an object
       const metadata = frontmatter.split('\n').reduce((acc, line) => {
@@ -754,6 +756,50 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       }, {});
       return await processParsed(body, metadata);
     }
+  } catch (_e) {
+    //
+  }
+
+  try {
+    const frontMatterRegex = /^(.*?)\n---/s;
+    const bodyRegex = /---\n([\s\S]*)$/;
+
+    // Extract front-matter
+    const frontMatterMatch = target.match(frontMatterRegex);
+    let frontMatterObject: Nullable<Record<string, any>> = undefined;
+    let frontMatterBody: Nullable<string> = undefined;
+
+    if (frontMatterMatch) {
+      const frontMatter = frontMatterMatch[1];
+      const frontMatterLines = frontMatter
+        .split('\n')
+        .map((line) => line.trim());
+
+      frontMatterObject = {};
+
+      frontMatterLines.forEach((line) => {
+        const [key, ...value] = line.split(':');
+        if (key) {
+          frontMatterObject[key.trim()] = value.join(':').trim();
+        }
+      });
+    }
+
+    // Extract body
+    const bodyMatch = target.match(bodyRegex);
+    if (bodyMatch) {
+      frontMatterBody = bodyMatch[1].trim(); // Trim to remove leading/trailing whitespace
+    }
+
+    if (frontMatterBody !== undefined && frontMatterObject !== undefined) {
+      log(
+        'new hexo page parser test passed',
+        isFile ? `for ${originalFile}` : ''
+      );
+      return await processParsed(frontMatterBody, frontMatterObject);
+    }
+  } catch (_e) {
+    //
   }
 
   // test opening metadata tag
@@ -775,6 +821,8 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     log('test 2 passed');
     return testPost2;
   }
+
+  log.extend('error')('all test failed, using front-matter parser');
 
   const regexPage = /^---([\s\S]*?)---[\n\s\S]([\n\s\S]*)/gm;
   const testPage = (await Promise.all(
