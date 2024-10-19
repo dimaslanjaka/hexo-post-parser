@@ -23,6 +23,7 @@
     "prepare": "husky && node package-switch.cjs local",
     "lint": "cross-env-shell ESLINT_USE_FLAT_CONFIG=false && eslint --fix src",
     "clean": "rimraf dist && npm run build",
+    "prebuild": "node src/index.builder.mjs",
     "build:packages": "yarn workspaces --worktree --no-private run build",
     "build": "tsc --build tsconfig.build.json && rollup -c",
     "build-clean": "yarn clean && yarn build",
