@@ -22,14 +22,21 @@ const prettierConfig = JSON.parse(
 export default [
   {
     ignores: [
-      '**/*.md',
-      '**/tmp/**/*',
-      '**/*.html',
-      '**/*.py',
-      '**/*.txt',
-      '**/app/**/*',
-      '**/dist/**/*',
-      '!**/.*.\\{js,cjs,mjs}'
+      '**/*.md', // Markdown files
+      '**/*.html', // HTML files
+      '**/*.py', // Python files
+      '**/*.txt', // Text files
+      '**/tmp/**', // Temporary files
+      '**/app/**', // Application-specific files
+      '**/dist/**', // Distribution/build files
+      '**/node_modules/**', // Node.js dependencies
+      '**/coverage/**', // Test coverage reports
+      '**/logs/**', // Log files
+      '**/vendor/**', // Third-party libraries
+      '**/min.*', // Minified files (e.g., min.js, min.css)
+      '**/*.lock', // Lock files (e.g., package-lock.json, yarn.lock)
+      '**/public/**', // Public/static assets
+      '**/.yarn/**' // Yarn folder
     ]
   },
   ...compat.extends(
