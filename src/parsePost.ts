@@ -742,19 +742,24 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
     const match = target.match(frontmatterRegex);
     // if (match) log('match.length', match.length);
     if (match && match.length === 3) {
-      const frontmatter = match[1].trim();
-      const body = match[2].trim();
+      const frontMatterObject = match[1].trim();
+      const frontMatterBody = match[2].trim();
       log('new parser test passed', isFile ? `for ${originalFile}` : '');
 
       // Parse the frontmatter into an object
-      const metadata = frontmatter.split('\n').reduce((acc, line) => {
-        const [key, ...value] = line.split(':');
-        acc[key.trim()] = value.join(':').trim().startsWith('[')
-          ? JSON.parse(value.join(':').trim())
-          : value.join(':').trim();
-        return acc;
-      }, {});
-      return await processParsed(body, metadata);
+      let metadata: Record<string, any>;
+      try {
+        metadata = yaml.parse(frontMatterObject);
+      } catch (_e) {
+        metadata = frontMatterObject.split('\n').reduce((acc, line) => {
+          const [key, ...value] = line.split(':');
+          acc[key.trim()] = value.join(':').trim().startsWith('[')
+            ? JSON.parse(value.join(':').trim())
+            : value.join(':').trim();
+          return acc;
+        }, {});
+      }
+      return await processParsed(frontMatterBody, metadata);
     }
   } catch (_e) {
     //

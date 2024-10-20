@@ -19,8 +19,8 @@
 | 1.2.8 | https://github.com/dimaslanjaka/hexo-post-parser/raw/2605619/release/hexo-post-parser-1.2.8.tgz |
 | 1.2.9 | https://github.com/dimaslanjaka/hexo-post-parser/raw/e6023c8/release/hexo-post-parser-1.2.9.tgz |
 | 2.0.2 | https://github.com/dimaslanjaka/hexo-post-parser/raw/a90851c/release/hexo-post-parser-2.0.2.tgz |
-| 3.0.0 | https://github.com/dimaslanjaka/hexo-post-parser/raw/1d36514/release/hexo-post-parser-3.0.0.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/1d36514/release/hexo-post-parser.tgz |
+| 3.0.0 | https://github.com/dimaslanjaka/hexo-post-parser/raw/5319e01/release/hexo-post-parser-3.0.0.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/5319e01/release/hexo-post-parser.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-post-parser/raw/pre-release/release/hexo-post-parser.tgz |
 
 use this tarball with `resolutions`:
