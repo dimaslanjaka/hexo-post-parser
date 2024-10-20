@@ -248,7 +248,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       meta.subtitle = meta.excerpt;
     } else {
       // const bodyHtml = renderMarkdownIt(body);
-      const bodyHtml = renderMarked(body);
+      const bodyHtml = renderMarked(body, options.cache);
       const dom = new JSDOM(bodyHtml);
       // @todo fix no meta description
       const tags = Array.from(

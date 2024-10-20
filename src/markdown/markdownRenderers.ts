@@ -20,51 +20,85 @@ export const converterOpt = {
 };
 
 /**
- * Transform markdown string to html string
- * @package showdown
- * @param str
+ * Generate a cache path based on function name and input string.
+ *
+ * @param functionName - The name of the function for cache separation.
+ * @param str - The input string to generate a unique cache ID.
+ * @returns The cache file path.
  */
-export function renderShowdown(str: string) {
-  const converter = new showdown.Converter(converterOpt);
-  return converter.makeHtml(str);
+function getCachePath(functionName: string, str: string): string {
+  const cacheId = md5(str);
+  return path.join(
+    process.cwd(),
+    'tmp/hexo-post-parser',
+    functionName,
+    `${cacheId}.json`
+  );
 }
 
 /**
- * Render markdown to html using `markdown-it`, `markdown-it-attrs`, `markdown-it-anchors`, `markdown-it-sup`, `markdown-it-sub`, `markdown-it-mark`, `markdown-it-footnote`, `markdown-it-abbr`
- * * {@link https://www.npmjs.com/package/markdown-it-attrs}
- * * {@link https://www.npmjs.com/package/markdown-it-attrs}
- * * {@link https://www.npmjs.com/package/markdown-it-anchors}
- * * {@link https://www.npmjs.com/package/markdown-it-sup}
- * * {@link https://www.npmjs.com/package/markdown-it-sub}
- * * {@link https://www.npmjs.com/package/markdown-it-mark}
- * * {@link https://www.npmjs.com/package/markdown-it-footnote}
- * * {@link https://www.npmjs.com/package/markdown-it-abbr}
- * @param str
- * @returns
+ * Write the cache content to a file.
+ *
+ * @param cachePath - The path where the cache should be stored.
+ * @param content - The content to cache.
  */
-export function renderMarkdownIt(str: string) {
-  const cacheId = md5(str);
-  const cachePath = path.join(
-    process.cwd(),
-    'tmp/hexo-post-parser',
-    'renderMarkdownIt',
-    cacheId + 'json'
-  );
-  if (fs.existsSync(cachePath)) {
-    return fs.readFileSync(cachePath).toString();
+function writeCache(cachePath: string, content: string): void {
+  fs.ensureDirSync(path.dirname(cachePath));
+  fs.writeFileSync(cachePath, content);
+}
+
+/**
+ * Transform markdown string to HTML string using Showdown.
+ *
+ * @param str - The markdown string to convert.
+ * @param cache - If true, caches the result in a temporary file.
+ * @returns The rendered HTML content.
+ */
+export function renderShowdown(str: string, cache: boolean = false): string {
+  let cachePath: string | undefined;
+
+  if (cache === true) {
+    cachePath = getCachePath('renderShowdown', str);
+    if (fs.existsSync(cachePath)) {
+      return fs.readFileSync(cachePath, 'utf8');
+    }
   }
+
+  const converter = new showdown.Converter(converterOpt);
+  const result = converter.makeHtml(str);
+
+  if (cachePath) {
+    writeCache(cachePath, result);
+  }
+
+  return result;
+}
+
+/**
+ * Render markdown to HTML using `markdown-it` with optional caching.
+ *
+ * @param str - The markdown string to render.
+ * @param cache - If true, caches the result in a temporary file.
+ * @returns The rendered HTML content.
+ */
+export function renderMarkdownIt(str: string, cache: boolean = false): string {
+  let cachePath: string | undefined;
+
+  if (cache === true) {
+    cachePath = getCachePath('renderMarkdownIt', str);
+    if (fs.existsSync(cachePath)) {
+      return fs.readFileSync(cachePath, 'utf8');
+    }
+  }
+
   const md = new MarkdownIt('default', {
     html: true,
-    // Autoconvert URL-like text to links
     linkify: false,
-    // Enable some language-neutral replacement + quotes beautification
-    // For the full list of replacements, see https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.js
     typographer: true,
     breaks: false,
-    langPrefix: 'language-' // CSS language prefix for fenced blocks. Can be useful for external highlighters.
+    langPrefix: 'language-'
   });
 
-  //md.linkify.set({ fuzzyEmail: false }); // disables converting email to link
   md.use(MarkdownItSup)
     .use(MarkdownItSub)
     .use(MarkdownItMark)
@@ -77,14 +111,18 @@ export function renderMarkdownIt(str: string) {
       permalink: MarkdownItAnchor.permalink.headerLink(),
       slugify: (s: string) => slugify(s)
     });
+
   md.renderer.rules.footnote_block_open = () =>
     '<h4 class="mt-3">Footnotes</h4>\n' +
     '<section class="footnotes">\n' +
     '<ol class="footnotes-list">\n';
 
   const result = md.render(str, {});
-  fs.ensureDirSync(path.dirname(cachePath));
-  fs.writeFileSync(cachePath, result);
+
+  if (cachePath) {
+    writeCache(cachePath, result);
+  }
+
   return result;
 }
 
@@ -96,25 +134,19 @@ export function renderMarkdownIt(str: string) {
  * @returns The rendered HTML content.
  */
 export function renderMarked(str: string, cache: boolean = false): string {
-  let cachePath = '';
+  let cachePath: string | undefined;
 
-  if (cache) {
-    const cacheId = md5(str);
-    cachePath = path.join(
-      process.cwd(),
-      'tmp/hexo-post-parser',
-      'renderMarkdownIt',
-      `${cacheId}.json`
-    );
+  if (cache === true) {
+    cachePath = getCachePath('renderMarked', str);
     if (fs.existsSync(cachePath)) {
       return fs.readFileSync(cachePath, 'utf8');
     }
   }
 
   const result = marked.parse(str, { async: false });
-  if (cache) {
-    fs.ensureDirSync(path.dirname(cachePath));
-    fs.writeFileSync(cachePath, result);
+
+  if (cachePath) {
+    writeCache(cachePath, result);
   }
 
   return result;

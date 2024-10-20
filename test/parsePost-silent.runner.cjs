@@ -49,6 +49,7 @@ const parse = async (file) => {
 
 const files = glob.globSync('./src-posts/**/*.md', {
   cwd: __dirname,
-  absolute: true
+  absolute: true,
+  ignore: ['**/{readme,README,license,LICENSE}.*', '**/{license,LICENSE}']
 });
 files.map(parse);

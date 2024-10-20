@@ -151,9 +151,9 @@ export class RenderMarkdownBody extends events.EventEmitter {
 
   renderMarkdown() {
     // eslint-disable-next-line prefer-const
-    let { body, verbose } = this.options;
+    let { body, verbose = false, config = {} } = this.options;
     this.emit('beforeRender', body);
-    const rendered = renderMarkdownIt(body);
+    const rendered = renderMarkdownIt(body, (config.generator || {}).cache);
     if (verbose) write(join(process.cwd(), 'tmp/rendered.md'), rendered);
     // apply
     this.options.body = rendered;
