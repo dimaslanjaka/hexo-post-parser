@@ -33,7 +33,7 @@ export function parsePermalink(
   /**
    * @see {@link https://hexo.io/docs/permalinks.html}
    */
-  const replacer: Record<string, string> = {
+  const replacer: Record<string, any> = {
     ':month': 'MM',
     ':year': 'YYYY',
     ':day': 'DD',

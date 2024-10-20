@@ -1,14 +1,15 @@
 import fs from 'fs-extra';
 import path from 'path';
+
 let firstTime = true;
 const trueLog = console.log;
 // write logs to file
 console.log = function (...msg: any[]) {
   const logfile = path.join(process.cwd(), '/tmp/log.log');
-  if (!fs.existsSync(path.dirname(logfile)))
-    fs.mkdirSync(path.dirname(logfile), { recursive: true });
+  fs.ensureDirSync(path.dirname(logfile));
   if (firstTime) {
-    if (fs.existsSync(logfile)) fs.unlinkSync(logfile);
+    // reset log on first time
+    fs.writeFileSync(logfile, '');
     firstTime = false;
   }
   let text: string;
@@ -32,4 +33,5 @@ console.log = function (...msg: any[]) {
     });
   }
 };
+
 // Just put this snippet on top of your nodejs code.
