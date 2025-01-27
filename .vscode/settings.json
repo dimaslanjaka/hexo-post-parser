@@ -54,7 +54,7 @@
     "*.py": "python -u",
     "*.electron.js": "cross-env-shell NODE_ENV=development electron -r ts-node/register",
     "*.runner.{cjs,js,mjs}": "npm run build && node --no-warnings --experimental-specifier-resolution=node",
-    "*.runner.ts": "npm run build && node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config",
+    "*.runner.ts": "node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config",
     "*.ts": "node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config"
   },
   "code-runner.respectShebang": true,

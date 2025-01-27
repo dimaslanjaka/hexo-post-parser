@@ -2,7 +2,7 @@ import Bluebird from 'bluebird';
 import fs from 'fs-extra';
 import * as glob from 'glob';
 import { default as nodePath } from 'path';
-import utility from 'sbg-utility';
+import * as utility from 'sbg-utility';
 import upath from 'upath';
 type ErrnoException = NodeJS.ErrnoException;
 

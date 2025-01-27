@@ -1,7 +1,7 @@
 import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import lodash from 'lodash';
-import utility, { scheduler } from 'sbg-utility';
+import * as utility from 'sbg-utility';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import upath from 'upath';
 import { DynamicObject } from '../types';
@@ -183,7 +183,7 @@ export default class CacheFile extends TypedEmitter<CacheFileEvent> {
     this.md5Cache[key] = locationCache;
 
     // save cache on process exit
-    scheduler.add('writeCacheFile-' + this.currentHash, () => {
+    utility.scheduler.add('writeCacheFile-' + this.currentHash, () => {
       logger.log(
         ansiColors.magentaBright(self.currentHash),
         'saved cache',
