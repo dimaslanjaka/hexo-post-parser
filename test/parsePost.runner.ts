@@ -76,7 +76,10 @@ async function startParse(file: string, config: Record<string, any>) {
       simplifyDump(parse)
     );
 
-    console.log(ansiColors.green('success parse'), [jsonFile, mdFile]);
+    console.log(ansiColors.green('success parse'), {
+      output: [jsonFile, mdFile],
+      input: file
+    });
   } else {
     console.log(ansiColors.redBright('fail parse'), file);
   }

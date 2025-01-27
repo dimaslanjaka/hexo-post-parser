@@ -30,7 +30,9 @@ lerna-debug.log*
 
 # Temp
 tmp
+package.tgz
 
+# Docs
 /docs
 /coverage
 

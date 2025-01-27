@@ -9,3 +9,7 @@ thumbnail: asset-folder/spinner-200px.svg
 ![alt img](asset-folder/spinner-200px.svg "title img")
 
 ![alt sample](asset-folder/sample.jpg)
+
+![with dot](./asset-folder/sample.jpg)
+
+![with dot](./asset-folder/sample.jpg "with dot")
