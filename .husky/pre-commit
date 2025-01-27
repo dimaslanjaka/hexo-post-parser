@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+# Lint and format
 npx lint-staged
-node package-switch.cjs production
-git add package.json
+# Switch package to remote
+# node package-switch.cjs production
+# Add the package.json
+# git add package.json
