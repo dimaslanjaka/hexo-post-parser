@@ -8,12 +8,13 @@
     "PHP_CS_FIXER_IGNORE_ENV": "1"
   },
   "terminal.integrated.env.windows": {
-    "PATH": "${env:LOCALAPPDATA}\\nvm;C:\\nvm4w\\nodejs;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\usr\\bin;${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin;${workspaceFolder}\\vendor\\bin;C:\\laragon\\bin\\mysql\\mysql-8.4.3-winx64\\bin;C:\\Users\\Dell\\AppData\\Local\\Programs\\Ollama",
+    "PATH": "${env:LOCALAPPDATA}\\nvm;C:\\nvm4w\\nodejs;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\usr\\bin;${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin;${workspaceFolder}\\vendor\\bin;C:\\laragon\\bin\\mysql\\mysql-8.4.3-winx64\\bin;${env:LOCALAPPDATA}\\Programs\\Ollama",
     "NUITKA_CACHE_DIR": "${workspaceFolder}\\tmp\\nuitka-cache",
     "ESLINT_USE_FLAT_CONFIG": "true",
     "DEBUG_PKG": "1",
     "PUPPETEER_SKIP_DOWNLOAD": "true",
-    "PHP_CS_FIXER_IGNORE_ENV": "1"
+    "PHP_CS_FIXER_IGNORE_ENV": "1",
+    "WORKSPACE_FOLDER": "${workspaceFolder}"
   },
   "terminal.integrated.profiles.windows": {
     "PowerShell": {
@@ -51,9 +52,32 @@
       "path": ["${env:windir}\\System32\\cmd.exe"],
       "args": ["/k", "prompt $p$_$g"],
       "icon": "terminal-cmd"
+    },
+    "PowerShell 7": {
+      "path": "${env:LOCALAPPDATA}\\Microsoft\\WindowsApps\\pwsh.exe",
+      "icon": "terminal-powershell"
+    },
+    "Short PowerShell 7": {
+      "path": "${env:LOCALAPPDATA}\\Microsoft\\WindowsApps\\pwsh.exe",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "function prompt { Write-Host '[' -NoNewline -ForegroundColor DarkGray; Write-Host (Split-Path -Leaf (Get-Location)) -NoNewline -ForegroundColor Cyan; Write-Host ']> ' -NoNewline -ForegroundColor DarkGray; return ' ' }"
+      ],
+      "icon": "terminal-powershell"
+    },
+    "Oh My Posh": {
+      "path": "${env:LOCALAPPDATA}\\Microsoft\\WindowsApps\\pwsh.exe",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "$candidates = @('${workspaceFolder}/scripts/OhMyPoshInit.ps1','${workspaceFolder}/node_modules/@dimaslanjaka/eslint-base-config/scripts/OhMyPoshInit.ps1'); $init = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1; if ($init) { if ((Get-ExecutionPolicy -Scope CurrentUser) -eq 'Restricted') { Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force }; & $init } else { oh-my-posh init pwsh | Invoke-Expression }"
+      ],
+      "icon": "terminal-powershell"
     }
   },
-  "terminal.integrated.defaultProfile.windows": "Short PowerShell",
+  "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
+  "terminal.integrated.defaultProfile.windows": "Oh My Posh",
   "files.autoSave": "onWindowChange",
   "editor.codeActionsOnSave": {
     "source.fixAll": "never",
