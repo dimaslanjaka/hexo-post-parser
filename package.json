@@ -34,9 +34,9 @@
     "update:typedoc-server": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/typedoc-server.js > typedoc-server.cjs",
     "update:packer": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.cjs",
     "update:changelog": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.cjs",
-    "update:ncu": "npx npm-check-updates -u",
+    "update:ncu": "npx npm-check-updates -u -x jsdom,typedoc,typedoc-plugin-missing-exports",
     "update": "run-s \"update:**\"",
-    "test": "cross-env-shell NODE_OPTIONS=\"--experimental-vm-modules\" jest --runInBand --silent=false"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "files": [
     "dist/",
@@ -84,9 +84,11 @@
     "@types/fs-extra": "^11.0.4",
     "@types/glob": "^9.0.0",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
+    "@types/jest": "^30.0.0",
     "@types/jsdom": "^28.0.3",
     "@types/lodash": "^4.17.24",
     "@types/lodash.deburr": "^4.1.9",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^25.9.1",
     "@types/showdown": "^2",
     "@types/yargs": "^17.0.35",
@@ -128,7 +130,7 @@
     "fs-extra": "^11.3.5",
     "glob": "^13.0.6",
     "highlight.js": "^11.11.1",
-    "jsdom": "^29.1.1",
+    "jsdom": "22",
     "lodash": "^4.18.1",
     "lodash.deburr": "^4.1.0",
     "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/95599a5a20b2f162a776abaa3a0b7f8aaac2f6e1/release/markdown-it.tgz",

@@ -1,4 +1,3 @@
-const { describe, expect, test } = require('@jest/globals');
 const wilcards = require('../dist/index.cjs');
 
 describe('check method', () => {
