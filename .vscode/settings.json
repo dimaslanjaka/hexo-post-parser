@@ -56,7 +56,7 @@
   "terminal.integrated.defaultProfile.windows": "Short PowerShell",
   "files.autoSave": "onWindowChange",
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
+    "source.fixAll": "never",
     "source.organizeImports": "never",
     "source.fixAll.eslint": "explicit",
     "source.fixAll.ts": "never",
@@ -74,7 +74,7 @@
   "code-runner.saveAllFilesBeforeRun": true,
   "code-runner.executorMapByGlob": {
     "*.{test,spec}.ts": "npm test -- $fileNameWithoutExt",
-    "*.{test,spec}.{js,cjs,mjs}": "npm run build && npm test -- $fileNameWithoutExt",
+    "*.{test,spec}.{js,cjs,mjs}": "npm test -- $fileNameWithoutExt",
     "electron-*.ts": "cross-env-shell NODE_ENV=development electron -r ts-node/register",
     "*.py": "python -u",
     "*.electron.js": "cross-env-shell NODE_ENV=development electron -r ts-node/register",
