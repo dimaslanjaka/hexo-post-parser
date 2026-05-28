@@ -84,9 +84,9 @@ jobs:
         run: |
           corepack enable
           # npm uninstall -g yarn
-          # corepack prepare yarn@4.9.2 --activate
-          # curl -L https://raw.githubusercontent.com/dimaslanjaka/nodejs-package-types/refs/heads/main/.yarnrc-template.yml -o .yarnrc.yml
-          yarn set version 4.9.2
+          corepack prepare yarn@4.13.0 --activate
+          curl -L https://raw.githubusercontent.com/dimaslanjaka/nodejs-package-types/refs/heads/main/.yarnrc-template.yml -o .yarnrc.yml
+          yarn set version 4.13.0
 
       - name: '🔁 Pull & update submodules recursively'
         continue-on-error: true
