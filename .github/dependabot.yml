@@ -12,6 +12,7 @@ updates:
       interval: 'monthly'
     ignore:
       - dependency-name: 'husky'
+      - dependency-name: 'jsdom'
       - dependency-name: 'eslint'
       - dependency-name: 'lint-staged'
       - dependency-name: 'chalk'
