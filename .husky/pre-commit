@@ -2,7 +2,5 @@
 
 # Lint and format
 npx lint-staged
-# Switch package to remote
-# node package-switch.cjs production
 # Add the package.json
 # git add package.json

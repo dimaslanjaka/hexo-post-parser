@@ -41,6 +41,8 @@ const local = {
 };
 
 const production = {
+  '@dimaslanjaka/eslint-base-config':
+    'https://github.com/dimaslanjaka/eslint-base-config/raw/69ca996fdeaac42c93dd590124996eff58b5d6c2/release/dimaslanjaka-eslint-base-config.tgz',
   'binary-collections':
     'https://github.com/dimaslanjaka/bin/raw/fcd1121/releases/bin.tgz',
   '@types/hexo':
@@ -284,7 +286,7 @@ async function main() {
 
     pkg.resolutions = production;
     // npm overrides sometimes give you error installation
-    // pkg.overrides = production;
+    pkg.overrides = production;
   }
 
   // Sort by keys
@@ -325,4 +327,7 @@ async function main() {
   );
 }
 
-main();
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
