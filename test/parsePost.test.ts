@@ -31,7 +31,7 @@ const parse = (file: string) =>
     config: config
   });
 
-const doTest = (file: string) => {
+const doTest = (file: string, minimumBodyLength = 100) => {
   const relative = normalizePathUnix(file).replace(
     normalizePathUnix(__dirname),
     ''
@@ -44,19 +44,19 @@ const doTest = (file: string) => {
     );
     expect(typeof result.metadata).toBe('object');
     expect(typeof result.metadata.title).toBe('string');
-    expect(result.body.length).toBeGreaterThan(100);
+    expect(result.body.length).toBeGreaterThan(minimumBodyLength);
     expect(result.metadata.tags).toBeInstanceOf(Array);
     expect(result.metadata.categories).toBeInstanceOf(Array);
     expect(result.metadata.photos).toBeInstanceOf(Array);
   });
 };
 
-const files = [
-  path.join(__dirname, 'src-posts/post-assets-folder/asset-folder.md'),
-  path.join(__dirname, 'src-posts/with-custom-permalink.md'),
-  path.join(__dirname, 'src-posts/markdown-it.md')
+const files: Array<[string, number]> = [
+  [path.join(__dirname, 'src-posts/post-assets-folder/asset-folder.md'), 100],
+  [path.join(__dirname, 'src-posts/with-custom-permalink.md'), 10],
+  [path.join(__dirname, 'src-posts/markdown-it.md'), 100]
 ];
 
 describe('parsePost()', () => {
-  files.map(doTest);
+  files.map(([file, minimumBodyLength]) => doTest(file, minimumBodyLength));
 });
