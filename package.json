@@ -161,10 +161,10 @@
     "node": ">=18"
   },
   "resolutions": {
-    "@dimaslanjaka/eslint-base-config": "https://github.com/dimaslanjaka/eslint-base-config/raw/94035285690895174e07a9afc060b668e743ae06/release/dimaslanjaka-eslint-base-config.tgz",
+    "@dimaslanjaka/eslint-base-config": "https://github.com/dimaslanjaka/eslint-base-config/raw/3ce27ad4147b7d75b844117b2cf75ae4bb46ae18/release/dimaslanjaka-eslint-base-config.tgz",
     "@types/git-command-helper": "https://github.com/dimaslanjaka/git-command-helper/raw/dd8c8ef596083f367c592f97a2439f9fc8ab33b2/release/git-command-helper.tgz",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/65bbfe29d65b55320eb61bd263f16e1519c6c1b0/releases/hexo.tgz",
-    "binary-collections": "https://github.com/dimaslanjaka/bin/raw/fa22222449a7b264007b326bc66007413dba1d4a/releases/bin.tgz",
+    "binary-collections": "https://github.com/dimaslanjaka/bin/raw/9688287aecab1a125de2d63fdd30651017a9862e/releases/bin.tgz",
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/78b09a1f799430fb251c1b438ec56ce7957674f4/release/cross-spawn.tgz",
     "git-command-helper": "https://github.com/dimaslanjaka/git-command-helper/raw/dd8c8ef596083f367c592f97a2439f9fc8ab33b2/release/git-command-helper.tgz",
     "hexo": "https://github.com/dimaslanjaka/hexo/raw/65bbfe29d65b55320eb61bd263f16e1519c6c1b0/releases/hexo.tgz",
@@ -182,7 +182,7 @@
     "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/65bbfe29d65b55320eb61bd263f16e1519c6c1b0/releases/hexo-util.tgz",
     "instant-indexing": "https://github.com/dimaslanjaka/static-blog-generator/raw/f221d11cdc32fa7dd001e5236f8c3f30387e62d2/packages/instant-indexing/release/instant-indexing.tgz",
     "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/7f4f9d5ec08ebcfde42affb517ea7c8e6a305534/release/markdown-it.tgz",
-    "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/raw/57cc6f63c8a707dffa887696afb8863b74d22e0e/release/nodejs-package-types.tgz",
+    "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/raw/be585a60caf85168a8f0ca7fdda21703863b4353/release/nodejs-package-types.tgz",
     "sbg-api": "https://github.com/dimaslanjaka/static-blog-generator/raw/75e8aa1628764c15d65e19e8246ac796cbcca83a/packages/sbg-api/release/sbg-api.tgz",
     "sbg-cli": "https://github.com/dimaslanjaka/static-blog-generator/raw/e6ddcb2fd761e21502828e53b121e1234d97600a/packages/sbg-cli/release/sbg-cli.tgz",
     "sbg-server": "https://github.com/dimaslanjaka/static-blog-generator/raw/e6ddcb2fd761e21502828e53b121e1234d97600a/packages/sbg-server/release/sbg-server.tgz",
