@@ -6,20 +6,37 @@ export function removeDoubleSlashes(str: string) {
 }
 
 /**
- * count words boundary
- * @param str
- * @returns
+ * Counts words using simple space-boundary rules.
+ *
+ * Steps performed:
+ * 1. Trim leading and trailing whitespace.
+ * 2. Collapse multiple spaces into a single space.
+ * 3. Normalize occurrences of `"\n "` to `"\n"`.
+ * 4. Split the resulting string on a single space and return the number of tokens.
+ *
+ * Note: An empty or all-whitespace input returns `0`.
+ *
+ * @param str - The input string to count words from.
+ * @returns The number of word tokens found using simple space boundary rules.
  */
 export function countWordsBoundary(str: string) {
   str = str.replace(/(^\s*)|(\s*$)/gi, '');
   str = str.replace(/[ ]{2,}/gi, ' ');
   str = str.replace(/\n /, '\n');
+  if (str.length === 0) return 0;
   return str.split(' ').length;
 }
 
 /**
  * Counts the number of words in a given string.
- * Non-alphanumeric characters (except spaces) are removed before counting.
+ *
+ * This function removes non-alphanumeric characters (except whitespace), trims
+ * the string, splits on any whitespace sequence and returns the number of
+ * non-empty tokens.
+ *
+ * Examples:
+ * - `countWords('Hello, world!')` -> `2`
+ * - `countWords('')` -> `0`
  *
  * @param str - The input string to process.
  * @returns The number of words in the string.
