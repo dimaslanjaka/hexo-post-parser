@@ -36,7 +36,10 @@ export const bundledPackages = [
   'node-cache',
   'is-file-stream',
   'strip-ansi',
-  'ansi-regex'
+  'ansi-regex',
+  'marked',
+  'showdown',
+  'yargs'
 ];
 
 /**
