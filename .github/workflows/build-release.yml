@@ -43,11 +43,25 @@ jobs:
   build-release:
     name: build release
     env:
+      # Browser automation
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+      # Node.js
       NODE_OPTIONS: '--max_old_space_size=8192' #8192 4096 --expose-gc
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
-      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
-      node-version: 22.x
+      YARN_ENABLE_GLOBAL_CACHE: false
       YARN_CHECKSUM_BEHAVIOR: update
+      YARN_CACHE_FOLDER: ${{ github.workspace }}/tmp/yarn-cache
+      NODE_VERSION: '24.16.0'
+
+      # Python
+      PIP_LOCAL_CACHE_DIR: ${{ github.workspace }}/tmp/pip
+      NUITKA_CACHE_DIR: ${{ github.workspace }}/tmp/nuitka-cache
+
+      # GitHub auth
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
 
     runs-on: ubuntu-latest
 
@@ -68,7 +82,7 @@ jobs:
       - name: '🟢 Initialize Node.js'
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.node-version }}
+          NODE_VERSION: ${{ env.NODE_VERSION }}
           cache: 'yarn'
           cache-dependency-path: ./package.json
 
@@ -86,7 +100,7 @@ jobs:
           # npm uninstall -g yarn
           corepack prepare yarn@4.13.0 --activate
           curl -L https://raw.githubusercontent.com/dimaslanjaka/nodejs-package-types/refs/heads/main/.yarnrc-template.yml -o .yarnrc.yml
-          corepack yarn set version 4.13.0
+          yarn set version 4.13.0
 
       - name: '🔁 Pull & update submodules recursively'
         continue-on-error: true
@@ -128,18 +142,18 @@ jobs:
           echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_ENV
           echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_OUTPUT
 
-          YARN_CURRENT=$(corepack yarn -v)
+          YARN_CURRENT=$(yarn -v)
           YARN_VERSION_MAJOR=$(echo "$YARN_CURRENT" | cut -d. -f1)
           echo "CURRENT_YARN_VERSION=$YARN_CURRENT" >> "$GITHUB_ENV"
           echo "CURRENT_YARN_VERSION=$YARN_CURRENT" >> "$GITHUB_OUTPUT"
 
           if [ "$YARN_VERSION_MAJOR" -ge 2 ]; then
             # Yarn Berry (v2/v3/v4)
-            CACHE_YARN=$(corepack yarn config get cacheFolder)
+            CACHE_YARN=$(yarn config get cacheFolder)
 
           else
             # Yarn v1 (Classic)
-            CACHE_YARN=$(corepack yarn cache dir)
+            CACHE_YARN=$(yarn cache dir)
           fi
 
           echo "CACHE_YARN=$CACHE_YARN" >> "$GITHUB_ENV"
@@ -181,9 +195,9 @@ jobs:
             **/package-lock.json
             ${{ steps.set-env.outputs.CACHE_YARN }}
             ${{ steps.set-env.outputs.CACHE_NPM }}
-          key: ${{ runner.os }}-${{ env.node-version }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
+          key: ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
           restore-keys: |
-            ${{ runner.os }}-${{ env.node-version }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
+            ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
             ${{ runner.os }}-
 
       - name: '🌐 Install global packages'
@@ -212,11 +226,11 @@ jobs:
 
                   echo
                   echo "===== YARN VERSION ====="
-                  corepack yarn -v
+                  yarn -v
 
                   echo
                   echo "===== YARN CONFIG ====="
-                  corepack yarn config -v
+                  yarn config -v
 
                   exit 1
                 }
@@ -248,18 +262,48 @@ jobs:
             if [[ "${{ steps.set-env.outputs.CURRENT_YARN_VERSION }}" =~ ^[2-9] ]]; then
               corepack yarn info --all
             else
-              corepack yarn list
+              yarn list
             fi
           fi
 
       - name: '🧹 Clean project'
-        run: npm run clean
+        shell: bash
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm run clean --if-present
+          else
+            if jq -e '.scripts.clean' package.json > /dev/null; then
+              corepack yarn run clean
+            else
+              echo "[skip] clean not found"
+            fi
+          fi
 
       - name: '🔨 Build project'
-        run: npm run build
+        shell: bash
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm run build
+          else
+            if jq -e '.scripts.build' package.json > /dev/null; then
+              corepack yarn run build
+            else
+              echo "[skip] build not found"
+            fi
+          fi
 
       - name: '📦 Pack project'
-        run: npm run pack --if-present
+        shell: bash
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm run pack --if-present
+          else
+            if jq -e '.scripts.pack' package.json > /dev/null; then
+              corepack yarn run pack --if-present
+            else
+              echo "[skip] pack not found"
+            fi
+          fi
 
       - name: '🗑️ Remove packageManager from package.json'
         shell: bash
