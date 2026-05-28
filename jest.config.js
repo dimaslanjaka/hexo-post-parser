@@ -85,9 +85,8 @@ const config = {
 
   // detectLeaks: true,
   // detectOpenHandles: true,
-
   clearMocks: true,
-  collectCoverage: true,
+  // collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   globalSetup: '<rootDir>/jest.setup.cjs'
