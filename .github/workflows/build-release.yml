@@ -86,7 +86,7 @@ jobs:
           # npm uninstall -g yarn
           corepack prepare yarn@4.13.0 --activate
           curl -L https://raw.githubusercontent.com/dimaslanjaka/nodejs-package-types/refs/heads/main/.yarnrc-template.yml -o .yarnrc.yml
-          yarn set version 4.13.0
+          corepack yarn set version 4.13.0
 
       - name: '🔁 Pull & update submodules recursively'
         continue-on-error: true
@@ -128,18 +128,18 @@ jobs:
           echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_ENV
           echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_OUTPUT
 
-          YARN_CURRENT=$(yarn -v)
+          YARN_CURRENT=$(corepack yarn -v)
           YARN_VERSION_MAJOR=$(echo "$YARN_CURRENT" | cut -d. -f1)
           echo "CURRENT_YARN_VERSION=$YARN_CURRENT" >> "$GITHUB_ENV"
           echo "CURRENT_YARN_VERSION=$YARN_CURRENT" >> "$GITHUB_OUTPUT"
 
           if [ "$YARN_VERSION_MAJOR" -ge 2 ]; then
             # Yarn Berry (v2/v3/v4)
-            CACHE_YARN=$(yarn config get cacheFolder)
+            CACHE_YARN=$(corepack yarn config get cacheFolder)
 
           else
             # Yarn v1 (Classic)
-            CACHE_YARN=$(yarn cache dir)
+            CACHE_YARN=$(corepack yarn cache dir)
           fi
 
           echo "CACHE_YARN=$CACHE_YARN" >> "$GITHUB_ENV"
@@ -203,8 +203,8 @@ jobs:
             if [[ "${{ steps.set-env.outputs.CURRENT_YARN_VERSION }}" =~ ^[2-9] ]]; then
               LOG_FILE="$(mktemp)"
 
-              yarn install 2>&1 | tee "$LOG_FILE" \
-                || yarn install --inline-builds 2>&1 | tee -a "$LOG_FILE" \
+              corepack yarn install 2>&1 | tee "$LOG_FILE" \
+                || corepack yarn install --inline-builds 2>&1 | tee -a "$LOG_FILE" \
                 || {
                   echo
                   echo "===== LAST YARN LOGS ====="
@@ -212,16 +212,16 @@ jobs:
 
                   echo
                   echo "===== YARN VERSION ====="
-                  yarn -v
+                  corepack yarn -v
 
                   echo
                   echo "===== YARN CONFIG ====="
-                  yarn config -v
+                  corepack yarn config -v
 
                   exit 1
                 }
             else
-              yarn install || yarn install --verbose
+              corepack yarn install || corepack yarn install --verbose
             fi
           fi
 
@@ -246,9 +246,9 @@ jobs:
             npm list
           else
             if [[ "${{ steps.set-env.outputs.CURRENT_YARN_VERSION }}" =~ ^[2-9] ]]; then
-              yarn info --all
+              corepack yarn info --all
             else
-              yarn list
+              corepack yarn list
             fi
           fi
 
