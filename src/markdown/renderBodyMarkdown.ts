@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import { default as events } from 'events';
 import { join, write } from '../node/filemanager';
 import { postMap } from '../types/postMap';
@@ -59,7 +58,6 @@ export class RenderMarkdownBody extends events.EventEmitter {
    * extract markdown codeblock
    */
   extractCodeBlock() {
-    // eslint-disable-next-line prefer-const
     let { body, verbose } = this.options;
 
     // extract code block first
@@ -88,7 +86,6 @@ export class RenderMarkdownBody extends events.EventEmitter {
   };
 
   extractStyleScript() {
-    // eslint-disable-next-line prefer-const
     let { body, verbose } = this.options;
     const re = this.re;
     const extracted = this.styleScriptBlocks;
@@ -150,7 +147,6 @@ export class RenderMarkdownBody extends events.EventEmitter {
   }
 
   renderMarkdown() {
-    // eslint-disable-next-line prefer-const
     let { body, verbose = false, config = {} } = this.options;
     this.emit('beforeRender', body);
     const rendered = renderMarkdownIt(body, (config.generator || {}).cache);

@@ -96,7 +96,6 @@ export function array_wrap<T extends any[]>(arr: T): T {
   return arr;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 export interface DumperType extends Object {
   [key: string]: any;
   next: any;

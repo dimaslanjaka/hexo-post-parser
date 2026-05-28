@@ -3,26 +3,22 @@
   "projectName": "Hexo Post Parser",
   "version": "3.0.2",
   "description": "Parse Hexo Post To Object and pre-process all markdown posts for Automated SEO",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
   "type": "module",
   "exports": {
     ".": {
-      "require": {
-        "default": "./dist/index.cjs",
-        "types": "./dist/index.d.cts"
-      },
-      "import": {
-        "default": "./dist/index.mjs",
-        "types": "./dist/index.d.mts"
-      }
-    }
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "prepare": "husky",
     "lint": "cross-env-shell ESLINT_USE_FLAT_CONFIG=false && eslint --fix src",
-    "clean": "rimraf dist && npm run build",
+    "clean": "rimraf dist",
     "prebuild": "node src/index.builder.mjs",
     "build:packages": "yarn workspaces --worktree --no-private run build",
     "build": "tsc --build tsconfig.build.json && rollup -c",

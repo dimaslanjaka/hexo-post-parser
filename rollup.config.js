@@ -5,13 +5,13 @@ import typescript from '@rollup/plugin-typescript';
 import * as glob from 'glob';
 import { dts } from 'rollup-plugin-dts';
 import packageJson from './package.json' with { type: 'json' };
+import {
+  chunkFileNamesWithExt,
+  entryFileNamesWithExt,
+  externalPackagesFilter
+} from './rollup.utils.js';
 
-const { author, dependencies, devDependencies, name, version } = packageJson;
-
-const external = [
-  ...Object.keys(dependencies),
-  ...Object.keys(devDependencies)
-];
+const { author, name, version } = packageJson;
 
 const baseBanner = `// ${name} ${version} by ${author}`.trim();
 
@@ -27,7 +27,7 @@ ${baseBanner}
 /**
  * @type {import('rollup').RollupOptions}
  */
-const onefile = {
+const _onefile = {
   input: './src/index.ts',
   output: [
     {
@@ -55,12 +55,11 @@ const onefile = {
       banner: baseBanner
     }
   ],
-  external: external, //.filter((pkgName) => !['markdown-it'].includes(pkgName)),
+  external: externalPackagesFilter, //.filter((pkgName) => !['markdown-it'].includes(pkgName)),
   plugins: [
     typescript({
       tsconfig: 'tsconfig.json',
       outDir: './dist',
-      include: ['./src/**/*'],
       exclude: [
         '**/*.spec.*',
         '**/*.test.*',
@@ -86,15 +85,13 @@ const declaration = {
     { file: 'dist/index.d.cts', format: 'es', exports: 'named' }
   ],
   plugins: [resolve({ preferBuiltins: true }), dts()],
-  external
+  external: externalPackagesFilter
 };
-
-const _oneFile = [declaration, onefile];
 
 /**
  * @type {import('rollup').RollupOptions['input']}
  */
-const inputs = glob.globSync('src/**/*.ts', {
+const inputs = glob.sync('src/**/*.ts', {
   posix: true,
   ignore: ['*.runner.*', '*.explicit.*', '*.test.*', '*.builder.*', '*.spec.*']
 });
@@ -105,17 +102,6 @@ const inputs = glob.globSync('src/**/*.ts', {
 const _partials = {
   input: inputs,
   output: [
-    // bundle js as ESM by default
-    {
-      dir: 'dist',
-      format: 'esm',
-      sourcemap: false,
-      preserveModules: true,
-      exports: 'named',
-      globals: {
-        hexo: 'hexo'
-      }
-    },
     // bundle CJS
     {
       dir: 'dist',
@@ -123,7 +109,8 @@ const _partials = {
       sourcemap: false,
       preserveModules: true,
       exports: 'named',
-      entryFileNames: '[name].cjs',
+      entryFileNames: entryFileNamesWithExt('cjs'),
+      chunkFileNames: chunkFileNamesWithExt('cjs'),
       globals: {
         hexo: 'hexo'
       }
@@ -135,7 +122,8 @@ const _partials = {
       sourcemap: false,
       preserveModules: true,
       exports: 'named',
-      entryFileNames: '[name].mjs',
+      entryFileNames: entryFileNamesWithExt('mjs'),
+      chunkFileNames: chunkFileNamesWithExt('mjs'),
       globals: {
         hexo: 'hexo'
       }
@@ -145,7 +133,6 @@ const _partials = {
     typescript({
       tsconfig: 'tsconfig.build.json',
       outDir: './dist',
-      include: ['./src/**/*'],
       exclude: [
         '**/*.spec.*',
         '**/*.test.*',
@@ -160,7 +147,7 @@ const _partials = {
     commonjs(), // Convert CommonJS modules to ES6
     babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' })
   ],
-  external // External dependencies package name to exclude from bundle
+  external: externalPackagesFilter // External dependencies package name to exclude from bundle
 };
 
-export default _oneFile;
+export default [_partials, declaration];
