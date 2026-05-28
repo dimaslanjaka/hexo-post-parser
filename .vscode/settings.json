@@ -253,5 +253,7 @@
     "glimmer-ts",
     "svelte",
     "nunjucks"
-  ]
+  ],
+  "git.autoStash": true,
+  "git.useCommitInputAsStashMessage": true
 }
