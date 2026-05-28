@@ -1,4 +1,4 @@
-import { ESLint } from 'eslint';
+import * as spawn from 'cross-spawn';
 import fs from 'fs-extra';
 import { glob } from 'glob';
 import path from 'path';
@@ -113,14 +113,9 @@ glob('**/*.{ts,js,jsx,tsx,cjs,mjs}', {
     ].join('\n')
   );
 
-  const lint = new ESLint({ fix: true });
-
-  const results = await lint.lintFiles(['src/**/*.ts']);
-
-  await ESLint.outputFixes(results);
-
-  const formatter = await lint.loadFormatter('stylish');
-  const resultText = formatter.format(results);
-
-  console.log(resultText);
+  // Use cross-spawn to run the ESLint CLI via npx so we don't rely on the
+  // programmatic ESLint API (keeps dev-only builder lighter).
+  spawn.sync('npx', ['-y', 'eslint', '--fix', 'src/**/*.ts'], {
+    stdio: 'inherit'
+  });
 });
