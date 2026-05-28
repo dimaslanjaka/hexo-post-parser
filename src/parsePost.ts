@@ -253,7 +253,7 @@ export async function parsePost(target: string, options: ParseOptions = {}) {
       // @todo fix no meta description
       const tags = Array.from(
         dom.window.document.body.getElementsByTagName('*')
-      );
+      ) as Element[];
       const newExcerpt = [meta.title]
         .concat(uniqueArray(tags.map((el) => el.textContent?.trim())))
         .flat()

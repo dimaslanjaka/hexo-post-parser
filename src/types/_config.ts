@@ -3,6 +3,7 @@ import path from 'path';
 import upath from 'upath';
 import yaml from 'yaml';
 import yargs from 'yargs';
+import type Hexo from 'hexo';
 import { DeepPartial } from './globals';
 
 const argv = yargs(process.argv.slice(2)).argv as Record<string, any> & {
@@ -11,7 +12,7 @@ const argv = yargs(process.argv.slice(2)).argv as Record<string, any> & {
 const nocache = argv['nocache'];
 const verbose = argv['verbose'];
 
-const defaultSiteOptions: DeepPartial<import('hexo')['config']> = {
+const defaultSiteOptions: DeepPartial<Hexo['config']> = {
   // Site
   title: 'Hexo',
   subtitle: '',
@@ -86,7 +87,7 @@ const defaultSiteOptions: DeepPartial<import('hexo')['config']> = {
     cache: false
   },
   // Deployment
-  deploy: {},
+  deploy: {} as Hexo['config']['deploy'],
 
   // ignore files from processing
   ignore: [],

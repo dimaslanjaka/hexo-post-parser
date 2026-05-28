@@ -9,7 +9,10 @@
     "declaration": true,
     "strict": false,
     "allowJs": true,
-    "checkJs": false
+    "checkJs": false,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["./src/index.ts"],
   "exclude": ["**/node_modules", "**/test*", "**/*.spec*.ts", "**/*.test*.ts"]
