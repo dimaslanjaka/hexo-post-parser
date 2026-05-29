@@ -179,6 +179,12 @@ jobs:
           if command -v pip >/dev/null 2>&1; then
             echo "PIP_CACHE_DIR=$(pip cache dir)" >> "$GITHUB_OUTPUT"
           fi
+          # Configure npm to use a custom global directory to avoid permission issues and ensure it's included in PATH
+          mkdir -p "${HOME}/.npm-global"
+          npm config set prefix "${HOME}/.npm-global"
+          echo "${HOME}/.npm-global/bin" >> $GITHUB_PATH
+          echo "CACHE_NPM_USER_GLOBAL=${HOME}/.npm-global" >> $GITHUB_ENV
+          echo "CACHE_NPM_USER_GLOBAL=${HOME}/.npm-global" >> $GITHUB_OUTPUT
 
       - name: '💾 Restore cache'
         uses: actions/cache@v4
@@ -195,13 +201,15 @@ jobs:
             **/package-lock.json
             ${{ steps.set-env.outputs.CACHE_YARN }}
             ${{ steps.set-env.outputs.CACHE_NPM }}
+            ${{ steps.set-env.outputs.CACHE_NPM_USER_GLOBAL }}
+            ${{ steps.set-env.outputs.PIP_CACHE_DIR }}
           key: ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
             ${{ runner.os }}-
 
       - name: '🌐 Install global packages'
-        run: npm i -g typescript ts-node gulp-cli hexo-cli webpack-cli --force
+        run: npm i -g typescript ts-node gulp-cli hexo-cli webpack-cli
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: '📥 Install dependencies'
