@@ -43,11 +43,25 @@ jobs:
   build-release:
     name: build release
     env:
+      # Browser automation
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+      # Node.js
       NODE_OPTIONS: '--max_old_space_size=8192' #8192 4096 --expose-gc
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
-      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
-      node-version: 22.x
+      YARN_ENABLE_GLOBAL_CACHE: false
       YARN_CHECKSUM_BEHAVIOR: update
+      YARN_CACHE_FOLDER: ${{ github.workspace }}/tmp/yarn-cache
+      NODE_VERSION: '24.16.0'
+
+      # Python
+      PIP_LOCAL_CACHE_DIR: ${{ github.workspace }}/tmp/pip
+      NUITKA_CACHE_DIR: ${{ github.workspace }}/tmp/nuitka-cache
+
+      # GitHub auth
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
 
     runs-on: ubuntu-latest
 
@@ -68,7 +82,7 @@ jobs:
       - name: '🟢 Initialize Node.js'
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.node-version }}
+          NODE_VERSION: ${{ env.NODE_VERSION }}
           cache: 'yarn'
           cache-dependency-path: ./package.json
 
@@ -181,9 +195,9 @@ jobs:
             **/package-lock.json
             ${{ steps.set-env.outputs.CACHE_YARN }}
             ${{ steps.set-env.outputs.CACHE_NPM }}
-          key: ${{ runner.os }}-${{ env.node-version }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
+          key: ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
           restore-keys: |
-            ${{ runner.os }}-${{ env.node-version }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
+            ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/yarn.lock', '**/package-lock.json', 'src/**/*.{js,ts,cjs,mjs}', 'rollup*.*', 'tsconfig*.json') }}
             ${{ runner.os }}-
 
       - name: '🌐 Install global packages'
