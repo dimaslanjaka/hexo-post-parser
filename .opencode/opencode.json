@@ -1,5 +1,0 @@
-{
-  "plugin": [
-    "opencode-agent-memory@https://github.com/dimaslanjaka/opencode-file-memory/raw/refs/heads/main/release/opencode-agent-memory.tgz"
-  ]
-}
