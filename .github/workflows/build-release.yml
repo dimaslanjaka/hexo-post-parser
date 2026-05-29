@@ -201,7 +201,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: '🌐 Install global packages'
-        run: npm i -g typescript ts-node gulp-cli hexo-cli webpack-cli
+        run: npm i -g typescript ts-node gulp-cli hexo-cli webpack-cli --force
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: '📥 Install dependencies'
