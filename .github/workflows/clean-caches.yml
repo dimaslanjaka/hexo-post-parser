@@ -1,124 +1,60 @@
 name: Clean GitHub Actions Cache
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
-
 on:
-  workflow_dispatch:
+  # Trigger this workflow when the specified workflows complete (e.g., after build and test workflows)
   workflow_run:
     workflows:
       - Build Release
     types:
       - completed
+
+  # Allow manual triggering of this workflow from the GitHub Actions UI
+  workflow_dispatch:
+
+  # Allow this workflow to be called by other workflows, passing the ACCESS_TOKEN secret
   workflow_call:
     secrets:
       ACCESS_TOKEN:
         required: true
 
+concurrency:
+  group: clean-cache
+  cancel-in-progress: true
+
 jobs:
   clean-cache:
-    if: >-
-      github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success'
+    # if: contains(github.repository, 'php-proxy-hunter')
     runs-on: windows-latest
+
     env:
-      PIP_CACHE_DIR: '${{ github.workspace }}/project/tmp/pip'
-      NUITKA_CACHE_DIR: '${{ github.workspace }}/project/tmp/nuitka-cache'
-      NODE_OPTIONS: '--max_old_space_size=4096' #8192 4096 --expose-gc
+      PIP_CACHE_DIR: "${{ github.workspace }}/project/tmp/pip"
+      NUITKA_CACHE_DIR: "${{ github.workspace }}/project/tmp/nuitka-cache"
+      NODE_OPTIONS: "--max_old_space_size=4096"
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
       GH_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
       YARN_CHECKSUM_BEHAVIOR: update
-      YARN_ENABLE_INLINE_BUILDS: 1
-      PUPPETEER_SKIP_DOWNLOAD: 'true'
 
     steps:
-      - uses: actions/checkout@v6
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v6
         with:
-          repository: 'dimaslanjaka/php-proxy-hunter'
-          ref: master
           token: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
-          lfs: true
 
-      # - name: Update Submodules
-      #   run: |
-      #     echo "init submodules"
-      #     git submodule init
-      #     git submodule foreach "git submodule init"
-      #     echo "sync submodules"
-      #     git submodule sync
-      #     git submodule foreach "git submodule sync"
-      #     echo "update submodules"
-      #     npm install -g rimraf binary-collections@https://raw.githubusercontent.com/dimaslanjaka/bin/master/releases/bin.tgz
-      #     npx rimraf .git/modules
-      #     npx submodule-install
-      #     git lfs track "*.rar"
-      #   shell: bash
-
-      - uses: actions/setup-python@v6
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: "3.11"
+          architecture: "x64"
 
-      - uses: actions/setup-node@v6
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          node-version: 20.x
-          cache: 'yarn'
-          cache-dependency-path: 'package.json'
+          node-version: 24.x
 
-      - name: Get pip cache dir
-        id: pip-cache
-        run: echo "pip_cache_dir=$(pip cache dir)" >> $GITHUB_ENV
-
-      - name: Setup Cache
-        id: cache
-        uses: actions/cache/restore@v5
-        with:
-          path: |
-            ~/.cache/pip
-            ./dist/
-            ./tmp/
-            src/*.sqlite*
-            src/*.mmdb
-            node_modules/
-            .yarn/caches/
-            .yarn/*.gz
-            ./venv/
-            ${{ env.pip_cache_dir }}
-            ${{ env.NUITKA_CACHE_DIR }}
-            *.lock
-            *.txt
-            package-lock.json
-            assets/proxies/
-            vendor/
-            ${{ env.USERPROFILE }}\AppData\Local\Nuitka\Nuitka\Cache
-            $HOME/AppData/Local/Nuitka/Nuitka/Cache
-            config/
-            .cache/
-            working.json
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'requirements*.txt', 'composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-python-
-            ${{ runner.os }}-nuitka-
-            ${{ runner.os }}-php-
-            ${{ runner.os }}-
-
-      - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          corepack enable
-          yarn install
-
-      # - name: Initialize Github Actions
-      #   id: php-github-actions-init
-      #   env:
-      #     GITHUB_OUTPUT: $GITHUB_OUTPUT
-      #   run: |
-      #     node setup.js
-
-      - name: Clean github actions cache
+      - name: 🧹 Clean GitHub Actions Cache ${{ github.event.workflow_run.head_sha }}
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
-        shell: cmd
         run: |
-          npx -y binary-collections@https://raw.githubusercontent.com/dimaslanjaka/bin/master/releases/bin.tgz clean-github-actions-caches --owner dimaslanjaka --repo php-proxy-hunter --token %GH_TOKEN% --confirm
+          npx -y binary-collections@https://raw.githubusercontent.com/dimaslanjaka/bin/master/releases/bin.tgz clean-github-actions-caches --repo ${{ github.repository }} --sha ${{ github.event.workflow_run.head_sha }}
+        shell: bash
