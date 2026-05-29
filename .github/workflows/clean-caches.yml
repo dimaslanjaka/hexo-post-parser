@@ -96,7 +96,7 @@ jobs:
             config/
             .cache/
             working.json
-          key: ${{ runner.os }}-${{ hashFiles('.husky/hash.txt') }}
+          key: ${{ runner.os }}-${{ hashFiles('package.json', 'requirements*.txt', 'composer.json') }}
           restore-keys: |
             ${{ runner.os }}-python-
             ${{ runner.os }}-nuitka-
