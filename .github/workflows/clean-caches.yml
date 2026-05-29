@@ -96,9 +96,8 @@ jobs:
             config/
             .cache/
             working.json
-          key: ${{ runner.os }}-python-${{ hashFiles('.husky/hash.txt') }}
+          key: ${{ runner.os }}-${{ hashFiles('.husky/hash.txt') }}
           restore-keys: |
-            ${{ runner.os }}-python-${{ hashFiles('.husky/hash.txt') }}
             ${{ runner.os }}-python-
             ${{ runner.os }}-nuitka-
             ${{ runner.os }}-php-
