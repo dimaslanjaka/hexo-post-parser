@@ -71,7 +71,7 @@
       "args": [
         "-NoExit",
         "-Command",
-        "$candidates = @('${workspaceFolder}/scripts/OhMyPoshInit.ps1','${workspaceFolder}/node_modules/@dimaslanjaka/eslint-base-config/scripts/OhMyPoshInit.ps1'); $init = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1; if ($init) { if ((Get-ExecutionPolicy -Scope CurrentUser) -eq 'Restricted') { Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force }; & $init } else { oh-my-posh init pwsh | Invoke-Expression }"
+        "$init = $null; foreach ($candidate in @('${workspaceFolder}/scripts/OhMyPoshInit.ps1','${workspaceFolder}/node_modules/@dimaslanjaka/eslint-base-config/scripts/OhMyPoshInit.ps1')) { if (Test-Path $candidate) { $init = $candidate; break } }; if ($init) { & $init } else { oh-my-posh init pwsh | Invoke-Expression }"
       ],
       "icon": "terminal-powershell"
     }
