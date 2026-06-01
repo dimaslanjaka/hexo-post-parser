@@ -71,7 +71,7 @@
     "@babel/preset-typescript": "^7.29.7",
     "@dimaslanjaka/eslint-base-config": "^1.0.2",
     "@jest/environment": "29",
-    "@jest/expect": "29",
+    "@jest/expect": "30",
     "@jest/globals": "29",
     "@jest/types": "29",
     "@rollup/plugin-babel": "^7.0.0",
