@@ -2,11 +2,11 @@ import fs from 'fs-extra';
 import path from 'path';
 import upath from 'upath';
 import yaml from 'yaml';
-import yargs from 'yargs';
+import minimist from 'minimist';
 import type Hexo from 'hexo';
 import { DeepPartial } from './globals';
 
-const argv = yargs(process.argv.slice(2)).argv as Record<string, any> & {
+const argv = minimist(process.argv.slice(2)) as Record<string, any> & {
   _: any[];
 };
 const nocache = argv['nocache'];

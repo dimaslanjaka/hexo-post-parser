@@ -38,8 +38,7 @@ export const bundledPackages = [
   'strip-ansi',
   'ansi-regex',
   'marked',
-  'showdown',
-  'yargs'
+  'showdown'
 ];
 
 /**
