@@ -83,7 +83,7 @@ jobs:
           git checkout-index --force --all
 
       - name: '🟢 Initialize Node.js'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           NODE_VERSION: ${{ env.NODE_VERSION }}
           cache: 'yarn'
